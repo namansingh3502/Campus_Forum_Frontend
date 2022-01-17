@@ -12,7 +12,7 @@ export default class Login extends Component{
 
   login(){
     axios
-      .post(`http://127.0.0.1:8000/auth/token/login/`,
+      .post(`https://campus-forum-naman.herokuapp.com/auth/token/login/`,
         {
           username: this.state.Username,
           password: this.state.Password

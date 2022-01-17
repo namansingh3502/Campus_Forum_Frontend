@@ -17,7 +17,7 @@ export default class Forum extends Component {
 
   loadChannelList() {
     axios
-      .get("http://127.0.0.1:8000/forum/channel-list", {
+      .get("https://campus-forum-naman.herokuapp.com/forum/channel-list", {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },

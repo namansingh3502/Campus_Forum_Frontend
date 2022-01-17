@@ -9,7 +9,7 @@ export default class Header extends Component{
 
   logout(){
     axios
-      .post(`http://127.0.0.1:8000/auth/token/logout/`,
+      .post(`https://campus-forum-naman.herokuapp.com/auth/token/logout/`,
         {},
         {
           headers: {

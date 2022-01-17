@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 
-import imageplaceholder from "../../images/image-placeholder.jpg";
-import { Comment } from "@material-ui/icons";
 import axios from "axios";
 
 import UserReaction from "./post/User_Reaction/userReaction";
 import PostText from "./post/postText";
 import UserDetails from "./post/userDetails";
 import ChannelTags from "./post/channelTags";
-import PostImage from "./post/postImage";
 
 export default class Posts extends Component {
   constructor(props) {
@@ -23,7 +20,7 @@ export default class Posts extends Component {
     const Token = localStorage.getItem("Token");
 
     axios
-      .get("http://127.0.0.1:8000/forum/posts", {
+      .get("https://campus-forum-naman.herokuapp.com/forum/posts", {
         headers: {
           Authorization: Token,
         },

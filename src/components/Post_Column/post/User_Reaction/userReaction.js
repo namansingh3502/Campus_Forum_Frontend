@@ -24,7 +24,7 @@ export default class UserReaction extends Component {
     const current_user = parseInt(localStorage.getItem("user_id"));
 
     axios
-      .post(`http://localhost:8000/forum/${post_id}/like-post`,{},
+      .post(`https://campus-forum-naman.herokuapp.com/forum/${post_id}/like-post`,{},
         {
           headers: {
             Authorization: localStorage.getItem("Token"),
@@ -63,7 +63,7 @@ export default class UserReaction extends Component {
     const current_user = parseInt(localStorage.getItem("user_id"));
 
     axios
-      .get(`http://localhost:8000/forum/${post_id}/likes`, {
+      .get(`https://campus-forum-naman.herokuapp.com/forum/${post_id}/likes`, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
