@@ -6,7 +6,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/**/*.{js,jsx,ts,tsx}\" --quiet",
     "dev": "parcel src/pages/index.html",
-    "build": "parcel build src/pages/index.html"
+    "build": "parcel build src/pages/index.html --output public"
   },
   "author": "Naman Singh",
   "license": "ISC",
