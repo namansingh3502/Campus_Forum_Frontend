@@ -26,6 +26,8 @@ export default class Posts extends Component {
         },
       })
       .then((response) => {
+        console.log(response.status)
+        console.log(response.data)
         if (response.status === 200) {
           this.setState({
             PostData: response.data,
