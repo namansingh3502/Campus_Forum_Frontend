@@ -23,7 +23,7 @@ export default class App extends Component {
   loadUserData() {
     const Token = localStorage.getItem("Token");
     axios
-      .get("http://127.0.0.1:8000/auth/users/me", {
+      .get("https://campus-forum-naman.herokuapp.com/auth/users/me", {
         headers: {
           Authorization: Token,
         },

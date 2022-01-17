@@ -58,7 +58,7 @@ export default class PostCreateModal extends Component{
 
   createPost() {
     axios
-      .post(`http://127.0.0.1:8000/forum/new-post`,
+      .post(`https://campus-forum-naman.herokuapp.com/forum/new-post`,
         {
           text : this.state.PostText,
           channel_list : this.state.selectedValue,
