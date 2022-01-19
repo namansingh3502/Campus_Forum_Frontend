@@ -8,8 +8,12 @@ export default class Header extends Component{
   }
 
   logout(){
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
     axios
-      .post(`https://campus-forum-naman.herokuapp.com/auth/token/logout/`,
+      .post(`${host}/auth/token/logout/`,
         {},
         {
           headers: {
@@ -19,8 +23,8 @@ export default class Header extends Component{
       )
       .then((response) => {
         if ((response.status === 204)) {
-          localStorage.removeItem('Token')
-          this.props.updateLoginStatus()
+          localStorage.clear()
+          this.props.logoutUser()
         } else {
           console.log(response.status, response.data.msg)
         }

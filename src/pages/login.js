@@ -11,23 +11,24 @@ export default class Login extends Component{
   }
 
   login(){
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
+
     axios
-      .post(`https://campus-forum-naman.herokuapp.com/auth/token/login/`,
+      .post(
+        `${host}/auth/token/login/`,
         {
           username: this.state.Username,
           password: this.state.Password
         },
-        {
-          headers: {
-            Authorization: localStorage.getItem("Token"),
-          }
-        }
+        {}
       )
       .then((response) => {
         if ((response.status === 200)) {
-            console.log(response.data)
             localStorage.setItem('Token','Token ' + response.data.auth_token)
-          this.props.updateLoginStatus()
+          this.props.loadUserDetails()
         } else {
           console.log(response.status, response.data.msg)
         }

@@ -18,9 +18,13 @@ export default class Posts extends Component {
 
   loadPost() {
     const Token = localStorage.getItem("Token");
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get("https://campus-forum-naman.herokuapp.com/forum/posts", {
+      .get(`${host}/forum/posts`, {
         headers: {
           Authorization: Token,
         },

@@ -4,37 +4,42 @@ import { render } from "react-dom";
 import Login from "./login";
 import Forum from "../components/forum";
 import axios from "axios";
+import Header from "../components/header";
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       UserLoggedIn: false,
     };
-    this.updateLoginStatus = this.updateLoginStatus.bind(this)
+    this.logoutUser = this.logoutUser.bind(this)
   }
 
-  updateLoginStatus(){
+  logoutUser(){
     this.setState({
-      UserLoggedIn: !this.state.UserLoggedIn
+      UserLoggedIn: false
     })
   }
 
   loadUserData() {
-    const Token = localStorage.getItem("Token");
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
+
     axios
-      .get("https://campus-forum-naman.herokuapp.com/auth/users/me", {
+      .get(`${host}/auth/users/me`, {
         headers: {
-          Authorization: Token,
+          Authorization: localStorage.getItem("Token"),
         },
       })
       .then((response) => {
         if (response.status === 200) {
+          localStorage.setItem('username', response.data.username)
+          localStorage.setItem('user_id', response.data.id)
           this.setState({
-            UserLoggedIn: true
+            UserLoggedIn: true,
           })
-          localStorage.setItem("user_id", response.data.id);
-          localStorage.setItem("user_name", response.data.username);
         } else {
           console.log(response.status);
           console.log(response.data);
@@ -53,17 +58,19 @@ export default class App extends Component {
   }
 
   render() {
-
-    if( this.state.UserLoggedIn ){
+    if( this.state.UserLoggedIn){
       return (
-        <Forum
-          updateLoginStatus={()=>{this.updateLoginStatus()}}
-        />
+        <div>
+          <Header
+            logoutUser={()=>{this.logoutUser()}}
+          />
+          <Forum/>
+        </div>
       )
     } else {
       return(
         <Login
-          updateLoginStatus={()=>{this.updateLoginStatus()}}
+          loadUserDetails={()=>{this.loadUserData()}}
         />
       )
     }

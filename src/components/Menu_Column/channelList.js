@@ -1,5 +1,4 @@
-import React, { Component, useState } from "react";
-import axios from "axios";
+import React from "react";
 
 export default function ChannelList(props) {
   const Channel = props.ChannelList;

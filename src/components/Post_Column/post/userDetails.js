@@ -7,14 +7,13 @@ export default function UserDetails(data) {
       <img
         src={userImage}
         className="rounded-full"
-        style={{ height: 50, width: 50 }}
+        style={{ height: 45, width: 45 }}
         alt={"user"}
       />
-      <div className="ml-4">
+      <div className="ml-4 mt-1 text-xl">
         <h1 className="text-md" id={data.user_id}>
           {data.username}
         </h1>
-        <p className="text-sm">10 hrs</p>
       </div>
     </div>
   );

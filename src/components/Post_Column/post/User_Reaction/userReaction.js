@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import LikeDetails from "./likeDetails";
 import axios from "axios";
+import Comment from "./commentModal";
+import CommentModal from "./commentModal";
 
 export default class UserReaction extends Component {
   constructor(props) {
@@ -8,23 +10,29 @@ export default class UserReaction extends Component {
     this.state = {
       PostLiked: false,
       UserLiked: [],
-      UserComments: [],
+      CommentModal: 'none',
       PostLikeLoadStatus: "NotLoaded",
       PostLikeUpdateStatus: "NotLoaded",
-      PostCommentsLoadStatus: "NotLoaded",
-      PostCommentsUpdateStatus: "NotLoaded",
     };
     this.loadLikes = this.loadLikes.bind(this);
     this.handleLike = this.handleLike.bind(this);
-    // this.loadComments = this.loadComments.bind(this)
+    this.commentsModal = this.commentsModal.bind(this)
+  }
+
+  commentsModal() {
+    this.setState({CommentModal: 'block'})
   }
 
   handleLike() {
     const post_id = this.props.post;
     const current_user = parseInt(localStorage.getItem("user_id"));
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .post(`https://campus-forum-naman.herokuapp.com/forum/${post_id}/like-post`,{},
+      .post(`${host}/forum/${post_id}/like-post`,{},
         {
           headers: {
             Authorization: localStorage.getItem("Token"),
@@ -62,8 +70,13 @@ export default class UserReaction extends Component {
     const post_id = this.props.post;
     const current_user = parseInt(localStorage.getItem("user_id"));
 
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
+
     axios
-      .get(`https://campus-forum-naman.herokuapp.com/forum/${post_id}/likes`, {
+      .get(`${host}/forum/${post_id}/likes`, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -78,6 +91,7 @@ export default class UserReaction extends Component {
               liked = true;
               data.push(data[i])
               data.splice(i,1)
+              break
             }
           }
           this.setState({
@@ -112,19 +126,29 @@ export default class UserReaction extends Component {
           handleLike={() => this.handleLike()}
           UserLiked={this.state.UserLiked}
         />
-        <div className="mt-1 grid grid-cols-3 gap-x-3 justify-center border-t border-gray-600 pt-3 ">
+        <div className="grid grid-cols-2 gap-x-3 justify-items-center border-t border-gray-600 pt-1">
           <button
-            className="bg-gray-400 rounded-full bg-opacity-10 h-10"
+            className="hover:bg-gray-400 rounded-full hover:bg-opacity-20 h-8 w-full"
             onClick={this.handleLike}
           >
             {this.state.PostLiked ? "Liked" : "Like"}
           </button>
-          <button className="bg-gray-400 rounded-full bg-opacity-10 h-10">
+          <button
+            className="hover:bg-gray-400 rounded-full hover:bg-opacity-20 h-8 w-full"
+            onClick={this.commentsModal}
+          >
             Comment
           </button>
-          <button className="bg-gray-400 rounded-full bg-opacity-10 h-10">
-            Share
-          </button>
+        </div>
+        <div>
+          <div
+            className={"text-white border-t mt-1 ml-1 border-gray-600 pt-2"}
+            style={{display: this.state.CommentModal}}
+          >
+            <CommentModal
+              post_id = {this.props.post}
+            />
+          </div>
         </div>
       </div>
     );

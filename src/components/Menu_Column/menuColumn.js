@@ -1,6 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
-import React, { StrictMode, Component } from "react";
-import { render } from "react-dom";
+import React, { Component } from "react";
 
 import MenuKeys from "./menuKeys";
 import ChannelList from "./channelList";

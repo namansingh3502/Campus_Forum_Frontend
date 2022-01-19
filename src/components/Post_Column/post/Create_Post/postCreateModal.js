@@ -1,5 +1,6 @@
 import React, { Component} from "react";
 import { AiOutlineClose } from "react-icons/all";
+import TextareaAutosize from 'react-textarea-autosize';
 
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
@@ -12,7 +13,7 @@ const style = {
   },
   searchBox: { // To change search box element look
 	  border: 'none',
-	  fontSize: '16px',
+	  fontSize: '18px',
   },
   inputField: { // To change input field position or margin
       margin: '5px'
@@ -57,8 +58,13 @@ export default class PostCreateModal extends Component{
   }
 
   createPost() {
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
+
     axios
-      .post(`https://campus-forum-naman.herokuapp.com/forum/new-post`,
+      .post(`${host}/forum/new-post`,
         {
           text : this.state.PostText,
           channel_list : this.state.selectedValue,
@@ -86,20 +92,6 @@ export default class PostCreateModal extends Component{
       })
   }
 
-  // escFunction(event) {
-  //   if(event.keyCode === 27 && this.props.ShowModal){
-  //     this.setState({
-  //       PostText:"",
-  //       selectedValue: []
-  //     })
-  //     this.props.updateNewPost()
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   document.addEventListener("keydown", this.escFunction, false)
-  // }
-$
   render(){
     const channel_list = this.props.ChannelList
 
@@ -174,10 +166,12 @@ $
                     </div>
                   </div>
                   <div className={"px-1 text-black"}>
-                    <textarea
-                      className="resize-none w-full h-52 p-2 bg-transparent focus:outline-0 text-white text-lg"
+                    <TextareaAutosize
+                      className="resize-none w-full p-2 bg-transparent focus:outline-0 text-white text-lg"
                       placeholder="What do you want to talk about?"
                       value={this.state.PostText}
+                      minRows={5}
+                      maxRows={10}
                       onChange={(e)=> {
                         this.setState({
                           PostText: e.target.value
