@@ -47,14 +47,6 @@ export default class Forum extends Component {
   }
 
   render() {
-
-    if( !this.state.LoadChannelStatus ){
-      return (
-        <div>
-          Loading...
-        </div>
-      )
-    }
     return (
       <div className="min-h-screen">
         <div className="flex w-4/5 mx-auto mt-4 justify-center ">

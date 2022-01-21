@@ -32,7 +32,6 @@ export default class CommentModal extends Component{
       )
       .then((response) => {
         if ((response.status === 200)) {
-          console.log(response.data)
           this.setState({
             Comments: response.data,
             CommentsLoadStatus: true
