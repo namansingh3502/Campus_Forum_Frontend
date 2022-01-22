@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import "../styles.css";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
-export default class Header extends Component{
-  constructor(props) {
-    super(props);
-  }
+export default function Header (props) {
+  let navigate = useNavigate();
 
-  logout(){
+  function logout(){
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
     axios
-      .post(`https://campus-forum-naman.herokuapp.com/auth/token/logout/`,
+      .post(`${host}/auth/token/logout/`,
         {},
         {
           headers: {
@@ -19,8 +22,9 @@ export default class Header extends Component{
       )
       .then((response) => {
         if ((response.status === 204)) {
-          localStorage.removeItem('Token')
-          this.props.updateLoginStatus()
+          localStorage.clear()
+          props.updateLoggedIn()
+          navigate(`/login`)
         } else {
           console.log(response.status, response.data.msg)
         }
@@ -30,7 +34,6 @@ export default class Header extends Component{
       })
   }
 
-  render(){
     return (
       <div className="h-12 sticky top-0 z-10 bg-opacity-60 backdrop-blur-md bg-gray-800 border-b" >
         <div className={"mx-auto w-3/5 text-2xl py-2 px-8"}>
@@ -42,12 +45,12 @@ export default class Header extends Component{
           <div className={"relative float-right"}>
             <button
             className={"text-white text-2xl"}
-            onClick={ ()=>{this.logout()}}
+            onClick={ ()=>{logout()}}
           >
             Logout
           </button>
         </div>
       </div>
     </div>
-  )}
+  )
 };

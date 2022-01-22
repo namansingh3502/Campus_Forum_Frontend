@@ -2,10 +2,9 @@ import React, { Component } from "react";
 
 import axios from "axios";
 
-import UserReaction from "./post/User_Reaction/userReaction";
-import PostText from "./post/postText";
-import UserDetails from "./post/userDetails";
-import ChannelTags from "./post/channelTags";
+import PostModal from "./post/postModal";
+import CreatePost from "./post/Create_Post/createPost";
+import PostCreateModal from "./post/Create_Post/postCreateModal";
 
 export default class Posts extends Component {
   constructor(props) {
@@ -18,16 +17,18 @@ export default class Posts extends Component {
 
   loadPost() {
     const Token = localStorage.getItem("Token");
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get("https://campus-forum-naman.herokuapp.com/forum/posts", {
+      .get(`${host}/forum/posts`, {
         headers: {
           Authorization: Token,
         },
       })
       .then((response) => {
-        console.log(response.status)
-        console.log(response.data)
         if (response.status === 200) {
           this.setState({
             PostData: response.data,
@@ -53,20 +54,17 @@ export default class Posts extends Component {
 
     return (
       <div>
+        <CreatePost
+          showPostCreateModal={()=> {
+            this.props.showPostCreateModal()
+          }}
+        />
         {Post.map((item, index) => {
           return (
-            <div
-              className="p-4 bg-gray-400 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-lg text-white h-auto mt-4"
-              key={Post[index].post_data.id}
-            >
-              <UserDetails
-                username={Post[index].username}
-                user_id={Post[index].user_id}
+            <div key={index}>
+              <PostModal
+                Post={item}
               />
-              <ChannelTags channel_list={Post[index].post_data.channel_name} />
-              <PostText text={Post[index].post_data.body} />
-              {/* <PostImage/>  */}
-              <UserReaction post={Post[index].post_data.id} />
             </div>
           );
         })}

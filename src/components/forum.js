@@ -3,7 +3,6 @@ import React, { StrictMode, Component } from "react";
 import MenuColumn from "../components/Menu_Column/menuColumn";
 import PostColumn from "../components/Post_Column/postColumn";
 import ActivityColumn from "../components/activityColumn";
-import Header from "../components/header";
 import axios from "axios";
 
 export default class Forum extends Component {
@@ -16,8 +15,13 @@ export default class Forum extends Component {
   }
 
   loadChannelList() {
+    const host =  process.env.NODE_ENV === 'development' ?
+        'http://127.0.0.1:8000'
+        :
+        'https://campus-forum-naman.herokuapp.com'
+
     axios
-      .get("https://campus-forum-naman.herokuapp.com/forum/channel-list", {
+      .get(`${host}/forum/channel-list`, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -42,19 +46,8 @@ export default class Forum extends Component {
   }
 
   render() {
-
-    if( !this.state.LoadUserStatus && !this.state.LoadChannelStatus ){
-      return (
-        <div>
-          Loading
-        </div>
-      )
-    }
     return (
       <div className="min-h-screen">
-        <Header
-          updateLoginStatus={()=>{this.props.updateLoginStatus()}}
-        />
         <div className="flex w-4/5 mx-auto mt-4 justify-center ">
           <MenuColumn
             ChannelList={this.state.ChannelList}

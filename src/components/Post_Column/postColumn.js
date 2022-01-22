@@ -1,36 +1,51 @@
-import React, { Component } from "react";
-import CreatePost from "./post/Create_Post/createPost";
+import React, {Component, useState} from "react";
 import Posts from "./posts";
+import {Navigate, Route, Routes} from "react-router-dom";
+import ChannelPost from "./post/channelPosts";
 import PostCreateModal from "./post/Create_Post/postCreateModal";
 
-export default class PostColumn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showNewPostModal: false
-    };
-  }
 
-  updateModalVisibility(){
-    this.setState({
-      showNewPostModal: !this.state.showNewPostModal
-    })
-  }
+export default function PostColumn (props) {
+  const [createPostModal, updatePostModalVisibility] = useState(false)
 
-  render() {
-    return (
-      <div className="mx-3 w-5/12 ">
-        <CreatePost
-          updateNewPost={()=>{this.updateModalVisibility()}}
+
+  return (
+    <div className="mx-3 w-5/12 text-white">
+
+      <Routes>
+        <Route path="" element={
+          <Posts
+            showPostCreateModal={()=>{
+              updatePostModalVisibility(!createPostModal)
+            }}
+          />
+        }
         />
-        <Posts />
+        <Route
+          path="/Channel-Post/:id/"
+          element={
+            <ChannelPost
+              showPostCreateModal={()=>{
+                updatePostModalVisibility(!createPostModal)
+              }}
+            />
+          }
+        />
+        <Route
+          path="*"
+          element={<Navigate to={``} replace />}
+        />
+      </Routes>
+      { createPostModal ?
         <PostCreateModal
-          ChannelList={this.props.ChannelList}
-          updateNewPost={()=>{this.updateModalVisibility()}}
-          ShowModal={this.state.showNewPostModal}
-        />
+          showPostCreateModal={()=>{
+            updatePostModalVisibility(!createPostModal)
+          }}
+          ChannelList={props.ChannelList}
 
-      </div>
-    );
-  }
+        />
+        : null }
+    </div>
+  )
 }
+
