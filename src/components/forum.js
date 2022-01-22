@@ -3,7 +3,6 @@ import React, { StrictMode, Component } from "react";
 import MenuColumn from "../components/Menu_Column/menuColumn";
 import PostColumn from "../components/Post_Column/postColumn";
 import ActivityColumn from "../components/activityColumn";
-import Header from "../components/header";
 import axios from "axios";
 
 export default class Forum extends Component {

@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 export default function ChannelList(props) {
   const Channel = props.ChannelList;
@@ -23,12 +24,20 @@ export default function ChannelList(props) {
           className="text-center text-white overflow-hidden"
           style={{ height: 330 }}
         >
-          {Channel.map((item) => (
-            <h1 className="pl-4 font-medium text-white my-2" key={item.id}>
-              {item.name}
-            </h1>
-          ))}
-        </div>
+          <ul>
+            {Channel.map((item) => (
+              <li className="pl-4 font-medium text-white my-2" key={item.id}>
+                <Link
+                  to={`/Channel-Post/${item.id}`}
+                  key={item.id}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+            </ul>
+
+          </div>
       </div>
     )
   };

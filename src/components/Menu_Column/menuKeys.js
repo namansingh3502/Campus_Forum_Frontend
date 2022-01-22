@@ -1,14 +1,24 @@
 import React from "react";
+import {NavLink} from "react-router-dom";
 
 const MenuKeys = () => {
-  const Buttons = ["Home", "Video", "Tags", "FAQ", "Contacts"];
+  const Buttons = [
+    {name:"Home", url:``},
+    {name:"Video", url:`#`},
+    {name:"Tags", url:`#`},
+    {name:"Contacts", url:`#`}];
+
   return (
     <div className="p-4 bg-gray-400 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg">
-      {Buttons.map((item) => (
-        <h1 className="pl-14 font-medium text-white my-2 " key={item}>
-          {item}
-        </h1>
-      ))}
+      <ul>
+        {Buttons.map((item, index) => (
+          <li className="pl-14 font-medium text-white my-2 " key={index}>
+            <NavLink to={`${item.url}`} >
+              {item.name}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

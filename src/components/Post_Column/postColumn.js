@@ -1,55 +1,50 @@
-import React, { Component } from "react";
-import CreatePost from "./post/Create_Post/createPost";
+import React, {Component, useState} from "react";
 import Posts from "./posts";
-import PostCreateModal from "./post/Create_Post/postCreateModal";
-import {Route, Routes} from "react-router-dom";
-import PageProfile from "./pageProfile";
+import {Navigate, Route, Routes} from "react-router-dom";
 import ChannelPost from "./post/channelPosts";
+import PostCreateModal from "./post/Create_Post/postCreateModal";
 
 
 export default function PostColumn (props) {
+  const [createPostModal, updatePostModalVisibility] = useState(false)
 
-
-  // updateModalVisibility(){
-  //   this.setState({
-  //     showNewPostModal: !this.state.showNewPostModal
-  //   })
-  // }
 
   return (
     <div className="mx-3 w-5/12 text-white">
 
       <Routes>
-        <Route path="" element={<div>Home</div>} />
+        <Route path="" element={
+          <Posts
+            showPostCreateModal={()=>{
+              updatePostModalVisibility(!createPostModal)
+            }}
+          />
+        }
+        />
         <Route
           path="/Channel-Post/:id/"
           element={
             <ChannelPost
-              ChannelList={props.ChannelList}
+              showPostCreateModal={()=>{
+                updatePostModalVisibility(!createPostModal)
+              }}
             />
           }
         />
         <Route
-          path="/Channel-Post/"
-          element={<div >Channel</div>}
-        />
-        <Route
           path="*"
-          element={<div >Nothing to show</div>}
+          element={<Navigate to={``} replace />}
         />
-
       </Routes>
+      { createPostModal ?
+        <PostCreateModal
+          showPostCreateModal={()=>{
+            updatePostModalVisibility(!createPostModal)
+          }}
+          ChannelList={props.ChannelList}
 
-      {/*<CreatePost*/}
-      {/*  updateNewPost={()=>{this.updateModalVisibility()}}*/}
-      {/*/>*/}
-      {/*<Posts />*/}
-      {/*<PostCreateModal*/}
-      {/*  ChannelList={this.props.ChannelList}*/}
-      {/*  updateNewPost={()=>{this.updateModalVisibility()}}*/}
-      {/*  ShowModal={this.state.showNewPostModal}*/}
-      {/*/>*/}
-
+        />
+        : null }
     </div>
   )
 }

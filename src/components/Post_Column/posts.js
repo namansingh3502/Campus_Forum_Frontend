@@ -2,11 +2,9 @@ import React, { Component } from "react";
 
 import axios from "axios";
 
-import UserReaction from "./post/User_Reaction/userReaction";
-import PostText from "./post/postText";
-import UserDetails from "./post/userDetails";
-import ChannelTags from "./post/channelTags";
 import PostModal from "./post/postModal";
+import CreatePost from "./post/Create_Post/createPost";
+import PostCreateModal from "./post/Create_Post/postCreateModal";
 
 export default class Posts extends Component {
   constructor(props) {
@@ -56,6 +54,11 @@ export default class Posts extends Component {
 
     return (
       <div>
+        <CreatePost
+          showPostCreateModal={()=> {
+            this.props.showPostCreateModal()
+          }}
+        />
         {Post.map((item, index) => {
           return (
             <div key={index}>

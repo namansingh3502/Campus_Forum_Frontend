@@ -1,16 +1,16 @@
-import React, { Component } from "react";
+import React, {Component, useEffect, useState} from "react";
 import axios from "axios";
+import {Navigate, useLocation, useNavigate} from "react-router-dom";
 
-export default class Login extends Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-      Username: "",
-      Password: "",
-    }
-  }
+export default function Login() {
+  let navigate = useNavigate();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || '/';
 
-  login(){
+  const [Username, updateUsername] = useState("")
+  const [Password, updatePassword] = useState("")
+
+  function login(){
     const host =  process.env.NODE_ENV === 'development' ?
         'http://127.0.0.1:8000'
         :
@@ -20,15 +20,15 @@ export default class Login extends Component{
       .post(
         `${host}/auth/token/login/`,
         {
-          username: this.state.Username,
-          password: this.state.Password
+          username: Username,
+          password: Password
         },
         {}
       )
       .then((response) => {
         if ((response.status === 200)) {
             localStorage.setItem('Token','Token ' + response.data.auth_token)
-          this.props.loadUserDetails()
+            navigate(from, { replace: true })
         } else {
           console.log(response.status, response.data.msg)
         }
@@ -38,8 +38,15 @@ export default class Login extends Component{
       })
   }
 
-  render() {
-    return(
+  useEffect(() => {
+    const token = localStorage.getItem('Token')
+    if(token){
+      console.log(token)
+      navigate(`/`)
+    }
+  },[])
+
+  return(
     <div className="font-sans min-h-screen antialiased bg-gray-900 pt-24 pb-5">
       <div className="flex flex-col justify-center sm:w-96 sm:m-auto mx-5 mb-5 space-y-8">
         <h1 className="font-bold text-center text-4xl text-yellow-500">
@@ -47,7 +54,7 @@ export default class Login extends Component{
         </h1>
           <form onSubmit={(e) => {
               e.preventDefault();
-              this.login()
+              login()
             }}
           >
             <div className="flex flex-col bg-white p-10 rounded-lg shadow space-y-10">
@@ -57,24 +64,16 @@ export default class Login extends Component{
                   type="text"
                   className="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow"
                   placeholder="Username"
-                  value={this.state.Username}
-                  onChange={(e => {
-                    this.setState({
-                      Username: e.target.value
-                    })
-                  })}
+                  value={Username}
+                  onChange={(e => {updateUsername(e.target.value)})}
                 />
               <div className="flex flex-col space-y-1">
                 <input
                   type="password"
                   className="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow"
                   placeholder="Password"
-                  value={this.state.Password}
-                  onChange={(e => {
-                    this.setState({
-                      Password: e.target.value
-                    })
-                  })}
+                  value={Password}
+                  onChange={(e => {updatePassword(e.target.value)})}
                 />
               </div>
               <div className="flex flex-col-reverse sm:flex-row sm:justify-between items-center w-full">
@@ -89,6 +88,5 @@ export default class Login extends Component{
         </form>
       </div>
     </div>
-    )
-  }
+  )
 }

@@ -1,12 +1,16 @@
-import React, {useEffect} from "react"
+import React, {useEffect, useState} from "react"
 import PageProfile from "../pageProfile";
 import CreatePost from "./Create_Post/createPost";
 import Posts from "../posts";
 import PostModal from "./postModal";
 import axios from "axios";
+import {useParams} from "react-router-dom";
+import PostCreateModal from "./Create_Post/postCreateModal";
 
 
 export default function ChannelPost (props){
+  let {id} = useParams();
+  const [Post, updatePosts] = useState([])
 
   function loadPost(){
     const Token = localStorage.getItem("Token");
@@ -16,17 +20,14 @@ export default function ChannelPost (props){
       'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get(`${host}/forum/`, {
+      .get(`${host}/forum/channel/${id}/posts`, {
         headers: {
           Authorization: Token,
         },
       })
       .then((response) => {
         if (response.status === 200) {
-          this.setState({
-            PostData: response.data,
-            LoadStatus: "Loaded",
-          });
+          updatePosts(response.data)
         } else {
           this.setState({
             LoadStatus: "NotLoaded",
@@ -40,18 +41,27 @@ export default function ChannelPost (props){
 
   useEffect( ()=>{
     loadPost()
-  })
+  },[id])
 
   return(
     <>
       <PageProfile/>
       <div className={"mt-4"}>
         <CreatePost
-          ChannelList={props.ChannelList}
+          showPostCreateModal={()=> {
+            props.showPostCreateModal()
+          }}
         />
       </div>
-      <PostModal/>
-
+      {Post.map((item, index) => {
+        return (
+          <div key={index}>
+            <PostModal
+              Post={item}
+            />
+          </div>
+        );
+      })}
     </>
   )
 }

@@ -40,12 +40,12 @@ export default class PostCreateModal extends Component{
       PostText: "",
       selectedValue: [],
     }
-    // this.escFunction = this.escFunction.bind(this)
     this.onSelect = this.onSelect.bind(this)
     this.onRemove = this.onRemove.bind(this)
   }
 
   onSelect(selectedList, selectedItem) {
+    console.log(selectedList)
     this.setState({
       selectedValue: selectedList
     })
@@ -66,7 +66,7 @@ export default class PostCreateModal extends Component{
     axios
       .post(`${host}/forum/new-post`,
         {
-          text : this.state.PostText,
+          body : this.state.PostText,
           channel_list : this.state.selectedValue,
           media_count : 0
         },
@@ -82,7 +82,7 @@ export default class PostCreateModal extends Component{
             PostText:"",
             selectedValue: []
           })
-          this.props.updateNewPost()
+          this.props.showPostCreateModal()
         } else {
           console.log(response.status, response.data.msg)
         }
@@ -95,7 +95,6 @@ export default class PostCreateModal extends Component{
   render(){
     const channel_list = this.props.ChannelList
 
-
     if( channel_list === []){
       console.log("empty channel")
       return (
@@ -106,11 +105,7 @@ export default class PostCreateModal extends Component{
 
     return(
       <div
-        className="fixed inset-0 bg-black bg-opacity-60 h-full w-full"
-        id={"postCreateModal"}
-        style={{
-          display: this.props.ShowModal ? "block" : "none"
-        }}
+        className="z-10 fixed inset-0 bg-black bg-opacity-40 h-full w-full "
       >
         <div
           className="h-auto w-3/12 relative top-20 mx-auto border-0 shadow-lg rounded-lg "
@@ -126,7 +121,7 @@ export default class PostCreateModal extends Component{
                       PostText:"",
                       selectedValue:[]
                     })
-                    this.props.updateNewPost()
+                    this.props.showPostCreateModal()
                   }}
                 >
                   <AiOutlineClose className="close-modal" />
