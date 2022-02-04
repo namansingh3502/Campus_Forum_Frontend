@@ -6,7 +6,6 @@ import Header from "../components/header";
 
 export default function RequireAuth({ children, ...rest }) {
   let location = useLocation();
-
   const [userLoggedIn, updateLoggedInStatus] = useState(false)
   const [userDataLoadStatus, updateUserLoadStatus] = useState(false)
 
@@ -17,15 +16,14 @@ export default function RequireAuth({ children, ...rest }) {
       'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get(`${host}/auth/users/me`, {
+      .get(`${host}/auth/user/`, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
       })
       .then((response) => {
         if (response.status === 200) {
-          localStorage.setItem('username', response.data.username)
-          localStorage.setItem('user_id', response.data.id)
+          localStorage.setItem('user_profile', JSON.stringify(response.data))
           updateLoggedInStatus(true)
         } else {
           console.log(response.status);
@@ -39,7 +37,7 @@ export default function RequireAuth({ children, ...rest }) {
   useEffect( ()=>{
     const token = localStorage.getItem('Token')
     token ? loadUserData() : updateUserLoadStatus(true)
-  })
+  },[])
 
   if( !userDataLoadStatus && !userLoggedIn ){
     return( <div>Loading</div> )

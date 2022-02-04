@@ -4,7 +4,6 @@ import axios from "axios";
 
 import PostModal from "./post/postModal";
 import CreatePost from "./post/Create_Post/createPost";
-import PostCreateModal from "./post/Create_Post/postCreateModal";
 
 export default class Posts extends Component {
   constructor(props) {
@@ -63,7 +62,7 @@ export default class Posts extends Component {
           return (
             <div key={index}>
               <PostModal
-                Post={item}
+                data={item}
               />
             </div>
           );
