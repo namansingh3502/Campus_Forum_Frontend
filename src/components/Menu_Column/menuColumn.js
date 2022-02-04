@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import MenuKeys from "./menuKeys";
+import UserProfile from "./userProfile";
 import ChannelList from "./channelList";
 import Others from "./others";
 
@@ -13,7 +13,7 @@ export default class MenuColumn extends Component {
   render() {
     return (
       <div className="w-1/6">
-        <MenuKeys />
+        <UserProfile />
         <ChannelList
           ChannelList={this.props.ChannelList}
         />

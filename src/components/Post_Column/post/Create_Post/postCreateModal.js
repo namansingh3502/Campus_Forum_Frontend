@@ -5,8 +5,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
 
-import userImage from "../../../../images/userimg.jpeg";
-
 const style = {
   multiselectContainer: {
     // To change css for multiselect (Width,height,etc..)
@@ -94,6 +92,11 @@ export default class PostCreateModal extends Component{
 
   render(){
     const channel_list = this.props.ChannelList
+    const host =  process.env.NODE_ENV === 'development' ?
+      'http://127.0.0.1:8000'
+      :
+      'https://campus-forum-naman.herokuapp.com'
+    const profile = JSON.parse(localStorage.getItem('user_profile'))
 
     if( channel_list === []){
       console.log("empty channel")
@@ -134,14 +137,14 @@ export default class PostCreateModal extends Component{
                 <div className={"p-4"}>
                   <div className="flex p-2">
                     <img
-                      src={userImage}
+                      src={`${host}${profile.user_image}`}
                       className="rounded-full"
                       style={{ height: 50, width: 50 }}
                       alt={"user"}
                     />
                     <div className="ml-4 text-bold">
-                      <h1 className="text-lg font-bold" id={localStorage.getItem('user_id')}>
-                        {localStorage.getItem('user_name')}
+                      <h1 className="text-lg font-bold" id={profile.user_id}>
+                        {profile.username}
                       </h1>
                     </div>
                   </div>
