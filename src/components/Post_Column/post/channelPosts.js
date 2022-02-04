@@ -44,7 +44,7 @@ export default function ChannelPost (props){
   },[id])
 
   return(
-    <>
+    <div>
       <PageProfile/>
       <div className={"mt-4"}>
         <CreatePost
@@ -57,11 +57,11 @@ export default function ChannelPost (props){
         return (
           <div key={index}>
             <PostModal
-              Post={item}
+              data={item}
             />
           </div>
         );
       })}
-    </>
+    </div>
   )
 }
