@@ -75,6 +75,7 @@ export default class PostCreateModal extends Component{
         }
       )
       .then((response) => {
+
         if ((response.status === 200)) {
           this.setState({
             PostText:"",
