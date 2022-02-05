@@ -12,6 +12,7 @@ export default class Posts extends Component {
       PostLoadStatus: "NotLoaded",
       PostData: [],
     };
+    this.updatePosts = this.updatePosts.bind(this)
   }
 
   loadPost() {
@@ -48,23 +49,30 @@ export default class Posts extends Component {
     this.loadPost();
   }
 
+  updatePosts(newPost){
+    let data = this.state.PostData
+    data.unshift(newPost)
+    this.setState({
+      PostData: data
+    })
+  }
+
   render() {
     const Post = this.state.PostData;
-
     return (
       <div>
         <CreatePost
-          showPostCreateModal={()=> {
-            this.props.showPostCreateModal()
+          ChannelList={this.props.ChannelList}
+          updatePosts={(newPost)=>{
+            this.updatePosts(newPost)
           }}
         />
-        {Post.map((item, index) => {
+        {Post.map((item) => {
           return (
-            <div key={index}>
-              <PostModal
-                data={item}
-              />
-            </div>
+            <PostModal
+              key={item.post.id}
+              data={item}
+            />
           );
         })}
       </div>

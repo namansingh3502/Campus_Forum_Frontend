@@ -8,12 +8,18 @@ export default class UserReaction extends Component {
     super(props);
     this.state = {
       PostLiked: false,
-      UserLiked: this.props.likes,
+      UserLiked: [],
       CommentModal: false,
-      PostLikeUpdateStatus: "NotLoaded",
     };
     this.handleLike = this.handleLike.bind(this);
     this.commentsModal = this.commentsModal.bind(this)
+  }
+
+  static getDerivedStateFromProps(props,state) {
+    if (props.likes !== state.UserLiked) {
+      return { UserLiked: props.likes };
+    }
+    return null;
   }
 
   commentsModal() {
@@ -22,7 +28,7 @@ export default class UserReaction extends Component {
 
   handleLike() {
     const post_id = this.props.post_id;
-    const current_user = parseInt(localStorage.getItem("user_id"));
+    const user = JSON.parse(localStorage.getItem('user_profile'))
     const host =  process.env.NODE_ENV === 'development' ?
         'http://127.0.0.1:8000'
         :
@@ -43,11 +49,10 @@ export default class UserReaction extends Component {
             data.pop()
             :
             data.push({
-              username : localStorage.getItem('user_name'),
-              user_id : current_user
+              username : user.username,
+              user_id : user.user_id
             })
           this.setState({
-            PostLikeUpdateStatus: "Loaded",
             PostLiked: !this.state.PostLiked,
             UserLiked: data
           });
@@ -62,11 +67,23 @@ export default class UserReaction extends Component {
       });
   }
 
+  componentDidMount() {
+    const data = this.props.likes;
+    const user = JSON.parse(localStorage.getItem('user_profile'));
+
+    for (let i = 0; i < data.length; i++) {
+      if (user.id === data[i].user_id) {
+        this.setState({PostLiked:true})
+        break
+      }
+    }
+  }
+
   render() {
     return (
       <div>
         <LikeDetails
-          Liked={this.state.PostLiked}
+          Liked={this.props.likes}
           handleLike={() => this.handleLike()}
           UserLiked={this.state.UserLiked}
         />
@@ -84,7 +101,13 @@ export default class UserReaction extends Component {
             Comment
           </button>
         </div>
-        { this.state.CommentModal ? <CommentModal post_id={this.props.post_id} /> : null }
+        {this.state.CommentModal ?
+          <CommentModal
+            post_id={this.props.post_id}
+          />
+          :
+          null
+        }
       </div>
     );
   }
