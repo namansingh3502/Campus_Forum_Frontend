@@ -4,6 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
+import {loadPartialConfigAsync} from "@babel/core";
 
 const style = {
   multiselectContainer: {
@@ -43,7 +44,6 @@ export default class PostCreateModal extends Component{
   }
 
   onSelect(selectedList, selectedItem) {
-    console.log(selectedList)
     this.setState({
       selectedValue: selectedList
     })
@@ -75,11 +75,13 @@ export default class PostCreateModal extends Component{
         }
       )
       .then((response) => {
+
         if ((response.status === 200)) {
           this.setState({
             PostText:"",
             selectedValue: []
           })
+          this.props.updatePosts(response.data)
           this.props.showPostCreateModal()
         } else {
           console.log(response.status, response.data.msg)

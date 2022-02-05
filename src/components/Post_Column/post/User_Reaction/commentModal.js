@@ -60,6 +60,7 @@ export default class CommentModal extends Component{
         if ((response.status === 200)) {
           this.setState({
             CommentText:"",
+            Comments:this.state.Comments.concat(response.data)
           })
         } else {
           console.log(response.status, response.data.msg)
@@ -104,9 +105,7 @@ export default class CommentModal extends Component{
               placeholder={"Write a comment..."}
               className={"ml-2 py-1 pl-3 text-md w-11/12 outline-0 bg-transparent text-white resize-none rounded-xl bg-gray-300 bg-opacity-20 backdrop-filter"}
               onChange={(e)=>{
-                this.setState({
-                  CommentText: e.target.value
-                })
+                this.setState({ CommentText: e.target.value })
               }}
             />
             <button>
@@ -137,6 +136,4 @@ export default class CommentModal extends Component{
       </div>
     )
   }
-
-
 }

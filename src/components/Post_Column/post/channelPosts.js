@@ -10,7 +10,8 @@ import PostCreateModal from "./Create_Post/postCreateModal";
 
 export default function ChannelPost (props){
   let {id} = useParams();
-  const [Post, updatePosts] = useState([])
+  const [post, updateChannelPosts] = useState([])
+  const [postLoadStatus, updatePostLoadStatus] = useState(true)
 
   function loadPost(){
     const Token = localStorage.getItem("Token");
@@ -27,41 +28,46 @@ export default function ChannelPost (props){
       })
       .then((response) => {
         if (response.status === 200) {
-          updatePosts(response.data)
+          updateChannelPosts(response.data)
+          updatePostLoadStatus(false)
         } else {
-          this.setState({
-            LoadStatus: "NotLoaded",
-          });
-        }
-      })
+          console.log('error at channel post')
+        }})
       .catch((error) => {
         console.log("check login error", error);
       });
   }
 
+  function updatePosts(newPost){
+    let data = post
+    data.unshift(newPost)
+    updateChannelPosts([...data])
+  }
+
   useEffect( ()=>{
-    loadPost()
-  },[id])
+    if(postLoadStatus) loadPost()
+  },[id,post])
 
   return(
     <div>
       <PageProfile/>
       <div className={"mt-4"}>
         <CreatePost
-          showPostCreateModal={()=> {
-            props.showPostCreateModal()
+          ChannelList={props.ChannelList}
+          updatePosts={(newPost)=>{
+            updatePosts(newPost)
           }}
         />
-      </div>
-      {Post.map((item, index) => {
+
+      {post.map((item) => {
         return (
-          <div key={index}>
+          <div key={item.post.id}>
             <PostModal
               data={item}
             />
           </div>
         );
-      })}
+      })}</div>
     </div>
   )
 }

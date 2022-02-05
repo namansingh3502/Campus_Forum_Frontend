@@ -6,7 +6,6 @@ import PostCreateModal from "./post/Create_Post/postCreateModal";
 
 
 export default function PostColumn (props) {
-  const [createPostModal, updatePostModalVisibility] = useState(false)
 
   return (
     <div className="mx-3 w-5/12 text-white">
@@ -14,9 +13,7 @@ export default function PostColumn (props) {
       <Routes>
         <Route path="" element={
           <Posts
-            showPostCreateModal={()=>{
-              updatePostModalVisibility(!createPostModal)
-            }}
+            ChannelList={props.ChannelList}
           />
         }
         />
@@ -24,9 +21,7 @@ export default function PostColumn (props) {
           path="/Channel-Post/:id/"
           element={
             <ChannelPost
-              showPostCreateModal={()=>{
-                updatePostModalVisibility(!createPostModal)
-              }}
+              ChannelList={props.ChannelList}
             />
           }
         />
@@ -35,14 +30,7 @@ export default function PostColumn (props) {
           element={<Navigate to={``} replace />}
         />
       </Routes>
-      { createPostModal ?
-        <PostCreateModal
-          showPostCreateModal={()=>{
-            updatePostModalVisibility(!createPostModal)
-          }}
-          ChannelList={props.ChannelList}
-        />
-        : null }
+
     </div>
   )
 }

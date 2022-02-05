@@ -12,7 +12,6 @@ export default function (props){
       <UserDetails user={props.data.user} />
       <ChannelTags channels={props.data.post.posted_in} />
       <PostText text={props.data.post.body} />
-      {/* <PostImage/>  */}
       <UserReaction
         likes={props.data.post.Liked_Post}
         post_id={props.data.post.id}
