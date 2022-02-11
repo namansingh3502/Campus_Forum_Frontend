@@ -4,26 +4,26 @@ import axios from "axios";
 
 import PostModal from "./post/postModal";
 import CreatePost from "./post/Create_Post/createPost";
+import EditPost from "./post/Edit_Post/editPost";
 
 export default class Posts extends Component {
   constructor(props) {
     super(props);
     this.state = {
       PostLoadStatus: "NotLoaded",
+      editPost: false,
       PostData: [],
+      editPostData: {},
     };
-    this.updatePosts = this.updatePosts.bind(this)
+    this.addPosts = this.addPosts.bind(this)
+    this.updateEditPost = this.updateEditPost.bind(this)
   }
 
   loadPost() {
     const Token = localStorage.getItem("Token");
-    const host =  process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get(`${host}/forum/posts`, {
+      .get(`${process.env.HOST}/forum/posts`, {
         headers: {
           Authorization: Token,
         },
@@ -45,16 +45,23 @@ export default class Posts extends Component {
       });
   }
 
-  componentDidMount() {
-    this.loadPost();
-  }
-
-  updatePosts(newPost){
+  addPosts(newPost){
     let data = this.state.PostData
     data.unshift(newPost)
     this.setState({
       PostData: data
     })
+  }
+
+  updateEditPost(postData, postUpdated){
+    this.setState({
+      editPost:postUpdated,
+      editPostData:postData
+    })
+  }
+
+  componentDidMount() {
+    this.loadPost();
   }
 
   render() {
@@ -64,18 +71,30 @@ export default class Posts extends Component {
         <CreatePost
           ChannelList={this.props.ChannelList}
           updatePosts={(newPost)=>{
-            this.updatePosts(newPost)
+            this.addPosts(newPost)
           }}
         />
+        {this.state.editPost && this.state.editPostData !== {} ?
+          <EditPost
+            ChannelList={this.props.ChannelList}
+            data={this.state.editPostData}
+            editPost={(post, postUpdated)=>{
+              this.updateEditPost(post, postUpdated)
+            }}
+          /> : null
+        }
         {Post.map((item) => {
           return (
             <PostModal
               key={item.post.id}
               data={item}
+              editPost={(post, postUpdated) => {
+                this.updateEditPost(post, postUpdated)
+              }}
             />
           );
         })}
       </div>
-    );
+    )
   }
 }

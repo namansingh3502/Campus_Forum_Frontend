@@ -3,10 +3,6 @@ import background from "../../images/background.jpeg"
 
 const UserProfile = () => {
   const profile = JSON.parse(localStorage.getItem('user_profile'))
-  const host =  process.env.NODE_ENV === 'development' ?
-    'http://127.0.0.1:8000'
-    :
-    'https://campus-forum-naman.herokuapp.com'
 
   return (
     <div className="bg-gray-400 h-auto rounded-xg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg pb-5">
@@ -17,7 +13,7 @@ const UserProfile = () => {
         >
           <img
             className="rounded-full h-28 w-28 border-2 border-amber-100 p-0.5 "
-            src={`${host}${profile.user_image}`}
+            src={`${process.env.HOST}${profile.user_image}`}
             alt={"profile"}
           />
         </div>

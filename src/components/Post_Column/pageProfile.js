@@ -10,13 +10,9 @@ export default function PageProfile() {
 
   function loadPageProfile(){
     const Token = localStorage.getItem("Token");
-    const host =  process.env.NODE_ENV === 'development' ?
-      'http://127.0.0.1:8000'
-      :
-      'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get(`${host}/forum/channel/${id}/profile`, {
+      .get(`${process.env.HOST}/forum/channel/${id}/profile`, {
         headers: {
           Authorization: Token,
         },

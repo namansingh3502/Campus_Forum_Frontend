@@ -7,12 +7,9 @@ export default function Header (props) {
   let navigate = useNavigate();
 
   function logout(){
-    const host =  process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
+
     axios
-      .post(`${host}/auth/token/logout/`,
+      .post(`${process.env.HOST}/auth/token/logout/`,
         {},
         {
           headers: {
@@ -40,15 +37,15 @@ export default function Header (props) {
           <div className={"relative float-left text-amber-50 font-semibold"}>
             <NavLink to={``} >
               <h1 className="font-bold text-center text-3xl text-yellow-500">
-                Campus<span className="text-blue-500 ml-2">Forum</span>
+                College<span className="text-blue-500 ml-2">Forum</span>
               </h1>
             </NavLink>
           </div>
           <div className={"relative float-right"}>
             <button
-            className={"text-white text-2xl"}
-            onClick={ ()=>{logout()}}
-          >
+              className={"text-white text-2xl"}
+              onClick={ ()=>{logout()}}
+            >
             Logout
           </button>
         </div>

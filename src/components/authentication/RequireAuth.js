@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Navigate, useLocation} from "react-router-dom";
 
 import axios from "axios";
-import Header from "../components/header";
+import Header from "../header";
 
 export default function RequireAuth({ children, ...rest }) {
   let location = useLocation();
@@ -10,13 +10,9 @@ export default function RequireAuth({ children, ...rest }) {
   const [userDataLoadStatus, updateUserLoadStatus] = useState(false)
 
   function loadUserData() {
-    const host =  process.env.NODE_ENV === 'development' ?
-      'http://127.0.0.1:8000'
-      :
-      'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get(`${host}/auth/user/`, {
+      .get(`${process.env.HOST}/auth/user/`, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -25,7 +21,11 @@ export default function RequireAuth({ children, ...rest }) {
         if (response.status === 200) {
           localStorage.setItem('user_profile', JSON.stringify(response.data))
           updateLoggedInStatus(true)
-        } else {
+        } else if(response.status === 401){
+          console.log("auth expired")
+          localStorage.clear()
+        }
+        else {
           console.log(response.status);
           console.log(response.data);
         }

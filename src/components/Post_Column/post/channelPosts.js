@@ -15,13 +15,9 @@ export default function ChannelPost (props){
 
   function loadPost(){
     const Token = localStorage.getItem("Token");
-    const host =  process.env.NODE_ENV === 'development' ?
-      'http://127.0.0.1:8000'
-      :
-      'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get(`${host}/forum/channel/${id}/posts`, {
+      .get(`${process.env.HOST}/forum/channel/${id}/posts`, {
         headers: {
           Authorization: Token,
         },
@@ -46,7 +42,7 @@ export default function ChannelPost (props){
 
   useEffect( ()=>{
     if(postLoadStatus) loadPost()
-  },[id,post])
+  },[id])
 
   return(
     <div>

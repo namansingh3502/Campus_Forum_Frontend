@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {Component, useDebugValue, useEffect, useState} from "react";
 import axios from "axios";
 import {Navigate, useLocation, useNavigate} from "react-router-dom";
 
@@ -7,44 +7,39 @@ export default function Login() {
   let location = useLocation();
   let from = location.state?.from?.pathname || '/';
 
-  const [Username, updateUsername] = useState("")
-  const [Password, updatePassword] = useState("")
+  const [username, updateUsername] = useState("")
+  const [password, updatePassword] = useState("")
+  const [errorMsg, updateErrorMsg] = useState('')
 
   function login(){
-    const host =  process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
-
     axios
       .post(
-        `${host}/auth/token/login/`,
+        `${process.env.HOST}/auth/token/login/`,
         {
-          username: Username,
-          password: Password
+          username: username,
+          password: password
         },
         {}
       )
       .then((response) => {
-        if ((response.status === 200)) {
-            localStorage.setItem('Token','Token ' + response.data.auth_token)
-            navigate(from, { replace: true })
-        } else {
-          console.log(response.status, response.data.msg)
+        console.log('response', response.status)
+        if (response.status === 200) {
+          localStorage.setItem('Token','Token ' + response.data.auth_token)
+          navigate(from, { replace: true })
         }
       })
       .catch((error) => {
-        console.log("check error at login page. \n",error)
+        updateErrorMsg('Username or Password incorrect.')
+        console.log("Error while login. \n",error)
       })
   }
 
   useEffect(() => {
     const token = localStorage.getItem('Token')
     if(token){
-      console.log(token)
       navigate(`/`)
     }
-  },[])
+  },[errorMsg])
 
   return(
     <div className="font-sans min-h-screen antialiased bg-gray-900 pt-24 pb-5">
@@ -57,24 +52,29 @@ export default function Login() {
               login()
             }}
           >
-            <div className="flex flex-col bg-white p-10 rounded-lg shadow space-y-10">
-              <h1 className="font-bold text-xl text-center">Sign in to your account</h1>
-              <div className="flex flex-col space-y-1">
+            <div className="flex flex-col bg-white p-10 rounded-lg shadow ">
+              <div className={"text-center"}>
+                <span className="font-bold text-xl">Sign in to your account</span>
+              </div>
+              <div className="flex flex-col space-y-4 mt-6">
                 <input
                   type="text"
                   className="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow"
                   placeholder="Username"
-                  value={Username}
+                  value={username}
                   onChange={(e => {updateUsername(e.target.value)})}
+                  autoFocus
                 />
-              <div className="flex flex-col space-y-1">
                 <input
                   type="password"
                   className="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow"
                   placeholder="Password"
-                  value={Password}
+                  value={password}
                   onChange={(e => {updatePassword(e.target.value)})}
                 />
+              </div>
+              <div className={"my-3 px-1 text-sm text-red-700"}>
+                {errorMsg}
               </div>
               <div className="flex flex-col-reverse sm:flex-row sm:justify-between items-center w-full">
                 <button
@@ -83,7 +83,6 @@ export default function Login() {
                   Log In
                 </button>
               </div>
-            </div>
           </div>
         </form>
       </div>

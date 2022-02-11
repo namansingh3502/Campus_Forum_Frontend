@@ -15,13 +15,9 @@ export default class Forum extends Component {
   }
 
   loadChannelList() {
-    const host =  process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .get(`${host}/forum/channel-list`, {
+      .get(`${process.env.HOST}/forum/channel-list`, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },

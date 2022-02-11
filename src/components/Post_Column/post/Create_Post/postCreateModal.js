@@ -4,7 +4,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import axios from "axios";
 import Multiselect from 'multiselect-react-dropdown';
-import {loadPartialConfigAsync} from "@babel/core";
 
 const style = {
   multiselectContainer: {
@@ -39,30 +38,19 @@ export default class PostCreateModal extends Component{
       PostText: "",
       selectedValue: [],
     }
-    this.onSelect = this.onSelect.bind(this)
-    this.onRemove = this.onRemove.bind(this)
+    this.selectedList = this.selectedList.bind(this)
   }
 
-  onSelect(selectedList, selectedItem) {
-    this.setState({
-      selectedValue: selectedList
-    })
-  }
-
-  onRemove(selectedList, removedItem) {
+  selectedList(selectedList, selectedItem) {
     this.setState({
       selectedValue: selectedList
     })
   }
 
   createPost() {
-    const host =  process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .post(`${host}/forum/new-post`,
+      .post(`${process.env.HOST}/forum/new-post`,
         {
           body : this.state.PostText,
           channel_list : this.state.selectedValue,
@@ -70,13 +58,13 @@ export default class PostCreateModal extends Component{
         },
         {
           headers: {
-            Authorization: localStorage.getItem("Token"),
+            Authorization: localStorage.getItem("Token")
           }
         }
       )
       .then((response) => {
 
-        if ((response.status === 200)) {
+        if (response.status === 200) {
           this.setState({
             PostText:"",
             selectedValue: []
@@ -94,10 +82,6 @@ export default class PostCreateModal extends Component{
 
   render(){
     const channel_list = this.props.ChannelList
-    const host =  process.env.NODE_ENV === 'development' ?
-      'http://127.0.0.1:8000'
-      :
-      'https://campus-forum-naman.herokuapp.com'
     const profile = JSON.parse(localStorage.getItem('user_profile'))
 
     if( channel_list === []){
@@ -109,9 +93,7 @@ export default class PostCreateModal extends Component{
     }
 
     return(
-      <div
-        className="z-10 fixed inset-0 bg-black bg-opacity-40 h-full w-full "
-      >
+      <div className="z-10 fixed inset-0 bg-black bg-opacity-40 h-full w-full ">
         <div
           className="h-auto w-3/12 relative top-20 mx-auto border-0 shadow-lg rounded-lg "
           style={{ backgroundColor: "#011627"}}
@@ -138,8 +120,9 @@ export default class PostCreateModal extends Component{
                 }}>
                 <div className={"p-4"}>
                   <div className="flex p-2">
+
                     <img
-                      src={`${host}${profile.user_image}`}
+                      src={`${process.env.HOST}${profile.user_image}`}
                       className="rounded-full"
                       style={{ height: 50, width: 50 }}
                       alt={"user"}
@@ -156,8 +139,8 @@ export default class PostCreateModal extends Component{
                         placeholder={"Select Channels...."}
                         selectedValues={this.state.selectedValue}
                         options={channel_list}
-                        onSelect={this.onSelect}
-                        onRemove={this.onRemove}
+                        onSelect={this.selectedList}
+                        onRemove={this.selectedList}
                         displayValue="name"
                         showCheckbox={true}
                         style={style}

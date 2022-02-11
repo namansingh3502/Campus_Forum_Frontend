@@ -8,7 +8,7 @@ export default class UserReaction extends Component {
     super(props);
     this.state = {
       PostLiked: false,
-      UserLiked: [],
+      UserLiked: this.props.likes,
       CommentModal: false,
     };
     this.handleLike = this.handleLike.bind(this);
@@ -29,13 +29,9 @@ export default class UserReaction extends Component {
   handleLike() {
     const post_id = this.props.post_id;
     const user = JSON.parse(localStorage.getItem('user_profile'))
-    const host =  process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
 
     axios
-      .post(`${host}/forum/${post_id}/like-post`,{},
+      .post(`${process.env.HOST}/forum/${post_id}/like-post`,{},
         {
           headers: {
             Authorization: localStorage.getItem("Token"),
@@ -83,7 +79,7 @@ export default class UserReaction extends Component {
     return (
       <div>
         <LikeDetails
-          Liked={this.props.likes}
+          Liked={this.state.PostLiked}
           handleLike={() => this.handleLike()}
           UserLiked={this.state.UserLiked}
         />
