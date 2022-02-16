@@ -31,7 +31,7 @@ const style = {
   }
 }
 
-export default class PostCreateModal extends Component{
+export default class CreatePostModal extends Component{
   constructor(props) {
     super(props);
     this.state = {

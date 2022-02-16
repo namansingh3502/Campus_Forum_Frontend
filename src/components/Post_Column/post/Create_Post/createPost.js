@@ -1,8 +1,7 @@
 import React, {useState} from "react";
-import PostCreateModal from "./postCreateModal";
+import CreatePostModal from "./createPostModal";
 
 export default function CreatePost(props) {
-
   const [createPostModal, updatePostModalVisibility] = useState(false)
   const profile = JSON.parse(localStorage.getItem('user_profile'))
 
@@ -27,7 +26,7 @@ export default function CreatePost(props) {
       </div>
     </div>
       { createPostModal ?
-        <PostCreateModal
+        <CreatePostModal
           showPostCreateModal={()=>{
             updatePostModalVisibility(!createPostModal)
           }}

@@ -1,25 +1,20 @@
-import React, { Component } from "react";
+import React, {Component, useEffect, useState} from "react";
 
 import axios from "axios";
 
 import PostModal from "./post/postModal";
 import CreatePost from "./post/Create_Post/createPost";
-import EditPost from "./post/Edit_Post/editPost";
+import CreatePostModal from "./post/Edit_Post/editPostModal";
 
-export default class Posts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      PostLoadStatus: "NotLoaded",
-      editPost: false,
-      PostData: [],
-      editPostData: {},
-    };
-    this.addPosts = this.addPosts.bind(this)
-    this.updateEditPost = this.updateEditPost.bind(this)
-  }
+export default function Posts(props) {
+  const [postLoaded, updateLoadStatus] = useState(false)
+  const [postAdded, updatePostAdded] = useState(false)
+  const [postUpdated, updatePostUpdated] = useState(false)
+  const [postData, updatePostData ] = useState([])
+  const [showPostModal, updatePostModalVisibility] = useState(false)
+  const [postUpdateData, updatePostUpdateData] = useState({})
 
-  loadPost() {
+  function loadPost() {
     const Token = localStorage.getItem("Token");
 
     axios
@@ -30,14 +25,10 @@ export default class Posts extends Component {
       })
       .then((response) => {
         if (response.status === 200) {
-          this.setState({
-            PostData: response.data,
-            LoadStatus: "Loaded",
-          });
+          updateLoadStatus(true)
+          updatePostData(response.data)
         } else {
-          this.setState({
-            LoadStatus: "NotLoaded",
-          });
+          console.log("Error")
         }
       })
       .catch((error) => {
@@ -45,56 +36,64 @@ export default class Posts extends Component {
       });
   }
 
-  addPosts(newPost){
-    let data = this.state.PostData
+  function addPost(newPost){
+    let data = postData
     data.unshift(newPost)
-    this.setState({
-      PostData: data
-    })
+    updatePostData(data)
+    updatePostAdded(true)
   }
 
-  updateEditPost(postData, postUpdated){
-    this.setState({
-      editPost:postUpdated,
-      editPostData:postData
-    })
+  function updatePost(post){
+    const post_id = post.post.id
+    let data = postData
+
+    for( let i = 0; i < data.length; i++){
+      if(data[i].post.id === post_id ) {
+        data[i] = post
+        break
+      }
+    }
+    updatePostData(data)
+    updatePostUpdated(true)
   }
 
-  componentDidMount() {
-    this.loadPost();
-  }
+  useEffect(()=>{
+    if( !postLoaded )
+      loadPost()
+  },[postAdded, postUpdated])
 
-  render() {
-    const Post = this.state.PostData;
-    return (
-      <div>
-        <CreatePost
-          ChannelList={this.props.ChannelList}
-          updatePosts={(newPost)=>{
-            this.addPosts(newPost)
-          }}
-        />
-        {this.state.editPost && this.state.editPostData !== {} ?
-          <EditPost
-            ChannelList={this.props.ChannelList}
-            data={this.state.editPostData}
-            editPost={(post, postUpdated)=>{
-              this.updateEditPost(post, postUpdated)
+  return (
+    <div>
+      <CreatePost
+        ChannelList={props.ChannelList}
+        updatePosts={(newPost)=>{
+          addPost(newPost)
+        }}
+      />
+      <CreatePostModal
+        ChannelList={props.ChannelList}
+        data={postUpdateData}
+        modalVisibility={showPostModal}
+        updatePost={(post)=>{
+          updatePostModalVisibility(false)
+          updatePost(post)
+        }}
+        showEditPostModal={() => {
+          updatePostModalVisibility(false)
+        }}
+      />
+      {postData.map((item) => {
+        return (
+          <PostModal
+            key={item.post.id}
+            data={item}
+            showEditPostModal={() => {
+              updatePostModalVisibility(true)
+              updatePostUpdateData(item)
             }}
-          /> : null
-        }
-        {Post.map((item) => {
-          return (
-            <PostModal
-              key={item.post.id}
-              data={item}
-              editPost={(post, postUpdated) => {
-                this.updateEditPost(post, postUpdated)
-              }}
-            />
-          );
-        })}
-      </div>
-    )
-  }
+          />
+        );
+      })}
+    </div>
+  )
 }

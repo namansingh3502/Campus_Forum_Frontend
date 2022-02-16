@@ -5,7 +5,7 @@ import Posts from "../posts";
 import PostModal from "./postModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
-import PostCreateModal from "./Create_Post/postCreateModal";
+import CreatePostModal from "./Create_Post/createPostModal";
 
 
 export default function ChannelPost (props){

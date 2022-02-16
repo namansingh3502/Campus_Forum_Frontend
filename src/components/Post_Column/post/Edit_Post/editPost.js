@@ -46,6 +46,7 @@ export default function EditPost(props){
           post_id: props.data.post.id,
           body : postText,
           channel_list : selectedValue,
+          media_count:0
         },
         {
           headers:{
@@ -55,7 +56,7 @@ export default function EditPost(props){
       )
       .then((response)=>{
         if(response.status === 200 ){
-          props.editPost(response.data, false)
+          props.updatePost(response.data)
         } else {
           console.log(response.status, response.data.msg)
         }
@@ -79,7 +80,7 @@ export default function EditPost(props){
                 onClick={()=>{
                   updatePostText(props.data.post.body)
                   updateSelectedValues(props.data.post.posted_in)
-                  props.editPost({}, false)
+                  props.showEditPostModal()
                 }}
               >
                 <AiOutlineClose className="close-modal" />

@@ -14,13 +14,14 @@ export default function (props){
       showEditButton(true)
     }
   },[])
+
   return(
     <div className="p-4 bg-gray-400 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-lg text-white h-auto mt-4">
       {editButton ?
         <button
           className={"float-right text-sm"}
-          aria-label="Edit Post"
-          onClick={()=>{props.editPost(props.data, true)}}
+          aria-label={"Edit Post"}
+          onClick={()=>{props.showEditPostModal()}}
         >
           <FaPen/>
         </button> : null
