@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import LikeDetails from "./likeDetails";
 import axios from "axios";
 import CommentModal from "./commentModal";
+import {config, user} from "../../../../globalData";
 
 export default class UserReaction extends Component {
   constructor(props) {
@@ -31,12 +32,7 @@ export default class UserReaction extends Component {
     const user = JSON.parse(localStorage.getItem('user_profile'))
 
     axios
-      .post(`${process.env.HOST}/forum/${post_id}/like-post`,{},
-        {
-          headers: {
-            Authorization: localStorage.getItem("Token"),
-          },
-      })
+      .post(`${process.env.HOST}/forum/${post_id}/like-post`,{}, config)
       .then((response) => {
         if (response.status === 200) {
           let data = this.state.UserLiked
@@ -65,7 +61,6 @@ export default class UserReaction extends Component {
 
   componentDidMount() {
     const data = this.props.likes;
-    const user = JSON.parse(localStorage.getItem('user_profile'));
 
     for (let i = 0; i < data.length; i++) {
       if (user.id === data[i].user_id) {

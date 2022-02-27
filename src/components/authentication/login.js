@@ -12,26 +12,22 @@ export default function Login() {
   const [errorMsg, updateErrorMsg] = useState('')
 
   function login(){
-    axios
-      .post(
-        `${process.env.HOST}/auth/token/login/`,
-        {
-          username: username,
-          password: password
-        },
-        {}
-      )
-      .then((response) => {
-        console.log('response', response.status)
-        if (response.status === 200) {
-          localStorage.setItem('Token','Token ' + response.data.auth_token)
-          navigate(from, { replace: true })
-        }
-      })
-      .catch((error) => {
-        updateErrorMsg('Username or Password incorrect.')
-        console.log("Error while login. \n",error)
-      })
+    const data = {
+      username: username,
+      password: password
+    }
+    axios.post(`${process.env.HOST}/auth/token/login/`, data, {})
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response.data.auth_token)
+        localStorage.setItem('Token','Token ' + response.data.auth_token)
+        navigate(from, { replace: true })
+      }
+    })
+    .catch((error) => {
+      updateErrorMsg('Username or Password incorrect.')
+      console.log("Error while login. \n",error)
+    })
   }
 
   useEffect(() => {

@@ -6,7 +6,7 @@ import PostModal from "./postModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import CreatePostModal from "./Create_Post/createPostModal";
-
+import {config} from "../../../globalData";
 
 export default function ChannelPost (props){
   let {id} = useParams();
@@ -14,24 +14,17 @@ export default function ChannelPost (props){
   const [postLoadStatus, updatePostLoadStatus] = useState(true)
 
   function loadPost(){
-    const Token = localStorage.getItem("Token");
-
-    axios
-      .get(`${process.env.HOST}/forum/channel/${id}/posts`, {
-        headers: {
-          Authorization: Token,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          updateChannelPosts(response.data)
-          updatePostLoadStatus(false)
-        } else {
-          console.log('error at channel post')
-        }})
-      .catch((error) => {
-        console.log("check login error", error);
-      });
+    axios.get(`${process.env.HOST}/forum/channel/${id}/posts`, config)
+    .then((response) => {
+      if (response.status === 200) {
+        updateChannelPosts(response.data)
+        updatePostLoadStatus(false)
+      } else {
+        console.log('error at channel post')
+      }})
+    .catch((error) => {
+      console.log("check login error", error);
+    });
   }
 
   function updatePosts(newPost){

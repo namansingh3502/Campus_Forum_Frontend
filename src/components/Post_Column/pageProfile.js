@@ -1,7 +1,8 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useEffect, useState} from "react";
 import background from "../../images/bg.jpeg";
 import axios from "axios";
 import {useParams} from "react-router-dom";
+import {config} from "../../globalData";
 
 export default function PageProfile() {
   let {id} = useParams();
@@ -9,32 +10,25 @@ export default function PageProfile() {
   const [profileLoadStatus, updateProfileLoadStatus]=useState(false)
 
   function loadPageProfile(){
-    const Token = localStorage.getItem("Token");
+    axios.get(`${process.env.HOST}/forum/channel/${id}/profile`, config)
+    .then((response) => {
+      if (response.status === 200) {
+        updatePageProfile(response.data)
+        updateProfileLoadStatus(true)
+      } else {
+        this.setState({
+          LoadStatus: "NotLoaded",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log("check login error", error);
+    });
+  }
 
-    axios
-      .get(`${process.env.HOST}/forum/channel/${id}/profile`, {
-        headers: {
-          Authorization: Token,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          updatePageProfile(response.data)
-          updateProfileLoadStatus(true)
-        } else {
-          this.setState({
-            LoadStatus: "NotLoaded",
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-      });
-    }
-
-    useEffect(()=>{
-      loadPageProfile()
-    },[id, profileLoadStatus])
+  useEffect(()=>{
+    loadPageProfile()
+  },[id, profileLoadStatus])
 
   if( !profileLoadStatus ) {
     return <div>Loading...</div>

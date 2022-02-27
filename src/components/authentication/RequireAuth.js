@@ -3,6 +3,7 @@ import {Navigate, useLocation} from "react-router-dom";
 
 import axios from "axios";
 import Header from "../header";
+import {config} from "../../globalData";
 
 export default function RequireAuth({ children, ...rest }) {
   let location = useLocation();
@@ -34,6 +35,7 @@ export default function RequireAuth({ children, ...rest }) {
         console.log("check login error", error);
       });
   }
+
   useEffect( ()=>{
     const token = localStorage.getItem('Token')
     token ? loadUserData() : updateUserLoadStatus(true)

@@ -1,5 +1,3 @@
-import React, { Component } from "react";
-
 export default function ActivityColumn (){
   return (
     <div className="w-1/6">

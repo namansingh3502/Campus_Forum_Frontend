@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 import {BsArrowRightCircleFill} from "react-icons/all";
 import axios from "axios";
-import {Comment} from "@material-ui/icons";
 import Comments from "./comments";
+import {config, user} from "../../../../globalData";
 
 export default class CommentModal extends Component{
   constructor(props) {
@@ -18,55 +18,43 @@ export default class CommentModal extends Component{
 
   loadComments(){
     const post_id =this.props.post_id
-    axios
-      .get(`${process.env.HOST}/forum/${post_id}/comments`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("Token"),
-          }
-        }
-      )
-      .then((response) => {
-        if ((response.status === 200)) {
-          this.setState({
-            Comments: response.data,
-            CommentsLoadStatus: true
-          })
-        } else {
-          console.log(response.status, response.data.msg)
-        }
-      })
-      .catch((error) => {
-        console.log("check error at new comment \n",error)
-      })
+
+    axios.get(`${process.env.HOST}/forum/${post_id}/comments`, config )
+    .then((response) => {
+      if ((response.status === 200)) {
+        this.setState({
+          Comments: response.data,
+          CommentsLoadStatus: true
+        })
+      } else {
+        console.log(response.status, response.data.msg)
+      }
+    })
+    .catch((error) => {
+      console.log("check error at new comment \n",error)
+    })
   }
 
   submitComment(){
-    axios
-      .post(`${process.env.HOST}/forum/new-comment`,
-        {
-          body : this.state.CommentText,
-          post : this.props.post_id
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("Token"),
-          }
-        }
-      )
-      .then((response) => {
-        if ((response.status === 200)) {
-          this.setState({
-            CommentText:"",
-            Comments:this.state.Comments.concat(response.data)
-          })
-        } else {
-          console.log(response.status, response.data.msg)
-        }
-      })
-      .catch((error) => {
-        console.log("check error at new comment \n",error)
-      })
+    const data = {
+      body : this.state.CommentText,
+      post : this.props.post_id
+    }
+
+    axios.post(`${process.env.HOST}/forum/new-comment`, data, config )
+    .then((response) => {
+      if ((response.status === 200)) {
+        this.setState({
+          CommentText:"",
+          Comments:this.state.Comments.concat(response.data)
+        })
+      } else {
+        console.log(response.status, response.data.msg)
+      }
+    })
+    .catch((error) => {
+      console.log("check error at new comment \n",error)
+    })
   }
 
   componentDidMount() {
@@ -79,12 +67,11 @@ export default class CommentModal extends Component{
     }
 
     const comments = this.state.Comments
-    const user_image = JSON.parse(localStorage.getItem('user_profile')).user_image
     return(
       <div className={"text-white border-t mt-1 ml-1 border-gray-600 pt-2"}>
         <div className={"flex"}>
           <img
-            src={`${process.env.HOST}${user_image}`}
+            src={`${process.env.HOST}${user.user_image}`}
             className="rounded-full"
             style={{ height: 35, width: 35 }}
             alt={"user-image"}

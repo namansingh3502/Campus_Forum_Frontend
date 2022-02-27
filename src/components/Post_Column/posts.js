@@ -1,10 +1,11 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 import axios from "axios";
 
 import PostModal from "./post/postModal";
 import CreatePost from "./post/Create_Post/createPost";
 import CreatePostModal from "./post/Edit_Post/editPostModal";
+import {config} from "../../globalData";
 
 export default function Posts(props) {
   const [postLoaded, updateLoadStatus] = useState(false)
@@ -15,25 +16,18 @@ export default function Posts(props) {
   const [postUpdateData, updatePostUpdateData] = useState({})
 
   function loadPost() {
-    const Token = localStorage.getItem("Token");
-
-    axios
-      .get(`${process.env.HOST}/forum/posts`, {
-        headers: {
-          Authorization: Token,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          updateLoadStatus(true)
-          updatePostData(response.data)
-        } else {
-          console.log("Error")
-        }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-      });
+    axios.get(`${process.env.HOST}/forum/posts`, config)
+    .then((response) => {
+      if (response.status === 200) {
+        updateLoadStatus(true)
+        updatePostData(response.data)
+      } else {
+        console.log("Error")
+      }
+    })
+    .catch((error) => {
+      console.log("check login error", error);
+    });
   }
 
   function addPost(newPost){

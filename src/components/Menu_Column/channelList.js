@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 export default function ChannelList(props) {
   const Channel = props.ChannelList;
 
+
   if (Channel === []) {
     return (
       <div

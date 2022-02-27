@@ -1,9 +1,10 @@
-import React, { StrictMode, Component } from "react";
+import React, { Component } from "react";
 
 import MenuColumn from "../components/Menu_Column/menuColumn";
 import PostColumn from "../components/Post_Column/postColumn";
 import ActivityColumn from "../components/activityColumn";
 import axios from "axios";
+import {config} from "../globalData";
 
 export default class Forum extends Component {
   constructor(props) {
@@ -15,26 +16,20 @@ export default class Forum extends Component {
   }
 
   loadChannelList() {
-
-    axios
-      .get(`${process.env.HOST}/forum/channel-list`, {
-        headers: {
-          Authorization: localStorage.getItem("Token"),
-        },
-      })
-      .then((response) => {
-        if( response.status === 200) {
-          this.setState({
-            ChannelList: response.data,
-            LoadChannelStatus: true
-          })
-        } else {
-          console.log("some error happened while getting channel list")
-        }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-      });
+    axios.get(`${process.env.HOST}/forum/channel-list`, config)
+    .then((response) => {
+      if( response.status === 200) {
+        this.setState({
+          ChannelList: response.data,
+          LoadChannelStatus: true
+        })
+      } else {
+        console.log("some error happened while getting channel list")
+      }
+    })
+    .catch((error) => {
+      console.log("check login error", error);
+    });
   }
 
   componentDidMount() {
