@@ -7,7 +7,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { AiOutlineClose } from "react-icons/all";
 import ImageUploader from "../imageUploader";
 import UserDetails from "../../../Post_Column/userDetails";
-import {multiSelectStyle, config, postConfig, CSRFToken} from "../../../../globalData";
+import {multiSelectStyle} from "../../../../globalData";
 
 
 export default function CreatePostModal (props){
@@ -51,7 +51,14 @@ export default function CreatePostModal (props){
     images.forEach( image => {formData.append(image.name, image)})
 
 
-    axios.post(`${process.env.HOST}/forum/new-post`, formData, postConfig )
+    axios.post(
+      `${process.env.HOST}/forum/new-post`, formData,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token"),
+          'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
+        }
+      })
     .then((response) => {
       if (response.status === 200) {
         updatePostText("")

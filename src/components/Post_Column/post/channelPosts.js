@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import PageProfile from "../pageProfile";
 import CreatePost from "./Create_Post/createPost";
 import Posts from "../posts";
@@ -11,14 +11,19 @@ import {config} from "../../../globalData";
 export default function ChannelPost (props){
   let {id} = useParams();
   const [post, updateChannelPosts] = useState([])
-  const [postLoadStatus, updatePostLoadStatus] = useState(true)
+  const prevIdRef = useRef()
 
   function loadPost(){
-    axios.get(`${process.env.HOST}/forum/channel/${id}/posts`, config)
+    axios.get(
+      `${process.env.HOST}/forum/channel/${id}/posts`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token")
+        }
+    })
     .then((response) => {
       if (response.status === 200) {
         updateChannelPosts(response.data)
-        updatePostLoadStatus(false)
       } else {
         console.log('error at channel post')
       }})
@@ -34,8 +39,10 @@ export default function ChannelPost (props){
   }
 
   useEffect( ()=>{
-    if(postLoadStatus) loadPost()
-  },[id])
+    if( prevIdRef.current !== id) loadPost()
+    prevIdRef.current = id
+  },[id,post])
+
 
   return(
     <div>

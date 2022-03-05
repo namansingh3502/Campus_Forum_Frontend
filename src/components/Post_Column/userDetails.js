@@ -1,7 +1,7 @@
 import React from "react";
-import {user} from "../../globalData";
 
 export default function UserDetails(){
+  const user = JSON.parse(localStorage.getItem('user_profile'))
   return(
     <div className={"mt-4"}>
       <div className="flex px-4 items-center">

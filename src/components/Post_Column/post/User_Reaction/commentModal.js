@@ -3,7 +3,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 import {BsArrowRightCircleFill} from "react-icons/all";
 import axios from "axios";
 import Comments from "./comments";
-import {config, user} from "../../../../globalData";
 
 export default class CommentModal extends Component{
   constructor(props) {
@@ -19,7 +18,13 @@ export default class CommentModal extends Component{
   loadComments(){
     const post_id =this.props.post_id
 
-    axios.get(`${process.env.HOST}/forum/${post_id}/comments`, config )
+    axios.get(
+      `${process.env.HOST}/forum/${post_id}/comments`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token")
+        }
+    })
     .then((response) => {
       if ((response.status === 200)) {
         this.setState({
@@ -41,7 +46,14 @@ export default class CommentModal extends Component{
       post : this.props.post_id
     }
 
-    axios.post(`${process.env.HOST}/forum/new-comment`, data, config )
+    axios.post(
+      `${process.env.HOST}/forum/new-comment`, data,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token"),
+          'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
+        }
+      })
     .then((response) => {
       if ((response.status === 200)) {
         this.setState({
@@ -66,7 +78,9 @@ export default class CommentModal extends Component{
       return( <div> </div>)
     }
 
+    const user = JSON.parse(localStorage.getItem('user_profile'))
     const comments = this.state.Comments
+
     return(
       <div className={"text-white border-t mt-1 ml-1 border-gray-600 pt-2"}>
         <div className={"flex"}>

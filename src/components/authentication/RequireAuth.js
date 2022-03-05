@@ -13,26 +13,22 @@ export default function RequireAuth({ children, ...rest }) {
   function loadUserData() {
 
     axios
-      .get(`${process.env.HOST}/auth/user/`, {
-        headers: {
-          Authorization: localStorage.getItem("Token"),
-        },
+      .get(
+        `${process.env.HOST}/auth/user/`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("Token"),
+          },
       })
       .then((response) => {
         if (response.status === 200) {
           localStorage.setItem('user_profile', JSON.stringify(response.data))
           updateLoggedInStatus(true)
-        } else if(response.status === 401){
-          console.log("auth expired")
-          localStorage.clear()
-        }
-        else {
-          console.log(response.status);
-          console.log(response.data);
         }
       })
       .catch((error) => {
         console.log("check login error", error);
+        localStorage.clear()
       });
   }
 

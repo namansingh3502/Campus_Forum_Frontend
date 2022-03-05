@@ -4,6 +4,7 @@ import {user} from "../../../../globalData";
 
 export default function CreatePost(props) {
   const [createPostModal, updatePostModalVisibility] = useState(false)
+  const user = JSON.parse(localStorage.getItem('user_profile'))
 
   return (
     <div>

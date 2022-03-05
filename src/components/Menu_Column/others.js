@@ -8,12 +8,10 @@ const Others = () => {
   ];
 
   return (
-    <div className="bg-gray-400 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg mt-2 p-4">
-      <div className="text-center text-xl border-b-2 border-gray-500 text-white p-2">
-        Extra
-      </div>
+    <div className="bg-gray-400 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg mt-2 p-4 text-white font-medium text-center text-xl ">
+      <h1 className="border-b-2 border-gray-500 pb-2">Extra</h1>
       {Channels.map((item) => (
-        <h1 className="font-medium text-white my-1 text-center" key={item}>
+        <h1 className="my-1 " key={item}>
           {item}
         </h1>
       ))}

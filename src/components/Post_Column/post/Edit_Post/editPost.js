@@ -23,7 +23,14 @@ export default function EditPost(props){
         media_count:0
       }
 
-    axios.post(`${process.env.HOST}/forum/edit-post`, data, config )
+    axios.post(
+      `${process.env.HOST}/forum/edit-post`, data,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token"),
+          'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
+        }
+      })
     .then((response)=>{
       if(response.status === 200 ){
         props.updatePost(response.data)

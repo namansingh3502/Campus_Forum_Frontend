@@ -2,13 +2,20 @@ import React from "react";
 import "../styles.css";
 import axios from "axios";
 import {NavLink, useNavigate} from "react-router-dom";
-import {config} from "../globalData";
 
 export default function Header (props) {
   let navigate = useNavigate();
 
   function logout(){
-    axios.post(`${process.env.HOST}/auth/token/logout/`, {}, config)
+    axios.post(
+      `${process.env.HOST}/auth/token/logout/`, {},
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token"),
+          'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
+        }
+      }
+    )
     .then((response) => {
       if ((response.status === 204)) {
         localStorage.clear()

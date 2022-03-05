@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import background from "../../images/bg.jpeg";
 import axios from "axios";
 import {useParams} from "react-router-dom";
-import {config} from "../../globalData";
 
 export default function PageProfile() {
   let {id} = useParams();
@@ -10,7 +9,14 @@ export default function PageProfile() {
   const [profileLoadStatus, updateProfileLoadStatus]=useState(false)
 
   function loadPageProfile(){
-    axios.get(`${process.env.HOST}/forum/channel/${id}/profile`, config)
+    axios.get(
+      `${process.env.HOST}/forum/channel/${id}/profile`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token")
+        }
+      }
+    )
     .then((response) => {
       if (response.status === 200) {
         updatePageProfile(response.data)

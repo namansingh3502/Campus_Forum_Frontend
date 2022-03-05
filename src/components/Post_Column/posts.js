@@ -5,7 +5,6 @@ import axios from "axios";
 import PostModal from "./post/postModal";
 import CreatePost from "./post/Create_Post/createPost";
 import CreatePostModal from "./post/Edit_Post/editPostModal";
-import {config} from "../../globalData";
 
 export default function Posts(props) {
   const [postLoaded, updateLoadStatus] = useState(false)
@@ -16,7 +15,13 @@ export default function Posts(props) {
   const [postUpdateData, updatePostUpdateData] = useState({})
 
   function loadPost() {
-    axios.get(`${process.env.HOST}/forum/posts`, config)
+    axios.get(
+      `${process.env.HOST}/forum/posts`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token")
+        }
+    })
     .then((response) => {
       if (response.status === 200) {
         updateLoadStatus(true)

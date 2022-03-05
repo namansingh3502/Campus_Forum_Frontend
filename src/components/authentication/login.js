@@ -1,6 +1,6 @@
-import React, {Component, useDebugValue, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import axios from "axios";
-import {Navigate, useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -19,7 +19,6 @@ export default function Login() {
     axios.post(`${process.env.HOST}/auth/token/login/`, data, {})
     .then((response) => {
       if (response.status === 200) {
-        console.log(response.data.auth_token)
         localStorage.setItem('Token','Token ' + response.data.auth_token)
         navigate(from, { replace: true })
       }

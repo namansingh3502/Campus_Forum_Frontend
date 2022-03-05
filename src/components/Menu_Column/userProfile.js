@@ -3,9 +3,10 @@ import background from "../../images/background.jpeg"
 import {user} from "../../globalData";
 
 const UserProfile = () => {
+  const user = JSON.parse(localStorage.getItem('user_profile'))
 
   return (
-    <div className="bg-gray-400 h-auto rounded-xg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg pb-5">
+    <div className="bg-gray-400 h-auto rounded-xg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg pb-4">
       <div className="h-36 w-full rounded-t-xl">
         <div
           className="h-full w-full bg-contain bg-no-repeat rounded-t-xl flex justify-center items-center"

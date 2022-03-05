@@ -1,6 +1,3 @@
-import axios from "axios";
-import {useState} from "react";
-import log from "tailwindcss/lib/util/log";
 
 export const multiSelectStyle = {
   multiselectContainer: {
@@ -25,20 +22,5 @@ export const multiSelectStyle = {
     fontSize: '14px'
   },
   groupHeading: { // To change group heading style
-  }
-}
-
-export const user = JSON.parse(localStorage.getItem('user_profile'))
-
-export const config = {
-  headers: {
-    Authorization: localStorage.getItem("Token")
-  }
-}
-
-export const postConfig = {
-  headers: {
-    Authorization: localStorage.getItem("Token"),
-    'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
   }
 }

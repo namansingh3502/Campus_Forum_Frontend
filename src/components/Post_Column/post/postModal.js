@@ -4,11 +4,11 @@ import ChannelTags from "./channelTags";
 import PostText from "./postText";
 import UserReaction from "./User_Reaction/userReaction";
 import {FaPen} from "react-icons/all";
-import {user} from "../../../globalData";
 import PostImage from "./postImage";
 
 export default function (props){
   const [editButton, showEditButton] = useState(false)
+  const user = JSON.parse(localStorage.getItem('user_profile'))
 
   useEffect(()=>{
     if( props.data.user.id === user.id){
@@ -30,7 +30,7 @@ export default function (props){
       <UserDetails user={props.data.user} />
       <ChannelTags channels={props.data.post.posted_in} />
       <PostText text={props.data.post.body} />
-      <PostImage/>
+      <PostImage images={props.data.media} />
       <UserReaction
         likes={props.data.post.Liked_Post}
         post_id={props.data.post.id}
