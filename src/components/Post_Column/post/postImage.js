@@ -1,5 +1,12 @@
 import React from "react";
 
+function IMAGE ( data ){
+  console.log("data in image : ", data)
+  return(
+    <div></div>
+  )
+}
+
 export default function PostImage(props) {
   const images = props.images
   const imageCount = props.images.length
@@ -8,10 +15,12 @@ export default function PostImage(props) {
 
   if(props.images.length === 1){
     return (
-      <div className={"w-full h-52 bg-gray-800 bg-opacity-10 backdrop-filter backdrop-blur-lg "}>
-        <a href={`${process.env.HOST}${props.images[0].file}`} target="_blank">
+      <div className={"w-full h-52 bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}>
+
+        <IMAGE data={images[0].file}/>
+        <a href={`${images[0].file}`} target="_blank">
           <img
-            src={`${process.env.HOST}${props.images[0].file}`}
+            src={`${images[0].file}`}
             className={"object-contain h-52 w-full "}
             alt={"image"}
           />
@@ -26,11 +35,14 @@ export default function PostImage(props) {
       {images.map((item, index) => {
         if(index === imageCount - 1 && imageCount % 2 === 1 ){
           return (
-            <div className={"p-0.5 col-span-2 border-amber-100 border-2"} key={index}>
-              <a href={`${process.env.HOST}${item.file}`} target="_blank">
+            <div
+              className={"col-span-2 bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}
+              key={index}
+            >
+              <a href={`${item.file}`} target="_blank">
                 <img
-                  src={`${process.env.HOST}${item.file}`}
-                  className={"object-fill h-44 w-full px-0.5 py-2"}
+                  src={`${item.file}`}
+                  className={"object-contain h-44 w-full"}
                   alt={"image"}
                 />
               </a>
@@ -38,11 +50,14 @@ export default function PostImage(props) {
           )
         }
         return(
-          <div className={"p-0.5 border-amber-100 border-2"} key={index}>
-            <a href={`${process.env.HOST}${item.file}`} target="_blank">
+          <div
+            className={"bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}
+            key={index}
+          >
+            <a href={`${item.file}`} target="_blank">
               <img
-                src={`${process.env.HOST}${item.file}`}
-                className={"object-fill h-44 w-full px-0.5 py-2"}
+                src={`${item.file}`}
+                className={"object-contain h-44 w-full"}
                 alt={"image"}
               />
             </a>
