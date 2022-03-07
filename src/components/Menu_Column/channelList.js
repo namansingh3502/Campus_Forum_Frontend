@@ -13,20 +13,12 @@ export default function ChannelList(props) {
     );
   } else {
     return (
-      <div
-        className="p-4 bg-gray-400 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg mt-2"
-        style={{ height: 400 }}
-      >
-        <h1 className="text-center text-xl border-b-2 border-gray-500 text-white pb-2">
-          Channels
-        </h1>
-        <div
-          className="text-center text-white overflow-hidden"
-          style={{ height: 330 }}
-        >
+      <div className="p-4 mt-2 bg-gray-400 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg text-white font-medium">
+        <h1 className="text-center text-xl border-b-2 border-gray-500 pb-2">Channels</h1>
+        <div className="overflow-auto max-h-96">
           <ul>
             {Channel.map((item) => (
-              <li className="pl-4 font-medium text-white my-2" key={item.id}>
+              <li className="pl-4 my-1" key={item.id}>
                 <Link
                   to={`/Channel-Post/${item.id}`}
                   key={item.id}
@@ -36,7 +28,6 @@ export default function ChannelList(props) {
               </li>
             ))}
             </ul>
-
           </div>
       </div>
     )

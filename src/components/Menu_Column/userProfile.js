@@ -1,15 +1,12 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import background from "../../images/background.jpeg"
+import {user} from "../../globalData";
 
 const UserProfile = () => {
-  const profile = JSON.parse(localStorage.getItem('user_profile'))
-  const host =  process.env.NODE_ENV === 'development' ?
-    'http://127.0.0.1:8000'
-    :
-    'https://campus-forum-naman.herokuapp.com'
+  const user = JSON.parse(localStorage.getItem('user_profile'))
 
   return (
-    <div className="bg-gray-400 h-auto rounded-xg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg pb-5">
+    <div className="bg-gray-400 h-auto rounded-xg bg-opacity-10 backdrop-filter backdrop-blur-lg text-lg pb-4">
       <div className="h-36 w-full rounded-t-xl">
         <div
           className="h-full w-full bg-contain bg-no-repeat rounded-t-xl flex justify-center items-center"
@@ -17,16 +14,15 @@ const UserProfile = () => {
         >
           <img
             className="rounded-full h-28 w-28 border-2 border-amber-100 p-0.5 "
-            src={`${host}${profile.user_image}`}
+            src={`${process.env.HOST}${user.user_image}`}
             alt={"profile"}
           />
         </div>
       </div>
       <div className="text-center text-amber-50">
-        <h1 className={"font-extrabold text-xl"}>{profile.first_name} {profile.middle_name} {profile.last_name}</h1>
-        <h1 className={"text-sm"}>{profile.username}</h1>
-        <h1 className={"text-sm"}>{profile.department}</h1>
-
+        <h1 className={"font-extrabold text-xl"}>{user.first_name} {user.middle_name} {user.last_name}</h1>
+        <h1 className={"text-sm"}>{user.username}</h1>
+        <h1 className={"text-sm"}>{user.department}</h1>
       </div>
     </div>
   );

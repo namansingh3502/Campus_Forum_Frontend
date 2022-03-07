@@ -2,10 +2,9 @@ import * as ReactDOM from "react-dom";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React, {StrictMode} from "react";
 
-import Login from "./login";
-import RequireAuth from "./RequireAuth";
+import Login from "../components/authentication/login";
+import RequireAuth from "../components/authentication/RequireAuth";
 import Forum from "../components/forum";
-
 
 export default function App (){
 

@@ -1,41 +1,35 @@
-import React, {useEffect, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import PageProfile from "../pageProfile";
 import CreatePost from "./Create_Post/createPost";
 import Posts from "../posts";
 import PostModal from "./postModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
-import PostCreateModal from "./Create_Post/postCreateModal";
-
+import CreatePostModal from "./Create_Post/createPostModal";
+import {config} from "../../../globalData";
 
 export default function ChannelPost (props){
   let {id} = useParams();
   const [post, updateChannelPosts] = useState([])
-  const [postLoadStatus, updatePostLoadStatus] = useState(true)
+  const prevIdRef = useRef()
 
   function loadPost(){
-    const Token = localStorage.getItem("Token");
-    const host =  process.env.NODE_ENV === 'development' ?
-      'http://127.0.0.1:8000'
-      :
-      'https://campus-forum-naman.herokuapp.com'
-
-    axios
-      .get(`${host}/forum/channel/${id}/posts`, {
+    axios.get(
+      `${process.env.HOST}/forum/channel/${id}/posts`,
+      {
         headers: {
-          Authorization: Token,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          updateChannelPosts(response.data)
-          updatePostLoadStatus(false)
-        } else {
-          console.log('error at channel post')
-        }})
-      .catch((error) => {
-        console.log("check login error", error);
-      });
+          Authorization: localStorage.getItem("Token")
+        }
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        updateChannelPosts(response.data)
+      } else {
+        console.log('error at channel post')
+      }})
+    .catch((error) => {
+      console.log("check login error", error);
+    });
   }
 
   function updatePosts(newPost){
@@ -45,8 +39,10 @@ export default function ChannelPost (props){
   }
 
   useEffect( ()=>{
-    if(postLoadStatus) loadPost()
+    if( prevIdRef.current !== id) loadPost()
+    prevIdRef.current = id
   },[id,post])
+
 
   return(
     <div>

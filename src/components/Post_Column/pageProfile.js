@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useEffect, useState} from "react";
 import background from "../../images/bg.jpeg";
 import axios from "axios";
 import {useParams} from "react-router-dom";
@@ -9,36 +9,32 @@ export default function PageProfile() {
   const [profileLoadStatus, updateProfileLoadStatus]=useState(false)
 
   function loadPageProfile(){
-    const Token = localStorage.getItem("Token");
-    const host =  process.env.NODE_ENV === 'development' ?
-      'http://127.0.0.1:8000'
-      :
-      'https://campus-forum-naman.herokuapp.com'
-
-    axios
-      .get(`${host}/forum/channel/${id}/profile`, {
+    axios.get(
+      `${process.env.HOST}/forum/channel/${id}/profile`,
+      {
         headers: {
-          Authorization: Token,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          updatePageProfile(response.data)
-          updateProfileLoadStatus(true)
-        } else {
-          this.setState({
-            LoadStatus: "NotLoaded",
-          });
+          Authorization: localStorage.getItem("Token")
         }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-      });
-    }
+      }
+    )
+    .then((response) => {
+      if (response.status === 200) {
+        updatePageProfile(response.data)
+        updateProfileLoadStatus(true)
+      } else {
+        this.setState({
+          LoadStatus: "NotLoaded",
+        });
+      }
+    })
+    .catch((error) => {
+      console.log("check login error", error);
+    });
+  }
 
-    useEffect(()=>{
-      loadPageProfile()
-    },[id, profileLoadStatus])
+  useEffect(()=>{
+    loadPageProfile()
+  },[id, profileLoadStatus])
 
   if( !profileLoadStatus ) {
     return <div>Loading...</div>

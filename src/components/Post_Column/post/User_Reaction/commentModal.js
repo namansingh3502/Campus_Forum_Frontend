@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import TextareaAutosize from 'react-textarea-autosize';
 import {BsArrowRightCircleFill} from "react-icons/all";
 import axios from "axios";
+import Comments from "./comments";
 
 export default class CommentModal extends Component{
   constructor(props) {
@@ -11,64 +12,61 @@ export default class CommentModal extends Component{
       Comments: [],
       CommentsLoadStatus: false,
       CommentPostStatus: false,
-      Host: process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
     }
   }
 
   loadComments(){
     const post_id =this.props.post_id
-    axios
-      .get(`${this.state.Host}/forum/${post_id}/comments`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("Token"),
-          }
+
+    axios.get(
+      `${process.env.HOST}/forum/${post_id}/comments`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token")
         }
-      )
-      .then((response) => {
-        if ((response.status === 200)) {
-          this.setState({
-            Comments: response.data,
-            CommentsLoadStatus: true
-          })
-        } else {
-          console.log(response.status, response.data.msg)
-        }
-      })
-      .catch((error) => {
-        console.log("check error at new comment \n",error)
-      })
+    })
+    .then((response) => {
+      if ((response.status === 200)) {
+        this.setState({
+          Comments: response.data,
+          CommentsLoadStatus: true
+        })
+      } else {
+        console.log(response.status, response.data.msg)
+      }
+    })
+    .catch((error) => {
+      console.log("check error at new comment \n",error)
+    })
   }
 
   submitComment(){
-    axios
-      .post(`${this.state.Host}/forum/new-comment`,
-        {
-          body : this.state.CommentText,
-          post : this.props.post_id
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem("Token"),
-          }
-        }
-      )
-      .then((response) => {
-        if ((response.status === 200)) {
-          this.setState({
-            CommentText:"",
-            Comments:this.state.Comments.concat(response.data)
-          })
-        } else {
-          console.log(response.status, response.data.msg)
+    const data = {
+      body : this.state.CommentText,
+      post : this.props.post_id
+    }
+
+    axios.post(
+      `${process.env.HOST}/forum/new-comment`, data,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token"),
+          'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'
         }
       })
-      .catch((error) => {
-        console.log("check error at new comment \n",error)
-      })
+    .then((response) => {
+      if ((response.status === 200)) {
+        this.setState({
+          CommentText:"",
+          Comments:this.state.Comments.concat(response.data)
+        })
+      } else {
+        console.log(response.status, response.data.msg)
+      }
+    })
+    .catch((error) => {
+      console.log("check error at new comment \n",error)
+    })
   }
 
   componentDidMount() {
@@ -80,13 +78,14 @@ export default class CommentModal extends Component{
       return( <div> </div>)
     }
 
+    const user = JSON.parse(localStorage.getItem('user_profile'))
     const comments = this.state.Comments
-    const user_image = JSON.parse(localStorage.getItem('user_profile')).user_image
+
     return(
       <div className={"text-white border-t mt-1 ml-1 border-gray-600 pt-2"}>
         <div className={"flex"}>
           <img
-            src={`${this.state.Host}${user_image}`}
+            src={`${process.env.HOST}${user.user_image}`}
             className="rounded-full"
             style={{ height: 35, width: 35 }}
             alt={"user-image"}
@@ -115,22 +114,10 @@ export default class CommentModal extends Component{
         </div>
         <div className={"mt-2"}>
           {comments.map((item)=>{return(
-            <div className="flex py-1" key={item.id}>
-              <img
-                src={`${this.state.Host}${item.user.user_image}`}
-                className="rounded-full"
-                style={{ height: 35, width: 35 }}
-                alt={"user"}
-              />
-              <div className="ml-2 px-2 py-1 rounded-xl bg-gray-300 bg-opacity-20 backdrop-filter">
-                <h1 className="text-sm font-bold" >
-                  {item.user.username}
-                </h1>
-                <p className={"text-sm"}>
-                  {item.body}
-                </p>
-              </div>
-            </div>
+            <Comments
+              data={item}
+              key={item.id}
+            />
           )})}
         </div>
       </div>

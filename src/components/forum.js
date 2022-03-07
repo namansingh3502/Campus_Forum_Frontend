@@ -1,4 +1,4 @@
-import React, { StrictMode, Component } from "react";
+import React, { Component } from "react";
 
 import MenuColumn from "../components/Menu_Column/menuColumn";
 import PostColumn from "../components/Post_Column/postColumn";
@@ -15,30 +15,26 @@ export default class Forum extends Component {
   }
 
   loadChannelList() {
-    const host =  process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
-
-    axios
-      .get(`${host}/forum/channel-list`, {
+    axios.get(
+      `${process.env.HOST}/forum/channel-list`,
+      {
         headers: {
-          Authorization: localStorage.getItem("Token"),
-        },
-      })
-      .then((response) => {
-        if( response.status === 200) {
-          this.setState({
-            ChannelList: response.data,
-            LoadChannelStatus: true
-          })
-        } else {
-          console.log("some error happened while getting channel list")
+          Authorization: localStorage.getItem("Token")
         }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-      });
+    })
+    .then((response) => {
+      if( response.status === 200) {
+        this.setState({
+          ChannelList: response.data,
+          LoadChannelStatus: true
+        })
+      } else {
+        console.log("some error happened while getting channel list")
+      }
+    })
+    .catch((error) => {
+      console.log("check login error", error);
+    });
   }
 
   componentDidMount() {

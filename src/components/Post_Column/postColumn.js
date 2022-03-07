@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Posts from "./posts";
 import {Navigate, Route, Routes} from "react-router-dom";
 import ChannelPost from "./post/channelPosts";
-import PostCreateModal from "./post/Create_Post/postCreateModal";
+import CreatePostModal from "./post/Create_Post/createPostModal";
 
 
 export default function PostColumn (props) {

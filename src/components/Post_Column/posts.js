@@ -1,81 +1,98 @@
-import React, { Component } from "react";
+import React, {useEffect, useState} from "react";
 
 import axios from "axios";
 
 import PostModal from "./post/postModal";
 import CreatePost from "./post/Create_Post/createPost";
+import CreatePostModal from "./post/Edit_Post/editPostModal";
 
-export default class Posts extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      PostLoadStatus: "NotLoaded",
-      PostData: [],
-    };
-    this.updatePosts = this.updatePosts.bind(this)
-  }
+export default function Posts(props) {
+  const [postLoaded, updateLoadStatus] = useState(false)
+  const [postAdded, updatePostAdded] = useState(false)
+  const [postUpdated, updatePostUpdated] = useState(false)
+  const [postData, updatePostData ] = useState([])
+  const [showPostModal, updatePostModalVisibility] = useState(false)
+  const [postUpdateData, updatePostUpdateData] = useState({})
 
-  loadPost() {
-    const Token = localStorage.getItem("Token");
-    const host =  process.env.NODE_ENV === 'development' ?
-        'http://127.0.0.1:8000'
-        :
-        'https://campus-forum-naman.herokuapp.com'
-
-    axios
-      .get(`${host}/forum/posts`, {
+  function loadPost() {
+    axios.get(
+      `${process.env.HOST}/forum/posts`,
+      {
         headers: {
-          Authorization: Token,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            PostData: response.data,
-            LoadStatus: "Loaded",
-          });
-        } else {
-          this.setState({
-            LoadStatus: "NotLoaded",
-          });
+          Authorization: localStorage.getItem("Token")
         }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-      });
-  }
-
-  componentDidMount() {
-    this.loadPost();
-  }
-
-  updatePosts(newPost){
-    let data = this.state.PostData
-    data.unshift(newPost)
-    this.setState({
-      PostData: data
     })
+    .then((response) => {
+      if (response.status === 200) {
+        updateLoadStatus(true)
+        updatePostData(response.data)
+      } else {
+        console.log("Error")
+      }
+    })
+    .catch((error) => {
+      console.log("check login error", error);
+    });
   }
 
-  render() {
-    const Post = this.state.PostData;
-    return (
-      <div>
-        <CreatePost
-          ChannelList={this.props.ChannelList}
-          updatePosts={(newPost)=>{
-            this.updatePosts(newPost)
-          }}
-        />
-        {Post.map((item) => {
-          return (
-            <PostModal
-              key={item.post.id}
-              data={item}
-            />
-          );
-        })}
-      </div>
-    );
+  function addPost(newPost){
+    let data = postData
+    data.unshift(newPost)
+    updatePostData(data)
+    updatePostAdded(true)
   }
+
+  function updatePost(post){
+    const post_id = post.post.id
+    let data = postData
+
+    for( let i = 0; i < data.length; i++){
+      if(data[i].post.id === post_id ) {
+        data[i] = post
+        break
+      }
+    }
+    updatePostData(data)
+    updatePostUpdated(true)
+  }
+
+  useEffect(()=>{
+    if( !postLoaded )
+      loadPost()
+  },[postAdded, postUpdated])
+
+  return (
+    <div>
+      <CreatePost
+        ChannelList={props.ChannelList}
+        updatePosts={(newPost)=>{
+          addPost(newPost)
+        }}
+      />
+      <CreatePostModal
+        ChannelList={props.ChannelList}
+        data={postUpdateData}
+        modalVisibility={showPostModal}
+        updatePost={(post)=>{
+          updatePostModalVisibility(false)
+          updatePost(post)
+        }}
+        showEditPostModal={() => {
+          updatePostModalVisibility(false)
+        }}
+      />
+      {postData.map((item) => {
+        return (
+          <PostModal
+            key={item.post.id}
+            data={item}
+            showEditPostModal={() => {
+              updatePostModalVisibility(true)
+              updatePostUpdateData(item)
+            }}
+          />
+        );
+      })}
+    </div>
+  )
 }
