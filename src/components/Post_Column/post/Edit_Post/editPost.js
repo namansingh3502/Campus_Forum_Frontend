@@ -5,7 +5,9 @@ import React, {useState} from "react";
 import axios from "axios";
 import ImageUploader from "../imageUploader";
 import UserDetails from "../../../Post_Column/userDetails";
-import {multiSelectStyle, config} from "../../../../globalData";
+import {multiSelectStyle} from "../../../../globalData";
+
+
 
 export default function EditPost(props){
   const [postText, updatePostText] = useState(props.data.post.body)
@@ -94,9 +96,10 @@ export default function EditPost(props){
                 />
             </div>
 
-            <div className={"mx-1"}>
-              <ImageUploader/>
-            </div>
+            {/*#TODO: Image Editing Option */}
+            {/*<div className={"mx-1"}>*/}
+            {/*  <ImageUploader images={props.data.media}/>*/}
+            {/*</div>*/}
 
             <div className={"m-2 pb-2"}>
               <button

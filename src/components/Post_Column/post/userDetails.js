@@ -1,11 +1,14 @@
 import React from "react";
 
+import user_image from "../../../images/userimg.jpeg"
+
 export default function UserDetails(props) {
 
   return (
     <div className="flex">
       <img
-        src={`${process.env.HOST}${props.user.user_image}`}
+        // src={`${process.env.HOST}${props.user.user_image}`}
+        src={user_image}
         className="rounded-full"
         style={{ height: 45, width: 45 }}
         alt={"user"}

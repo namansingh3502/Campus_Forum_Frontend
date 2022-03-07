@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import CreatePostModal from "./createPostModal";
-import {user} from "../../../../globalData";
+
+import user_image from "../../../../images/userimg.jpeg"
 
 export default function CreatePost(props) {
   const [createPostModal, updatePostModalVisibility] = useState(false)
@@ -11,7 +12,8 @@ export default function CreatePost(props) {
       <div className="py-3 px-4 bg-gray-400 rounded-lg bg-opacity-10 backdrop-filter backdrop-blur-lg text-white h-auto">
         <div className="flex items-center">
           <img
-            src={`${process.env.HOST}${user.user_image}`}
+            // src={`${process.env.HOST}${user.user_image}`}
+            src={user_image}
             className="rounded-full bg-black"
             alt={"userprofile"}
             style={{ width: 45, height: 45 }}

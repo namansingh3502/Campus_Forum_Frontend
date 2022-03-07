@@ -2,6 +2,8 @@ import React from "react";
 import background from "../../images/background.jpeg"
 import {user} from "../../globalData";
 
+import user_image from "../../images/userimg.jpeg"
+
 const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem('user_profile'))
 
@@ -14,7 +16,8 @@ const UserProfile = () => {
         >
           <img
             className="rounded-full h-28 w-28 border-2 border-amber-100 p-0.5 "
-            src={`${process.env.HOST}${user.user_image}`}
+            // src={`${process.env.HOST}${user.user_image}`}
+            src={user_image}
             alt={"profile"}
           />
         </div>

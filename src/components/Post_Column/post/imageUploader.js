@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {AiOutlineClose} from "react-icons/all";
 
 export default function ImageUploader(props){
-
+  console.log(props)
   return(
     <div className="flex my-2">
       <div className="w-full bg-transparent">

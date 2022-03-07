@@ -1,9 +1,14 @@
 import React from "react";
 
-function IMAGE ( data ){
-  console.log("data in image : ", data)
+function Image ( data ){
   return(
-    <div></div>
+    <a href={`${data.imageURL}`} target="_blank">
+      <img
+        src={`${data.imageURL}`}
+        className={"object-contain h-44 w-full"}
+        alt={"image"}
+      />
+    </a>
   )
 }
 
@@ -15,52 +20,26 @@ export default function PostImage(props) {
 
   if(props.images.length === 1){
     return (
-      <div className={"w-full h-52 bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}>
-
-        <IMAGE data={images[0].file}/>
-        <a href={`${images[0].file}`} target="_blank">
-          <img
-            src={`${images[0].file}`}
-            className={"object-contain h-52 w-full "}
-            alt={"image"}
-          />
-        </a>
+      <div className={"w-full bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}>
+        <Image imageURL={images[0].file}/>
       </div>
     )
   }
 
   return (
-
     <div className={"grid grid-cols-2 py-2"}>
       {images.map((item, index) => {
-        if(index === imageCount - 1 && imageCount % 2 === 1 ){
-          return (
-            <div
-              className={"col-span-2 bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}
-              key={index}
-            >
-              <a href={`${item.file}`} target="_blank">
-                <img
-                  src={`${item.file}`}
-                  className={"object-contain h-44 w-full"}
-                  alt={"image"}
-                />
-              </a>
-            </div>
-          )
-        }
-        return(
+        return (
           <div
-            className={"bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}
+            className={
+              index === imageCount - 1 && imageCount % 2 === 1 ?
+                  "col-span-2 bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"
+                :
+                  "bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"
+            }
             key={index}
           >
-            <a href={`${item.file}`} target="_blank">
-              <img
-                src={`${item.file}`}
-                className={"object-contain h-44 w-full"}
-                alt={"image"}
-              />
-            </a>
+            <Image imageURL={item.file}/>
           </div>
         )
       })}
