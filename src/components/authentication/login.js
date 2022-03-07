@@ -11,6 +11,7 @@ export default function Login() {
   const [password, updatePassword] = useState("")
   const [errorMsg, updateErrorMsg] = useState('')
 
+   console.log("process : ", process.env.HOST)
 
   function login(){
     const data = {
