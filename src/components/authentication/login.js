@@ -7,7 +7,7 @@ export default function Login() {
   let location = useLocation();
   let from = location.state?.from?.pathname || '/';
 
-  console.log("Host : ", process.env.HOST)
+  console.log("Host : ", process.env)
 
   const [username, updateUsername] = useState("")
   const [password, updatePassword] = useState("")
