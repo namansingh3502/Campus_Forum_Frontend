@@ -1,7 +1,6 @@
 import React, { useEffect, useState} from "react";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
-import process from "process/browser";
 
 export default function Login() {
   let navigate = useNavigate();
