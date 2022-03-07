@@ -3,6 +3,9 @@ import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
 
 export default function Login() {
+  
+  console.log(process.env.HOST)
+  
   let navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || '/';
