@@ -24,7 +24,7 @@ const UserProfile = () => {
       </div>
       <div className="text-center text-amber-50">
         <h1 className={"font-extrabold text-xl"}>{user.first_name} {user.middle_name} {user.last_name}</h1>
-        <h1 className={"text-sm"}>{user.username}</h1>
+        <h1 className={"text-sm"}>@{user.username}</h1>
         <h1 className={"text-sm"}>{user.department}</h1>
       </div>
     </div>
