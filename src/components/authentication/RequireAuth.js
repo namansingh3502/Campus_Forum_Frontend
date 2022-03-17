@@ -3,7 +3,6 @@ import {Navigate, useLocation} from "react-router-dom";
 
 import axios from "axios";
 import Header from "../header";
-import {config} from "../../globalData";
 
 export default function RequireAuth({ children, ...rest }) {
   let location = useLocation();
@@ -40,13 +39,13 @@ export default function RequireAuth({ children, ...rest }) {
   if( !userDataLoadStatus && !userLoggedIn ){
     return( <div>Loading</div> )
   }
-  if( userDataLoadStatus && !userLoggedIn ){
+  else if( userDataLoadStatus && !userLoggedIn ){
     return( <Navigate to="/login" state={{ from: location }} replace /> )
   }
-  return (
-    <>
+  else return (
+    <div>
       <Header updateLoggedIn={()=>{updateLoggedInStatus()}} />
       {children}
-    </>
+    </div>
   )
 }
