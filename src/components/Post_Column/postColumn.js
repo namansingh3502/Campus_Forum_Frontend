@@ -2,14 +2,11 @@ import React, {useState} from "react";
 import Posts from "./posts";
 import {Navigate, Route, Routes} from "react-router-dom";
 import ChannelPost from "./post/channelPosts";
-import CreatePostModal from "./post/Create_Post/createPostModal";
-
 
 export default function PostColumn (props) {
 
   return (
-    <div className="mx-3 w-5/12 text-white">
-
+    <div className="md:basis-2/3 lg:w-4/5  text-white px-2">
       <Routes>
         <Route path="" element={
           <Posts

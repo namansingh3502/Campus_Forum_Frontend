@@ -43,8 +43,8 @@ export default class Forum extends Component {
 
   render() {
     return (
-      <div className="min-h-screen">
-        <div className="flex w-4/5 mx-auto mt-4 justify-center ">
+      <div className="min-h-screen p-2 w-full xl:w-10/12 max-w-screen-xl mx-auto container">
+        <div className="flex flex-row w-full justify-center">
           <MenuColumn
             ChannelList={this.state.ChannelList}
           />

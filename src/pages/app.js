@@ -4,7 +4,7 @@ import React, {StrictMode} from "react";
 
 import Login from "../components/authentication/login";
 import RequireAuth from "../components/authentication/RequireAuth";
-import Path from "./path";
+import Forum from "../components/forum"
 
 export default function App (){
 
@@ -15,7 +15,7 @@ export default function App (){
         path="/*"
         element={
           <RequireAuth>
-            <Path />
+            <Forum/>
           </RequireAuth>
         }
       />

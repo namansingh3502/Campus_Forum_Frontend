@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Navigate, useLocation} from "react-router-dom";
 
 import axios from "axios";
-import Header from "../header";
+import Header from "../Header/header";
 
 export default function RequireAuth({ children, ...rest }) {
   let location = useLocation();
@@ -44,7 +44,7 @@ export default function RequireAuth({ children, ...rest }) {
   }
   else return (
     <div>
-      <Header updateLoggedIn={()=>{updateLoggedInStatus()}} />
+      <Header updateLoggedIn={updateLoggedInStatus} />
       {children}
     </div>
   )

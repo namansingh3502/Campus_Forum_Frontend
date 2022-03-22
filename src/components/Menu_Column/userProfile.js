@@ -10,7 +10,6 @@ const UserProfile = () => {
       <div className="h-36 w-full rounded-t-xl">
         <div
           className="h-full w-full bg-contain bg-no-repeat rounded-t-xl flex justify-center items-center"
-          style={{backgroundImage: `url(${background})`}}
         >
           <img
             className="rounded-full h-28 w-28 border-2 border-amber-100 p-0.5 "
