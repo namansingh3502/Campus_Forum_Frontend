@@ -27,7 +27,7 @@ export default function LikeDetails(props) {
           :""
         }
         {
-          length > 0 ? " liked the post.":
+          length > 0 ? " liked the Post_Modal.":
             ""
         }
 

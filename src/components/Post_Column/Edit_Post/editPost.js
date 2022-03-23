@@ -3,9 +3,9 @@ import Multiselect from "multiselect-react-dropdown";
 import TextareaAutosize from "react-textarea-autosize";
 import React, {useState} from "react";
 import axios from "axios";
-import ImageUploader from "../imageUploader";
-import UserDetails from "../../../Post_Column/userDetails";
-import {multiSelectStyle, config} from "../../../../globalData";
+import ImageUploader from "../Post_Modal/imageUploader";
+import UserDetails from "../userDetails";
+import {multiSelectStyle, config} from "../../../globalData";
 
 export default function EditPost(props){
   const [postText, updatePostText] = useState(props.data.post.body)
@@ -39,7 +39,7 @@ export default function EditPost(props){
       }
     })
     .catch((error) => {
-      console.log("check error at edit post \n",error)
+      console.log("check error at edit Post_Modal \n",error)
     })
   }
 

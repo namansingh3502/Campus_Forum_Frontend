@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from "react"
 import PageProfile from "../pageProfile";
-import CreatePost from "./Create_Post/createPost";
+import CreatePost from "../Create_Post/createPost";
 import Posts from "../posts";
 import PostModal from "./postModal";
 import axios from "axios";
 import {useParams} from "react-router-dom";
-import CreatePostModal from "./Create_Post/createPostModal";
+import CreatePostDialog from "../Create_Post/createPostDialog";
 import {config} from "../../../globalData";
 
 export default function ChannelPost (props){
@@ -25,7 +25,7 @@ export default function ChannelPost (props){
       if (response.status === 200) {
         updateChannelPosts(response.data)
       } else {
-        console.log('error at channel post')
+        console.log('error at channel Post_Modal')
       }})
     .catch((error) => {
       console.log("check login error", error);

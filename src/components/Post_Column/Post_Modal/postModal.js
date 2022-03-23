@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import UserDetails from "./userDetails";
 import ChannelTags from "./channelTags";
 import PostText from "./postText";
-import UserReaction from "./User_Reaction/userReaction";
+import UserReaction from "../User_Reaction/userReaction";
 import {FaPen} from "react-icons/all";
 import PostImage from "./postImage";
 

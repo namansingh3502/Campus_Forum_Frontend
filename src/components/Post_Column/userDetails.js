@@ -12,9 +12,8 @@ export default function UserDetails(){
           alt={"user"}
         />
         <div className="ml-4 text-bold">
-          <h1 className="text-xl font-bold" id={user.user_id}>
-            {user.username}
-          </h1>
+          <span className={"text-lg font-semibold"}>{user.first_name} {user.middle_name} {user.last_name}</span><br/>
+          <span className={"text-md"}>@{user.username}</span>
         </div>
       </div>
     </div>

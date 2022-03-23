@@ -7,7 +7,6 @@ import SideMenu from "./sideMenu";
 import ProfileMenu from "./profileMenu";
 
 export default function Header (props) {
-  const user = JSON.parse(localStorage.getItem('user_profile'))
   let navigate = useNavigate();
 
   function logout(){
@@ -36,7 +35,7 @@ export default function Header (props) {
 
   return (
 
-    <Disclosure as="nav" className="sticky top-0 z-10 bg-opacity-60 backdrop-blur-md bg-gray-800 ring-1 ">
+    <Disclosure as="nav" className="sticky top-0 z-10 bg-opacity-70 backdrop-blur-lg bg-gray-800 ring-1 ">
       {({ open }) => (
         <>
           <div className="w-full xl:w-10/12 container mx-auto p-2 sm:px-6 h-12 lg:h-16 max-w-screen-xl">

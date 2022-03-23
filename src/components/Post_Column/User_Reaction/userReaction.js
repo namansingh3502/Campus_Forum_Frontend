@@ -47,7 +47,7 @@ export default function UserReaction (props){
          }
       })
       .catch((error) => {
-        console.log("check post like update.", error);
+        console.log("check Post_Modal like update.", error);
       });
   }
 
