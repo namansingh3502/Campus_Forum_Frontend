@@ -40,7 +40,7 @@ export default function Login() {
 
   return(
     <div className={"font-sans min-h-screen min-w-fit antialiased flex items-center justify-center"}>
-      <div className={"mx-2 rounded-xl bg-white py-8 px-4" }>
+      <div className={"mx-2 rounded-xl bg-gray-100 py-8 px-4" }>
         <h1 className="font-bold text-center text-4xl text-yellow-500">
           Campus<span className="text-blue-500 ml-2">Forum</span>
         </h1>
@@ -59,7 +59,7 @@ export default function Login() {
               <span className={"text-lg"}>Username</span>
               <input
                 type="text"
-                className="form-input rounded px-2 w-full border-gray-300 focus:outline-none focus:border-blue-400"
+                className="rounded-lg px-2 py-2 w-full border-gray-300 focus:outline-none focus:border-blue-400 border-2 "
                 placeholder="Username"
                 value={username}
                 onChange={(e => {updateUsername(e.target.value)})}
@@ -70,7 +70,7 @@ export default function Login() {
               <span className={"mt-4 text-lg"}>Password</span>
               <input
                 type="password"
-                className="form-input rounded px-2 py-2 w-full border-gray-300 focus:outline-none focus:border-blue-400"
+                className="rounded-lg px-2 py-2 w-full border-gray-300 focus:outline-none focus:border-blue-400 border-2"
                 placeholder="Password"
                 value={password}
                 onChange={(e => {updatePassword(e.target.value)})}

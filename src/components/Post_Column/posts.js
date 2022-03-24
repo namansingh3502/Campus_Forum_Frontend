@@ -1,95 +1,44 @@
-import React, {useEffect, useState, Fragment} from "react";
-import axios from "axios";
+import React, {useEffect, useState} from 'react'
 
-import PostModal from "./Post_Modal/postModal";
-import CreatePost from "./Create_Post/createPost";
-import CreatePostModal from "./Edit_Post/editPostModal";
+import {FaPen} from "react-icons/all";
+import ChannelTags from "./Posts/channelTags";
+import PostText from "./Posts/postText";
+import PostImage from "./Posts/postImage";
+import UserReaction from "./Posts/User_Reaction/userReaction";
+import UserDetails from "./Posts/userDetails";
 
-export default function Posts(props) {
-  const [postLoaded, updateLoadStatus] = useState(false)
-  const [postAdded, updatePostAdded] = useState(false)
-  const [postUpdated, updatePostUpdated] = useState(false)
-  const [postData, updatePostData ] = useState([])
-  const [showPostModal, updatePostModalVisibility] = useState(false)
-  const [postUpdateData, updatePostUpdateData] = useState({})
-
-  function loadPost() {
-    axios.get(
-      `${process.env.HOST}/forum/posts`,
-      {
-        headers: {
-          Authorization: localStorage.getItem("Token")
-        }
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        updateLoadStatus(true)
-        updatePostData(response.data)
-      }
-    })
-    .catch((error) => {
-      console.log("check login error", error);
-    });
-  }
-
-  function addPost(newPost){
-    let data = postData
-    data.unshift(newPost)
-    updatePostData(data)
-    updatePostAdded(true)
-  }
-
-  function updatePost(post){
-    const post_id = post.post.id
-    let data = postData
-
-    for( let i = 0; i < data.length; i++){
-      if(data[i].post.id === post_id ) {
-        data[i] = post
-        break
-      }
-    }
-    updatePostData(data)
-    updatePostUpdated(true)
-  }
+export default function Posts (props){
+  const [editButton, showEditButton] = useState(false)
+  const user = JSON.parse(localStorage.getItem('user_profile'))
 
   useEffect(()=>{
-    if( !postLoaded )
-      loadPost()
-  },[postAdded, postUpdated])
+    if( props.data.user.id === user.id){
+      showEditButton(true)
+    }
+  },[])
 
-  return (
-    <div>
-      <CreatePost
-        ChannelList={props.ChannelList}
-        updatePosts={(newPost)=>{
-          addPost(newPost)
-        }}
+  return(
+    <div className="p-4 bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto">
+      {editButton ?
+        <button
+          className={"float-right text-sm"}
+          aria-label={"Edit Post"}
+          onClick={()=>{props.showEditPostModal()}}
+        >
+          <FaPen/>
+        </button> : null
+      }
+      <UserDetails
+        userdetail={props.data.user}
+        time={props.data.post.time}
       />
-      <CreatePostModal
-        ChannelList={props.ChannelList}
-        data={postUpdateData}
-        modalVisibility={showPostModal}
-        updatePost={(post)=>{
-          updatePostModalVisibility(false)
-          updatePost(post)
-        }}
-        showEditPostModal={() => {
-          updatePostModalVisibility(false)
-        }}
+      <ChannelTags channels={props.data.post.posted_in} />
+      <PostText text={props.data.post.body} />
+      <PostImage images={props.data.media} />
+      <UserReaction
+        likes={props.data.post.Liked_Post}
+        post_id={props.data.post.id}
       />
-      {postData.map((item) => {
-        return (
-          <PostModal
-            key={item.post.id}
-            data={item}
-            showEditPostModal={() => {
-              updatePostModalVisibility(true)
-              updatePostUpdateData(item)
-            }}
-          />
-        );
-      })}
     </div>
   )
 }

@@ -82,34 +82,33 @@ export default class CommentModal extends Component{
     const comments = this.state.Comments
 
     return(
-      <div className={"text-white border-t mt-1 ml-1 border-gray-600 pt-2"}>
-        <div className={"flex"}>
+      <div className={"text-white border-t mt-2 border-gray-600 pt-2"}>
+        <div className={"flex items-start "}>
           <img
             src={`${process.env.HOST}${user.user_image}`}
-            className="rounded-full"
-            style={{ height: 35, width: 35 }}
+            className="rounded-full h-12 w-12"
             alt={"user-image"}
           />
           <form
-            className={"w-full mr-2 flex"}
+            className={"w-full h-auto flex items-start"}
             onSubmit={(e)=>{
               e.preventDefault()
               this.submitComment()
             }}
           >
-            <TextareaAutosize
-              minRows={1}
-              maxRows={5}
-              value={this.state.CommentText}
-              placeholder={"Write a comment..."}
-              className={"ml-2 py-1 pl-3 text-md w-11/12 outline-0 bg-transparent text-white resize-none rounded-xl bg-gray-300 bg-opacity-20 backdrop-filter"}
-              onChange={(e)=>{
-                this.setState({ CommentText: e.target.value })
-              }}
-            />
-            <button>
-              <BsArrowRightCircleFill className={"ml-1 h-8 text-lg fill-gray-500 w-full"}/>
-            </button>
+            <label className={"flex items-start w-full"}>
+              <textarea
+                className={"w-full h-12 p-2 mx-1 resize-none bg-slate-600 bg-opacity-30 text-slate-200 placeholder:text-slate-300 text-white text-lg border-none focus:ring-0 rounded-xl overflow-auto"}
+                value={this.state.CommentText}
+                placeholder={"Write a comment..."}
+                onChange={(e)=>{
+                  this.setState({ CommentText: e.target.value })
+                }}
+              />
+              <button type={"submit"}>
+                <BsArrowRightCircleFill className={"ml-1 mt-1 h-10 w-10 text-lg fill-gray-500"}/>
+              </button>
+            </label>
           </form>
         </div>
         <div className={"mt-2"}>

@@ -5,8 +5,12 @@ export default function LikeDetails(props) {
   const likedList = props.UserLiked;
   const length = props.UserLiked.length
   return (
-    <div className="text-md ml-2">
+    <div className="text-md ml-2 py-0.5">
       <p>
+        {
+          length > 0 ? "Post liked by ":
+            ""
+        }
         {
           length === 1 ?
             (liked ? "You" : likedList[0].username) + " "
@@ -26,11 +30,6 @@ export default function LikeDetails(props) {
             likedList[0].username + " and " + JSON.stringify(length-1) +" other"
           :""
         }
-        {
-          length > 0 ? " liked the Post_Modal.":
-            ""
-        }
-
       </p>
     </div>
   );

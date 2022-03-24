@@ -35,7 +35,7 @@ export default function Header (props) {
 
   return (
 
-    <Disclosure as="nav" className="sticky top-0 z-10 bg-opacity-70 backdrop-blur-lg bg-gray-800 ring-1 ">
+    <Disclosure as="nav" className="sticky top-0 z-10 bg-opacity-40 backdrop-blur-lg bg-slate-900 ring-1 ">
       {({ open }) => (
         <>
           <div className="w-full xl:w-10/12 container mx-auto p-2 sm:px-6 h-12 lg:h-16 max-w-screen-xl">

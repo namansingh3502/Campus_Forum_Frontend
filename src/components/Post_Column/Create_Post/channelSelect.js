@@ -4,8 +4,8 @@ import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import {AiOutlineClose} from "react-icons/all";
 
 export default function ChannelSelect(props) {
+  const channel = JSON.parse(localStorage.getItem('channels'));
 
-  const channel = props.ChannelList
   const [selectedChannels, updateSelectedChannel] = useState([])
   const [selected, setSelected] = useState(channel[0])
   const [query, setQuery] = useState('')
@@ -70,11 +70,11 @@ export default function ChannelSelect(props) {
           <div className="relative w-full text-left bg-transparent rounded-lg sm:text-sm overflow-hidden mt-2">
             <Combobox.Input
               placeholder={"Select Channels...."}
-              className={"w-full border-none text-md bg-gray-600 bg-opacity-50 text-slate-200 placeholder:text-slate-300"}
+              className={"w-full h-10 px-2 border-none text-lg bg-slate-600 bg-opacity-30 text-slate-200 focus:outline-none placeholder:text-slate-300"}
               displayValue={"Select Channels...."}
               onChange={(event) => setQuery(event.target.value)}
             />
-            <Combobox.Button className={"absolute inset-y-0 right-0 flex items-center pr-2 border-l border-gray-400"}>
+            <Combobox.Button className={"absolute inset-y-0 right-0 flex items-center pr-2 border-l border-slate-500"}>
               <SelectorIcon
                 className="w-10 h-7 text-slate-300"
                 aria-hidden="true"
@@ -89,7 +89,7 @@ export default function ChannelSelect(props) {
             leaveTo="opacity-0"
             afterLeave={() => setQuery('')}
           >
-            <Combobox.Options className="absolute py-1 mt-1 overflow-auto rounded-md bg-gray-800 max-h-60 text-md sm:text-sm w-40">
+            <Combobox.Options className="absolute py-1 mt-1 overflow-auto rounded-md bg-slate-700 max-h-60 sm:text-sm w-40">
               {filteredChannel.length === 0 && query !== '' ? (
                 <div className="relative py-2 px-4 ">
                   Nothing found.

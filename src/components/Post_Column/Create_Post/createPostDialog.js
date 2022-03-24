@@ -4,7 +4,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import axios from "axios";
 
 import { AiOutlineClose } from "react-icons/all";
-import ImageUploader from "../Post_Modal/imageUploader";
+import ImageUploader from "../Posts/imageUploader";
 import UserDetails from "../userDetails";
 import ChannelSelect from "./channelSelect";
 
@@ -57,13 +57,13 @@ export default function CreatePostDialog (props){
         updatePostText("")
         updateSelectedChannels([])
         props.updatePosts(response.data)
-        props.showPostCreateModal()
+        props.setDialogVisibility()
       } else {
         console.log(response.status, response.data.msg)
       }
     })
     .catch((error) => {
-      console.log("check error at new Post_Modal \n",error)
+      console.log("check error at new Posts \n",error)
     })
   }
 
@@ -73,7 +73,12 @@ export default function CreatePostDialog (props){
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
-        onClose={props.setDialogVisibility}
+        onClose={()=>{
+          setImages([])
+          updatePostText([])
+          updateSelectedChannels([])
+          props.setDialogVisibility()
+        }}
       >
         <div className="min-h-screen px-4 text-center">
           <Transition.Child
@@ -140,23 +145,19 @@ export default function CreatePostDialog (props){
                   }}>
 
                     <ChannelSelect
-                      ChannelList={props.ChannelList}
                       selectedChannels={selectedChannels}
                       updateSelectedList={channels => updateSelectedChannels(channels)}
                     />
 
-
                     <div className={"px-4 mt-2 h-40"}>
-
                       <textarea
-                        className={"resize-none bg-gray-600 bg-opacity-50 text-slate-200 placeholder:text-slate-300 w-full p-2 text-white text-lg border-none focus:ring-0 h-full rounded-lg overflow-auto"}
+                        className={"resize-none bg-slate-600 bg-opacity-30 text-slate-300 placeholder:text-slate-300 w-full h-full p-2 text-white text-lg border-none focus:outline-none rounded-lg overflow-auto"}
                         placeholder="What do you want to talk about?"
                         value={PostText}
                         onChange={(e)=> {
                           updatePostText(e.target.value)
                         }}
                       />
-
                     </div>
 
                     <div className={"mx-2"}>

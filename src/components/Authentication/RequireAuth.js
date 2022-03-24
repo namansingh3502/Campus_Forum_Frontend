@@ -37,7 +37,7 @@ export default function RequireAuth({ children, ...rest }) {
   },[])
 
   if( !userDataLoadStatus && !userLoggedIn ){
-    return( <div>Loading</div> )
+    return (<div className={"text-white"}>Loading......</div>)
   }
   else if( userDataLoadStatus && !userLoggedIn ){
     return( <Navigate to="/login" state={{ from: location }} replace /> )

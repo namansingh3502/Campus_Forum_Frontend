@@ -1,32 +1,38 @@
-import React, {useEffect, useState, Fragment} from "react";
+import React, {useEffect, useRef, useState} from "react"
+
 import axios from "axios";
+import {useParams} from "react-router-dom";
 
-import CreatePost from "./Create_Post/createPost";
-import Posts from "./posts";
+import PageProfile from "../pageProfile";
+import CreatePost from "../Create_Post/createPost";
+import Posts from "../posts";
 
-export default function PostColumn() {
+export default function ChannelPost (props){
+  let {id} = useParams();
   const [posts, setPosts] = useState([])
   const [postLoaded, updateLoadStatus] = useState(false)
   const [postAdded, updatePostAdded] = useState(false)
   const [postUpdated, updatePostUpdated] = useState(false)
 
-  function loadPost(posts) {
+  const prevIdRef = useRef()
+
+  function loadPost(){
     axios.get(
-      `${process.env.HOST}/forum/posts`,
+      `${process.env.HOST}/forum/channel/${id}/posts`,
       {
         headers: {
           Authorization: localStorage.getItem("Token")
         }
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          updateLoadStatus(true)
-          setPosts(response.data)
-        }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-      });
+    })
+    .then((response) => {
+      if (response.status === 200) {
+        updateLoadStatus(true)
+        setPosts(response.data)
+      }
+    })
+    .catch((error) => {
+      console.log("check login error", error);
+    });
   }
 
   function addPost(newPost){
@@ -50,20 +56,21 @@ export default function PostColumn() {
     updatePostUpdated(true)
   }
 
-  useEffect(()=>{
-    if( !postLoaded )
-      loadPost()
-  },[postAdded, postUpdated])
+  useEffect( ()=>{
+    if( prevIdRef.current !== id) loadPost()
+    prevIdRef.current = id
+  },[id,posts])
 
-  return (
-    <div className="md:basis-2/3 lg:basis-4/5 text-white md:pl-2 lg:pr-2">
+  return(
+    <div className="md:basis-2/3 lg:basis-4/5 text-white md:pl-2 lg:pr-2 space-y-2">
+      <PageProfile/>
       <CreatePost
         updatePosts={(newPost)=>{
           addPost(newPost)
         }}
       />
       {postLoaded ?
-        <div className={"pt-2 space-y-2"}>
+        <div className={"space-y-2"}>
           {posts.map((item) => {
             return (
               <Posts

@@ -1,27 +1,18 @@
 import React from "react";
 
-function IMAGE ( data ){
-  console.log("data in image : ", data)
-  return(
-    <div></div>
-  )
-}
-
 export default function PostImage(props) {
   const images = props.images
   const imageCount = props.images.length
 
-  if(images.length === 0){ return (<div> </div>)}
+  if(images.length === 0){ return null}
 
   if(props.images.length === 1){
     return (
-      <div className={"w-full h-52 bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}>
-
-        <IMAGE data={images[0].file}/>
+      <div className={"w-full h-52 bg-slate-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}>
         <a href={`${images[0].file}`} target="_blank">
           <img
             src={`${images[0].file}`}
-            className={"object-contain h-52 w-full "}
+            className={"object-contain h-full w-full max-h-fit"}
             alt={"image"}
           />
         </a>
@@ -30,13 +21,12 @@ export default function PostImage(props) {
   }
 
   return (
-
     <div className={"grid grid-cols-2 py-2"}>
       {images.map((item, index) => {
         if(index === imageCount - 1 && imageCount % 2 === 1 ){
           return (
             <div
-              className={"col-span-2 bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}
+              className={"col-span-2 bg-slate-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}
               key={index}
             >
               <a href={`${item.file}`} target="_blank">
@@ -51,7 +41,7 @@ export default function PostImage(props) {
         }
         return(
           <div
-            className={"bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}
+            className={"bg-slate-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"}
             key={index}
           >
             <a href={`${item.file}`} target="_blank">

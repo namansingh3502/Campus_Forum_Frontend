@@ -3,7 +3,7 @@ import Multiselect from "multiselect-react-dropdown";
 import TextareaAutosize from "react-textarea-autosize";
 import React, {useState} from "react";
 import axios from "axios";
-import ImageUploader from "../Post_Modal/imageUploader";
+import ImageUploader from "../Posts/imageUploader";
 import UserDetails from "../userDetails";
 import {multiSelectStyle, config} from "../../../globalData";
 
@@ -39,7 +39,7 @@ export default function EditPost(props){
       }
     })
     .catch((error) => {
-      console.log("check error at edit Post_Modal \n",error)
+      console.log("check error at edit Posts \n",error)
     })
   }
 

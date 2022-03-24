@@ -51,7 +51,7 @@ export default function PageProfile() {
       <div className="p-4">
         <div className="relative w-full font-sans ">
           <h1 className={"text-3xl font-extrabold text-amber-50"}>{pageProfile.name}</h1>
-          <h1 className={"mt-2 text-amber-50"}>Admin: {pageProfile.admin.username} </h1>
+          <h1 className={"mt-2 text-amber-50"}>Admin: {pageProfile.admin.first_name} {pageProfile.admin.middle_name} {pageProfile.admin.last_name} </h1>
           <h1 className={"mt-1 text-amber-50"}>Total members: {pageProfile.member_count} </h1>
         </div>
       </div>

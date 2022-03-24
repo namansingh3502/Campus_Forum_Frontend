@@ -6,7 +6,7 @@ const UserProfile = () => {
   const user = JSON.parse(localStorage.getItem('user_profile'))
 
   return (
-    <div className="bg-gray-400 h-auto rounded-xl bg-opacity-10 text-lg py-6">
+    <div className="h-auto bg-slate-500 bg-opacity-20 rounded-lg text-lg py-6">
       <div className="h-36 w-full bg-contain bg-no-repeat rounded-t-xl flex justify-center items-center">
         <img
           className="rounded-full h-36 w-36 border-2 border-amber-100 p-0.5"

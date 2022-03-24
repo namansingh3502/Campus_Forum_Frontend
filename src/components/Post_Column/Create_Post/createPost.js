@@ -7,7 +7,7 @@ export default function CreatePost(props) {
 
   return (
     <>
-      <div className="py-4 px-4 bg-gray-400 rounded-lg bg-opacity-10 text-white">
+      <div className="py-4 px-4 bg-slate-500 bg-opacity-20 rounded-lg text-white">
         <div className="flex items-center">
           <img
             src={`${process.env.HOST}${user.user_image}`}
@@ -29,9 +29,8 @@ export default function CreatePost(props) {
       <CreatePostDialog
         dialogVisibility={dialogVisibility}
         setDialogVisibility={() => {
-          setDialogVisibility(!dialogVisibility)
+          setDialogVisibility(false)
         }}
-        ChannelList={props.ChannelList}
         updatePosts={(newPost) => {
           props.updatePosts(newPost)
         }}

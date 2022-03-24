@@ -1,17 +1,16 @@
 import React from "react";
 
 export default function ChannelTags(props) {
-
   return (
     <div className="m-2 flex flex-wrap">
       {props.channels.map((channel) => {
         return (
-          <p
-            className="bg-gray-400 bg-opacity-40 text-sm rounded-full px-2 m-1 text-black"
+          <div
+            className={"bg-gray-400 bg-opacity-30 rounded-xl py-1 px-2 m-1 inline-block flex items-center max-w-fit text-sm text-slate-200 font-medium"}
             key={channel.id}
           >
-            {channel.name}
-          </p>
+            <span>{channel.name}</span>
+          </div>
         );
       })}
     </div>
