@@ -2,9 +2,9 @@ import React from "react";
 
 import MenuColumn from "../components/Menu_Column/menuColumn";
 import ActivityColumn from "../components/Activty_Column/activityColumn";
-import ChannelPost from "../components/Channel_Timeline/channelPosts";
+import UserPost from "../components/User_Timeline/userPost";
 
-export default function ChannelTimeline(){
+export default function UserTimeline(){
   return(
     <div className="min-h-screen w-full xl:w-10/12 max-w-screen-xl mx-auto container mt-4 px-2">
       <div className="flex flex-row w-full justify-center">
@@ -12,7 +12,7 @@ export default function ChannelTimeline(){
           <MenuColumn/>
         </div>
         <div className="md:basis-2/3 lg:basis-4/5 text-white md:pl-2 lg:pr-2">
-          <ChannelPost />
+          <UserPost/>
         </div>
         <div className={"lg:basis-5/12 xl:basis-4/12 hidden lg:block"}>
           <ActivityColumn/>

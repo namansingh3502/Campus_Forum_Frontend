@@ -3,11 +3,11 @@ import React, {useEffect, useRef, useState} from "react"
 import axios from "axios";
 import {useParams} from "react-router-dom";
 
-import PageProfile from "../pageProfile";
-import CreatePost from "../Create_Post/createPost";
-import Posts from "../posts";
+import PageProfile from "./pageProfile";
+import CreatePost from "../Post_Column/Create_Post/createPost";
+import Posts from "../Post_Column/posts";
 
-export default function ChannelPost (props){
+export default function ChannelPost (){
   let {id} = useParams();
   const [posts, setPosts] = useState([])
   const [postLoaded, updateLoadStatus] = useState(false)

@@ -4,8 +4,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import axios from "axios";
 
 import { AiOutlineClose } from "react-icons/all";
-import ImageUploader from "../Posts/imageUploader";
-import UserDetails from "../userDetails";
+import ImageUploader from "./imageUploader";
+import UserDetails from "./userDetails";
 import ChannelSelect from "./channelSelect";
 
 

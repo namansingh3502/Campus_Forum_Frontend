@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {Routes, Route, Navigate} from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 
 import axios from "axios";
 import Dashboard from "./dashboard";
 import ChannelTimeline from "./channelTimeline";
+import UserTimeline from "./userTimeline";
 import Profile from "../components/Profile/profile";
 import Settings from "../components/Settings/settings";
 import Page404 from "./page404";
@@ -47,9 +48,15 @@ export default function Router() {
           }
         />
         <Route
-          path={"Channel-Post/:id"}
+          path={"channel/:id"}
           element={
             <ChannelTimeline/>
+          }
+        />
+        <Route
+          path={"user/:username"}
+          element={
+            <UserTimeline/>
           }
         />
         <Route

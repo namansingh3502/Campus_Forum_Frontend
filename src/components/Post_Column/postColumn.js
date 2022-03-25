@@ -56,7 +56,7 @@ export default function PostColumn() {
   },[postAdded, postUpdated])
 
   return (
-    <div className="md:basis-2/3 lg:basis-4/5 text-white md:pl-2 lg:pr-2">
+    <div>
       <CreatePost
         updatePosts={(newPost)=>{
           addPost(newPost)

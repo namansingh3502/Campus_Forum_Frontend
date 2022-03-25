@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 export default function UserDetails(props) {
   const user = props.userdetail
@@ -11,7 +12,13 @@ export default function UserDetails(props) {
         alt={"user"}
       />
       <div className={"ml-4"}>
-        <span className={"text-lg"}>{user.first_name} {user.middle_name} {user.last_name}</span><br/>
+        <Link
+          to={`/user/${user.username}`}
+        >
+          <span className={"text-lg hover:border-b"}>
+            {user.first_name} {user.middle_name} {user.last_name}
+          </span>
+        </Link><br/>
         <span className={"text-md"}>@{user.username}</span>
         {/*<span className={"text-md"}>{props.time}</span>*/}
       </div>

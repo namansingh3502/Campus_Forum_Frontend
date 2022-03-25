@@ -57,6 +57,4 @@ export default function PageProfile() {
       </div>
     </div>
   )
-
-
 }

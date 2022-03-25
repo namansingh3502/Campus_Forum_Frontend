@@ -15,7 +15,7 @@ export default function ChannelList() {
               className="pl-4 my-1 hover:bg-gray-400 hover:text-gray-700 bg-opacity-20 rounded-xl p-0.5 "
             >
               <Link
-                to={`/Channel-Post/${item.id}`}
+                to={`/channel/${item.id}`}
                 key={item.id}
               >
                 {item.name}

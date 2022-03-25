@@ -3,8 +3,8 @@ import Multiselect from "multiselect-react-dropdown";
 import TextareaAutosize from "react-textarea-autosize";
 import React, {useState} from "react";
 import axios from "axios";
-import ImageUploader from "../Posts/imageUploader";
-import UserDetails from "../userDetails";
+import ImageUploader from "../Create_Post/imageUploader";
+import UserDetails from "../Create_Post/userDetails";
 import {multiSelectStyle, config} from "../../../globalData";
 
 export default function EditPost(props){

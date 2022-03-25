@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import TextareaAutosize from 'react-textarea-autosize';
 import {BsArrowRightCircleFill} from "react-icons/all";
 import axios from "axios";
 import Comments from "./comments";

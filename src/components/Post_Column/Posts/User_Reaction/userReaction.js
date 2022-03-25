@@ -67,7 +67,7 @@ export default function UserReaction (props){
           Liked={postLiked}
           UserLiked={userLiked}
         />
-        <div className="grid grid-cols-2 gap-x-3 justify-items-center border-t border-gray-600 my-2 pt-1">
+        <div className="grid grid-cols-2 gap-x-3 justify-items-center border-t border-gray-600 pt-1">
           <button
             className="hover:bg-gray-400 rounded-full hover:bg-opacity-20 h-8 w-full flex items-center justify-center"
             onClick={handleLike}

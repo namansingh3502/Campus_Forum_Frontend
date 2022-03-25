@@ -1,6 +1,6 @@
 export default function ActivityColumn (){
   return (
-    <div className={"lg:basis-5/12 xl:basis-4/12 hidden lg:block"}>
+    <div>
       <div
         className={"p-4 bg-slate-500 bg-opacity-20 rounded-lg text-lg"}
         style={{ height: 400 }}

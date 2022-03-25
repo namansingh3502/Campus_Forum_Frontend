@@ -5,7 +5,7 @@ export default function LikeDetails(props) {
   const likedList = props.UserLiked;
   const length = props.UserLiked.length
   return (
-    <div className="text-md ml-2 py-0.5">
+    <div className="text-md ml-2 py-1">
       <p>
         {
           length > 0 ? "Post liked by ":
