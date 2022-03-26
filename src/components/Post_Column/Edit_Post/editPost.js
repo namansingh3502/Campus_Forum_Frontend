@@ -1,11 +1,10 @@
-import {AiOutlineClose} from "react-icons/all";
-import Multiselect from "multiselect-react-dropdown";
-import TextareaAutosize from "react-textarea-autosize";
 import React, {useState} from "react";
 import axios from "axios";
+
+import {AiOutlineClose} from "react-icons/all";
 import ImageUploader from "../Create_Post/imageUploader";
 import UserDetails from "../Create_Post/userDetails";
-import {multiSelectStyle, config} from "../../../globalData";
+import {multiSelectStyle} from "../../../globalData";
 
 export default function EditPost(props){
   const [postText, updatePostText] = useState(props.data.post.body)

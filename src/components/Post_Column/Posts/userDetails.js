@@ -7,7 +7,7 @@ export default function UserDetails(props) {
   return (
     <div className="flex items-center">
       <img
-        src={`${process.env.HOST}${user.user_image}`}
+        src={`${user.user_image}`}
         className={"rounded-full h-16 w-16"}
         alt={"user"}
       />

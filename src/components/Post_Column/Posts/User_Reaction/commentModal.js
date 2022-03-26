@@ -84,7 +84,7 @@ export default class CommentModal extends Component{
       <div className={"text-white border-t mt-2 border-gray-600 pt-2"}>
         <div className={"flex items-start "}>
           <img
-            src={`${process.env.HOST}${user.user_image}`}
+            src={`${user.user_image}`}
             className="rounded-full h-12 w-12"
             alt={"user-image"}
           />

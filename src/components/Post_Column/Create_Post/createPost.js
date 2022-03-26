@@ -10,7 +10,7 @@ export default function CreatePost(props) {
       <div className="py-4 px-4 bg-slate-500 bg-opacity-20 rounded-lg text-white">
         <div className="flex items-center">
           <img
-            src={`${process.env.HOST}${user.user_image}`}
+            src={`${user.user_image}`}
             className="rounded-full bg-black h-14 w-14"
             alt={"userprofile"}
           />

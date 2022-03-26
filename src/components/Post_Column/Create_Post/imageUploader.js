@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {AiOutlineClose} from "react-icons/all";
 
 export default function ImageUploader(props){
-
   return(
     <div className="flex my-2">
       <div className="w-full bg-transparent">
@@ -13,7 +12,7 @@ export default function ImageUploader(props){
             {props.images.map((image, index) => {
               return(
                 <div className={"h-36 w-1/3 mb-1 px-1 relative"} key={index}>
-                  <img className={"h-full w-full"} src={URL.createObjectURL(image)} alt={"image"} />
+                  <img className={"h-full w-full"} src={image.file || URL.createObjectURL(image)} alt={"image"} />
                   <div
                     className={"text-xl absolute top-1 right-2 bg-red-400 rounded-full text text hover:bg-red-600"}
                     onClick={()=>{props.removeImage(index)}}

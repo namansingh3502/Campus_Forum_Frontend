@@ -6,10 +6,14 @@ import PostText from "./Posts/postText";
 import PostImage from "./Posts/postImage";
 import UserReaction from "./Posts/User_Reaction/userReaction";
 import UserDetails from "./Posts/userDetails";
+import EditPostModal from "./Edit_Post/editPostModal";
 
 export default function Posts (props){
-  const [editButton, showEditButton] = useState(false)
   const user = JSON.parse(localStorage.getItem('user_profile'))
+
+  const [postData, setPostData] = useState(props.data)
+  const [editButton, showEditButton] = useState(false)
+  const [dialogVisibility, setDialogVisibility] = useState(false)
 
   useEffect(()=>{
     if( props.data.user.id === user.id){
@@ -23,21 +27,35 @@ export default function Posts (props){
         <button
           className={"float-right text-sm"}
           aria-label={"Edit Post"}
-          onClick={()=>{props.showEditPostModal()}}
+          onClick={()=>{setDialogVisibility(!dialogVisibility)}}
         >
           <FaPen/>
         </button> : null
       }
+      {dialogVisibility?
+        <EditPostModal
+          dialogVisibility={dialogVisibility}
+          setDialogVisibility={() => {
+            setDialogVisibility(false)
+          }}
+          setPostData={(newPost) => {
+            setPostData(newPost)
+          }}
+          data={postData}
+        />
+        :
+        null
+      }
       <UserDetails
-        userdetail={props.data.user}
-        time={props.data.post.time}
+        userdetail={postData.user}
+        time={postData.post.time}
       />
-      <ChannelTags channels={props.data.post.posted_in} />
-      <PostText text={props.data.post.body} />
-      <PostImage images={props.data.media} />
+      <ChannelTags channels={postData.post.posted_in} />
+      <PostText text={postData.post.body} />
+      <PostImage images={postData.media} />
       <UserReaction
-        likes={props.data.post.Liked_Post}
-        post_id={props.data.post.id}
+        likes={postData.post.Liked_Post}
+        post_id={postData.post.id}
       />
     </div>
   )

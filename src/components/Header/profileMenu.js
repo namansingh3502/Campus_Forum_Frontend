@@ -15,7 +15,7 @@ export default function ProfileMenu(props){
             <span className="sr-only">Open user menu</span>
             <img
               className="h-10 w-10 lg:h-10 lg:w-10 rounded-full"
-              src={`${process.env.HOST}${user.user_image}`}
+              src={`${user.user_image}`}
               alt=""
             />
           </Menu.Button>
@@ -47,16 +47,16 @@ export default function ProfileMenu(props){
                 </NavLink>
               )}
             </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <NavLink
-                  to={`settings`}
-                  className={`${active ? 'bg-gray-500 bg-opacity-30 backdrop-blur-md' : ''} block px-4 py-2`}
-                >
-                  Settings
-                </NavLink>
-              )}
-            </Menu.Item>
+            {/*<Menu.Item>*/}
+            {/*  {({ active }) => (*/}
+            {/*    <NavLink*/}
+            {/*      to={`settings`}*/}
+            {/*      className={`${active ? 'bg-gray-500 bg-opacity-30 backdrop-blur-md' : ''} block px-4 py-2`}*/}
+            {/*    >*/}
+            {/*      Settings*/}
+            {/*    </NavLink>*/}
+            {/*  )}*/}
+            {/*</Menu.Item>*/}
             <Menu.Item>
               {({ active }) => (
                 <button

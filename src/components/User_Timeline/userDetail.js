@@ -1,4 +1,3 @@
-import userImage from "../../images/userimg.jpeg";
 import React from "react";
 import background from "../../images/bg.jpeg";
 
@@ -18,7 +17,7 @@ export default function UserDetails(){
         <div className={"relative flex justify-center h-16"}>
           <img
             className={"absolute h-28 w-28 -top-full rounded-full outline outline-offset-2 outline-2 outline-indigo-700"}
-            src={userImage}
+            src={user.user_image}
           />
         </div>
       </div>

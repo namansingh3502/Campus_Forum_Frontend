@@ -10,7 +10,7 @@ const UserProfile = () => {
       <div className="h-36 w-full bg-contain bg-no-repeat rounded-t-xl flex justify-center items-center">
         <img
           className="rounded-full h-36 w-36 border-2 border-amber-100 p-0.5"
-          src={`${process.env.HOST}${user.user_image}`}
+          src={`${user.user_image}`}
           alt={"profile"}
         />
       </div>

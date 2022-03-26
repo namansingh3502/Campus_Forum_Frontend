@@ -5,7 +5,7 @@ export default function Comments(props) {
   return(
     <div className="flex py-1" key={props.data.id}>
       <img
-        src={`${process.env.HOST}${props.data.user.user_image}`}
+        src={`${props.data.user.user_image}`}
         className="rounded-full h-10 w-10"
         alt={"user"}
       />

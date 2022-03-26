@@ -6,8 +6,8 @@ import {AiOutlineClose} from "react-icons/all";
 export default function ChannelSelect(props) {
   const channel = JSON.parse(localStorage.getItem('channels'));
 
-  const [selectedChannels, updateSelectedChannel] = useState([])
-  const [selected, setSelected] = useState(channel[0])
+  const [selectedChannels, updateSelectedChannel] = useState(props.selectedChannels)
+  const [selected, setSelected] = useState([])
   const [query, setQuery] = useState('')
 
   function addChannel(newChannel){
@@ -17,7 +17,7 @@ export default function ChannelSelect(props) {
     let data = selectedChannels
     data.push(newChannel)
     updateSelectedChannel(data)
-    props.updateSelectedList(data)
+    props.setSelectedChannel(data)
   }
 
   function removeChannel(removedChannel){
@@ -28,6 +28,7 @@ export default function ChannelSelect(props) {
       }
     }
     updateSelectedChannel(data)
+    props.setSelectedChannel(data)
   }
 
   const filteredChannel =

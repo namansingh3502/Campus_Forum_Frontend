@@ -63,9 +63,7 @@ export default function Profile(){
     <div className={"min-h-screen w-full flex justify-center mt-4"}>
       <div className={"container w-full md:w-4/5 lg:w-4/5 max-w-screen-lg mx-auto md:mx-0 flex-row space-y-2"}>
 
-        <UserDetail
-          user={user}
-        />
+        <UserDetail/>
 
         <div className={"flex w-full mx-auto max-w-screen-lg "}>
           <div className={"hidden md:block basis-1/3 pr-2"} >
