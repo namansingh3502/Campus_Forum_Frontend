@@ -1,18 +1,11 @@
 import {Disclosure, Transition} from "@headlessui/react";
-import {NavLink, useNavigate} from "react-router-dom";
 import {ChevronUpIcon} from "@heroicons/react/solid";
 import React, {Fragment} from "react";
-
-const navigation = [
-  { name: 'Dashboard', href: '', current: true },
-  { name: 'Profile', href: 'profile', current: false },
-  { name: 'Projects', href: 'setting', current: false },
-  { name: 'Calendar', href: '#', current: false },
-]
 
 
 export default function SideMenu(props){
   const user = JSON.parse(localStorage.getItem('user_profile'))
+  const channels = JSON.parse(localStorage.getItem('channels'))
 
   return(
     <Disclosure.Panel className={"sm:hidden min-h-screen bg-gray-800 text-white text-lg border-t-2"}>
@@ -20,7 +13,7 @@ export default function SideMenu(props){
       <div className={"w-full flex flex-col items-center justify-center mt-4"}>
         <div className={"h-24 w-24 rounded-full"}>
           <img
-            src={`${process.env.HOST}${user.user_image}`}
+            src={`${user.user_image}`}
             className={"h-24 w-24 rounded-full"}
           />
         </div>
@@ -31,12 +24,13 @@ export default function SideMenu(props){
       </div>
 
       <div className="pt-2 pb-4 space-y-1">
-        <NavLink
-          to={``}
+        <Disclosure.Button
+          as={"a"}
+          href={'/'}
           className={`hover:bg-gray-700 block px-4 py-1`}
         >
           Home
-        </NavLink>
+        </Disclosure.Button>
 
         <Disclosure>
           {({ open }) => (
@@ -56,14 +50,14 @@ export default function SideMenu(props){
               >
                 <div className={"overflow-y-scroll max-h-56"}>
                   <Disclosure.Panel className="px-4 pb-2 text-sm text-gray-500">
-                    {navigation.map((item) => (
+                    {channels.map((channel) => (
                       <Disclosure.Button
-                        key={item.name}
+                        key={channel.name}
                         as="a"
-                        href={item.href}
-                        className={`${item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'} block px-3 py-2 rounded-md text-base font-medium`}
+                        href={`channel/${channel.id}`}
+                        className={`text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium`}
                       >
-                        {item.name}
+                        {channel.name}
                       </Disclosure.Button>
                     ))}
                   </Disclosure.Panel>
@@ -74,13 +68,17 @@ export default function SideMenu(props){
         </Disclosure>
 
 
-        <NavLink to={`profile`} className={`hover:bg-gray-700 block px-4 py-1`}>
+        <Disclosure.Button
+          as={"a"}
+          href={`profile`}
+          className={`hover:bg-gray-700 block px-4 py-1`}
+        >
           Profile
-        </NavLink>
+        </Disclosure.Button>
 
-        <NavLink to={`settings`} className={`hover:bg-gray-700 block px-4 py-1`}>
-          Settings
-        </NavLink>
+        {/*<NavLink to={`settings`} className={`hover:bg-gray-700 block px-4 py-1`}>*/}
+        {/*  Settings*/}
+        {/*</NavLink>*/}
 
         <button
           className={"w-full text-left hover:bg-gray-700 block px-4 py-1"}

@@ -60,16 +60,16 @@ export default function Profile(){
   },[postAdded, postUpdated])
 
   return(
-    <div className={"min-h-screen w-full flex justify-center mt-4"}>
+    <div className={"min-h-screen w-full flex justify-center mt-4 px-2"}>
       <div className={"container w-full md:w-4/5 lg:w-4/5 max-w-screen-lg mx-auto md:mx-0 flex-row space-y-2"}>
 
         <UserDetail/>
 
-        <div className={"flex w-full mx-auto max-w-screen-lg "}>
+        <div className={"flex w-full mx-auto max-w-screen-lg"}>
           <div className={"hidden md:block basis-1/3 pr-2"} >
             <ChannelList/>
           </div>
-          <div className={"mt-2 md:basis-2/3"}>
+          <div className={"mt-2 w-full md:basis-2/3"}>
             <CreatePost
               updatePosts={(newPost)=>{
                 addPost(newPost)

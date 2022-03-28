@@ -7,4 +7,3 @@ coverage/
 .parcel-cache/
 __pycache__
 package-lock.json
-/dist/

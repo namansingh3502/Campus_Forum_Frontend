@@ -37,7 +37,7 @@ export default function UserDetail(){
   useEffect(()=>{},[image])
 
   return(
-    <div className={"h-auto w-full bg-slate-500 bg-opacity-20 lg:rounded-lg text-white pb-2"}>
+    <div className={"h-auto w-full bg-slate-500 bg-opacity-20 rounded-lg text-white pb-2"}>
       <div className="w-full rounded-lg h-32">
         <img
           src={background}
