@@ -1,98 +1,62 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react'
 
-import axios from "axios";
+import {FaPen} from "react-icons/all";
+import ChannelTags from "./Posts/channelTags";
+import PostText from "./Posts/postText";
+import PostImage from "./Posts/postImage";
+import UserReaction from "./Posts/User_Reaction/userReaction";
+import UserDetails from "./Posts/userDetails";
+import EditPostModal from "./Edit_Post/editPostModal";
 
-import PostModal from "./post/postModal";
-import CreatePost from "./post/Create_Post/createPost";
-import CreatePostModal from "./post/Edit_Post/editPostModal";
+export default function Posts (props){
+  const user = JSON.parse(localStorage.getItem('user_profile'))
 
-export default function Posts(props) {
-  const [postLoaded, updateLoadStatus] = useState(false)
-  const [postAdded, updatePostAdded] = useState(false)
-  const [postUpdated, updatePostUpdated] = useState(false)
-  const [postData, updatePostData ] = useState([])
-  const [showPostModal, updatePostModalVisibility] = useState(false)
-  const [postUpdateData, updatePostUpdateData] = useState({})
-
-  function loadPost() {
-    axios.get(
-      `${process.env.HOST}/forum/posts`,
-      {
-        headers: {
-          Authorization: localStorage.getItem("Token")
-        }
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        updateLoadStatus(true)
-        updatePostData(response.data)
-      } else {
-        console.log("Error")
-      }
-    })
-    .catch((error) => {
-      console.log("check login error", error);
-    });
-  }
-
-  function addPost(newPost){
-    let data = postData
-    data.unshift(newPost)
-    updatePostData(data)
-    updatePostAdded(true)
-  }
-
-  function updatePost(post){
-    const post_id = post.post.id
-    let data = postData
-
-    for( let i = 0; i < data.length; i++){
-      if(data[i].post.id === post_id ) {
-        data[i] = post
-        break
-      }
-    }
-    updatePostData(data)
-    updatePostUpdated(true)
-  }
+  const [postData, setPostData] = useState(props.data)
+  const [editButton, showEditButton] = useState(false)
+  const [dialogVisibility, setDialogVisibility] = useState(false)
 
   useEffect(()=>{
-    if( !postLoaded )
-      loadPost()
-  },[postAdded, postUpdated])
+    if( props.data.user.id === user.id){
+      showEditButton(true)
+    }
+  },[])
 
-  return (
-    <div>
-      <CreatePost
-        ChannelList={props.ChannelList}
-        updatePosts={(newPost)=>{
-          addPost(newPost)
-        }}
+  return(
+    <div className="p-4 bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto">
+      {editButton ?
+        <button
+          className={"float-right text-sm"}
+          aria-label={"Edit Post"}
+          onClick={()=>{setDialogVisibility(!dialogVisibility)}}
+        >
+          <FaPen/>
+        </button> : null
+      }
+      {dialogVisibility?
+        <EditPostModal
+          dialogVisibility={dialogVisibility}
+          setDialogVisibility={() => {
+            setDialogVisibility(false)
+          }}
+          setPostData={(newPost) => {
+            setPostData(newPost)
+          }}
+          data={postData}
+        />
+        :
+        null
+      }
+      <UserDetails
+        userdetail={postData.user}
+        time={postData.post.time}
       />
-      <CreatePostModal
-        ChannelList={props.ChannelList}
-        data={postUpdateData}
-        modalVisibility={showPostModal}
-        updatePost={(post)=>{
-          updatePostModalVisibility(false)
-          updatePost(post)
-        }}
-        showEditPostModal={() => {
-          updatePostModalVisibility(false)
-        }}
+      <ChannelTags channels={postData.post.posted_in} />
+      <PostText text={postData.post.body} />
+      <PostImage images={postData.media} />
+      <UserReaction
+        likes={postData.post.Liked_Post}
+        post_id={postData.post.id}
       />
-      {postData.map((item) => {
-        return (
-          <PostModal
-            key={item.post.id}
-            data={item}
-            showEditPostModal={() => {
-              updatePostModalVisibility(true)
-              updatePostUpdateData(item)
-            }}
-          />
-        );
-      })}
     </div>
   )
 }

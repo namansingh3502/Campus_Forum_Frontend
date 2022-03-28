@@ -1,37 +1,81 @@
-import React, {useState} from "react";
+import React, {useEffect, useState, Fragment} from "react";
+import axios from "axios";
+
+import CreatePost from "./Create_Post/createPost";
 import Posts from "./posts";
-import {Navigate, Route, Routes} from "react-router-dom";
-import ChannelPost from "./post/channelPosts";
-import CreatePostModal from "./post/Create_Post/createPostModal";
 
+export default function PostColumn() {
+  const [posts, setPosts] = useState([])
+  const [postLoaded, updateLoadStatus] = useState(false)
+  const [postAdded, updatePostAdded] = useState(false)
+  const [postUpdated, updatePostUpdated] = useState(false)
 
-export default function PostColumn (props) {
+  function loadPost(posts) {
+    axios.get(
+      `${process.env.HOST}/forum/posts`,
+      {
+        headers: {
+          Authorization: localStorage.getItem("Token")
+        }
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          updateLoadStatus(true)
+          setPosts(response.data)
+        }
+      })
+      .catch((error) => {
+        console.log("check login error", error);
+      });
+  }
+
+  function addPost(newPost){
+    let data = posts
+    data.unshift(newPost)
+    setPosts(data)
+    updatePostAdded(true)
+  }
+
+  function updatePost(post){
+    const post_id = post.post.id
+    let data = posts
+
+    for( let i = 0; i < data.length; i++){
+      if(data[i].post.id === post_id ) {
+        data[i] = post
+        break
+      }
+    }
+    setPosts(data)
+    updatePostUpdated(true)
+  }
+
+  useEffect(()=>{
+    if( !postLoaded )
+      loadPost()
+  },[postAdded, postUpdated])
 
   return (
-    <div className="mx-3 w-5/12 text-white">
-
-      <Routes>
-        <Route path="" element={
-          <Posts
-            ChannelList={props.ChannelList}
-          />
-        }
-        />
-        <Route
-          path="/Channel-Post/:id/"
-          element={
-            <ChannelPost
-              ChannelList={props.ChannelList}
-            />
-          }
-        />
-        <Route
-          path="*"
-          element={<Navigate to={``} replace />}
-        />
-      </Routes>
-
+    <div>
+      <CreatePost
+        updatePosts={(newPost)=>{
+          addPost(newPost)
+        }}
+      />
+      {postLoaded ?
+        <div className={"pt-2 space-y-2"}>
+          {posts.map((item) => {
+            return (
+              <Posts
+                key={item.post.id}
+                data={item}
+              />
+            )
+          })}
+        </div>
+        :
+        <div className={"text-white text-center"}>Loading.....</div>
+      }
     </div>
   )
 }
-

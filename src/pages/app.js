@@ -2,20 +2,25 @@ import * as ReactDOM from "react-dom";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import React, {StrictMode} from "react";
 
-import Login from "../components/authentication/login";
-import RequireAuth from "../components/authentication/RequireAuth";
-import Forum from "../components/forum";
+import Login from "../components/Authentication/login";
+import RequireAuth from "../components/Authentication/RequireAuth";
+
+import Router from "./router";
 
 export default function App (){
-
   return (
     <Routes>
-      <Route path="login/" element={<Login />} />
+      {/*Login Page*/}
       <Route
-        path="/*"
+        path="login/"
+        element={ <Login /> }
+      />
+      {/*Router*/}
+      <Route
+        path={"*"}
         element={
           <RequireAuth>
-            <Forum />
+            <Router/>
           </RequireAuth>
         }
       />

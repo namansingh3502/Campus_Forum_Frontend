@@ -1,14 +1,15 @@
 
 export const multiSelectStyle = {
-  multiselectContainer: {
-    // To change css for multiselect (Width,height,etc..)
+  multiselectContainer: {// To change css for multiselect (Width,height,etc..)
+    border: 'none'
   },
   searchBox: { // To change search box element look
     border: 'none',
     fontSize: '18px',
   },
   inputField: { // To change input field position or margin
-    margin: '5px'
+    margin: '5px',
+    border: 'none',
   },
   chips: { // To change css chips(Selected options)
     background: "blue",
