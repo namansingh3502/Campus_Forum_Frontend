@@ -16,7 +16,7 @@ export default function UserDetails(){
       <div>
         <div className={"relative flex justify-center h-16"}>
           <img
-            className={"absolute h-28 w-28 -top-full rounded-full outline outline-offset-2 outline-2 outline-indigo-700"}
+            className={"absolute h-28 w-28 -top-full rounded-full outline outline-offset-2 outline-2 outline-gray-400"}
             src={user.user_image}
           />
         </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 
 import UserDetail from "./userDetail";
 import ChannelList from "../Menu_Column/channelList";
-import CreatePost from "../Post_Column/Create_Post/createPost";
+import CreatePost from "../Post_Column/Create_Edit_Post/createPost";
 import Posts from "../Post_Column/posts";
 
 export default function Profile(){

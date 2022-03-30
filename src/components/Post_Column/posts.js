@@ -6,7 +6,7 @@ import PostText from "./Posts/postText";
 import PostImage from "./Posts/postImage";
 import UserReaction from "./Posts/User_Reaction/userReaction";
 import UserDetails from "./Posts/userDetails";
-import EditPostModal from "./Edit_Post/editPostModal";
+import EditPostModal from "./Create_Edit_Post/editPostDialog";
 
 export default function Posts (props){
   const user = JSON.parse(localStorage.getItem('user_profile'))
@@ -54,7 +54,7 @@ export default function Posts (props){
       <PostText text={postData.post.body} />
       <PostImage images={postData.media} />
       <UserReaction
-        likes={postData.post.Liked_Post}
+        likes={postData.post.likes}
         post_id={postData.post.id}
       />
     </div>

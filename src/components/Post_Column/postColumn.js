@@ -1,7 +1,7 @@
 import React, {useEffect, useState, Fragment} from "react";
 import axios from "axios";
 
-import CreatePost from "./Create_Post/createPost";
+import CreatePost from "./Create_Edit_Post/createPost";
 import Posts from "./posts";
 
 export default function PostColumn() {

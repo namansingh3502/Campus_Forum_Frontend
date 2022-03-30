@@ -50,7 +50,7 @@ export default function UserDetail(){
       <div className={"relative flex justify-center h-16"}>
         <div className={"absolute h-28 w-28 -top-full rounded-full"}>
           <img
-            className={"h-28 w-28 -top-full rounded-full outline outline-offset-2 outline-2 outline-indigo-700"}
+            className={"h-28 w-28 -top-full rounded-full outline outline-offset-2 outline-2 outline-gray-400 "}
             src={user.user_image}
           />
           <div className={"z-10 absolute right-0.5 -bottom-0.5 bg-gray-600 w-9 h-9 flex justify-center items-center rounded-full"}>

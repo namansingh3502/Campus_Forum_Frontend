@@ -4,9 +4,9 @@ import { Dialog, Transition } from '@headlessui/react'
 import axios from "axios";
 
 import { AiOutlineClose } from "react-icons/all";
-import ImageUploader from "../Create_Post/imageUploader";
-import UserDetails from "../Create_Post/userDetails";
-import ChannelSelect from "../Create_Post/channelSelect";
+import ImageUploader from "./imageUploader";
+import UserDetails from "./userDetails";
+import ChannelSelect from "./channelSelect";
 
 
 export default function EditPostDialog (props){
@@ -155,13 +155,13 @@ export default function EditPostDialog (props){
                       />
                     </div>
 
-                    <div className={"mx-2"}>
-                      <ImageUploader
-                        images={images}
-                        addImage={(e)=>addImage(e)}
-                        removeImage={(index)=>removeImage(index)}
-                      />
-                    </div>
+                    {/*<div className={"mx-2"}>*/}
+                    {/*  <ImageUploader*/}
+                    {/*    images={images}*/}
+                    {/*    addImage={(e)=>addImage(e)}*/}
+                    {/*    removeImage={(index)=>removeImage(index)}*/}
+                    {/*  />*/}
+                    {/*</div>*/}
 
                     <div className={"m-2 pb-2"}>
                       <button

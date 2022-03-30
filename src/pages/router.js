@@ -40,6 +40,7 @@ export default function Router() {
   }
 
   return (
+    <div className={"pb-10"}>
       <Routes>
         <Route
           path={""}
@@ -78,6 +79,6 @@ export default function Router() {
           }
         />
       </Routes>
-
+    </div>
   );
 }

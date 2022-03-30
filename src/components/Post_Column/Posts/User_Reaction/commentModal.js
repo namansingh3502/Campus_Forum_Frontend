@@ -97,7 +97,7 @@ export default class CommentModal extends Component{
           >
             <label className={"flex items-start w-full"}>
               <textarea
-                className={"w-full h-12 p-2 mx-1 resize-none bg-slate-600 bg-opacity-30 text-slate-200 placeholder:text-slate-300 text-white text-lg border-none focus:ring-0 rounded-xl overflow-auto"}
+                className={"w-full h-16 p-2 mx-1 resize-none bg-slate-600 bg-opacity-30 text-slate-200 placeholder:text-slate-300 text-white text-lg border-none focus:outline-none rounded-xl overflow-auto"}
                 value={this.state.CommentText}
                 placeholder={"Write a comment..."}
                 onChange={(e)=>{
