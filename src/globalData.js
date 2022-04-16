@@ -1,27 +1,33 @@
-
 export const multiSelectStyle = {
-  multiselectContainer: {// To change css for multiselect (Width,height,etc..)
-    border: 'none'
+  multiselectContainer: {
+    // To change css for multiselect (Width,height,etc..)
+    border: "none",
   },
-  searchBox: { // To change search box element look
-    border: 'none',
-    fontSize: '18px',
+  searchBox: {
+    // To change search box element look
+    border: "none",
+    fontSize: "18px",
   },
-  inputField: { // To change input field position or margin
-    margin: '5px',
-    border: 'none',
+  inputField: {
+    // To change input field position or margin
+    margin: "5px",
+    border: "none",
   },
-  chips: { // To change css chips(Selected options)
+  chips: {
+    // To change css chips(Selected options)
     background: "blue",
-    fontSize: '14px'
+    fontSize: "14px",
   },
-  optionContainer: { // To change css for option container
-    border: 'none'
+  optionContainer: {
+    // To change css for option container
+    border: "none",
   },
-  option: { // To change css for dropdown options
-    color: 'black',
-    fontSize: '14px'
+  option: {
+    // To change css for dropdown options
+    color: "black",
+    fontSize: "14px",
   },
-  groupHeading: { // To change group heading style
-  }
-}
+  groupHeading: {
+    // To change group heading style
+  },
+};

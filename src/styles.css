@@ -3,10 +3,49 @@
 @tailwind utilities;
 
 body{
-    /*background-color: #1c1e21;*/
     background-color: #0a1929;
 }
 
 html {
     scroll-behavior: smooth;
 }
+
+.dot {
+    color:cadetblue;
+    width:95px;
+    height:40px;
+    --d:radial-gradient(farthest-side,currentColor 90%,#0000);
+    background:var(--d),var(--d),var(--d),var(--d);
+    background-size:20px 20px;
+    background-repeat:no-repeat;
+    animation: m 1s infinite;
+}
+
+@keyframes m {
+    0%   {background-position:calc(0*100%/3) 100%, calc(1*100%/3) 100%, calc(2*100%/3) 100%, calc(3*100%/3) 100%}
+    12.5%{background-position:calc(0*100%/3) 0   , calc(1*100%/3) 100%, calc(2*100%/3) 100%, calc(3*100%/3) 100%}
+    25%  {background-position:calc(0*100%/3) 0   , calc(1*100%/3) 0   , calc(2*100%/3) 100%, calc(3*100%/3) 100%}
+    37.5%{background-position:calc(0*100%/3) 0   , calc(1*100%/3) 0   , calc(2*100%/3) 0   , calc(3*100%/3) 100%}
+    50%  {background-position:calc(0*100%/3) 0   , calc(1*100%/3) 0   , calc(2*100%/3) 0   , calc(3*100%/3) 0   }
+    62.5%{background-position:calc(0*100%/3) 100%, calc(1*100%/3) 0   , calc(2*100%/3) 0   , calc(3*100%/3) 0   }
+    75%  {background-position:calc(0*100%/3) 100%, calc(1*100%/3) 100%, calc(2*100%/3) 0   , calc(3*100%/3) 0   }
+    87.5%{background-position:calc(0*100%/3) 100%, calc(1*100%/3) 100%, calc(2*100%/3) 100%, calc(3*100%/3) 0   }
+    100% {background-position:calc(0*100%/3) 100%, calc(1*100%/3) 100%, calc(2*100%/3) 100%, calc(3*100%/3) 100%}
+}
+
+.cls-10,.cls-13,.cls-14,.cls-15,.cls-17,.cls-5,.cls-6{stroke:#000}
+.cls-13,.cls-14,.cls-8{stroke-linecap:round;stroke-linejoin:round}
+.cls-10,.cls-12,.cls-13,.cls-14,.cls-15,.cls-17,.cls-3,.cls-5,.cls-6,.cls-7,.cls-8,.cls-9{stroke-width:3px}
+.cls-10,.cls-12,.cls-15,.cls-17,.cls-3,.cls-5,.cls-6,.cls-7,.cls-9{stroke-miterlimit:10}
+.cls-3{fill:#818181}
+.cls-12,.cls-3,.cls-7,.cls-8,
+.cls-9{stroke:#191818}
+.cls-5{fill:#4ea7f1}
+.cls-14,.cls-6{fill:#f8f3ed}
+.cls-7{fill:#333}
+.cls-13,.cls-8{fill:none}
+.cls-9{fill:#f8f59c}
+.cls-10{fill:#f3d2c9}
+.cls-15{fill:#8bb174}
+.cls-17{fill:#da4e22}
+

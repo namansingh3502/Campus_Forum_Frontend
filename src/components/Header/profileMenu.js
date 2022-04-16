@@ -1,21 +1,20 @@
-import {Menu, Transition} from "@headlessui/react";
-import React, {Fragment} from "react";
-import {NavLink} from "react-router-dom";
+import { Menu, Transition } from "@headlessui/react";
+import React, { Fragment } from "react";
+import { NavLink } from "react-router-dom";
 
+export default function ProfileMenu(props) {
+  const user = JSON.parse(localStorage.getItem("user_profile"));
 
-export default function ProfileMenu(props){
-  const user = JSON.parse(localStorage.getItem('user_profile'))
-
-  return(
+  return (
     <div className="lg:absolute lg:right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 flex hidden sm:block">
-      {/* Profile dropdown */}
+      {/* Profile_page dropdown */}
       <Menu as="div" className="ml-3 relative flex">
         <div>
           <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
             <span className="sr-only">Open user menu</span>
             <img
               className="h-10 w-10 lg:h-10 lg:w-10 rounded-full"
-              src={`${user.user_image}`}
+              src={`${process.env.HOST}/media/${user.user_image}`}
               alt=""
             />
           </Menu.Button>
@@ -30,18 +29,23 @@ export default function ProfileMenu(props){
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className={"absolute right-0 mt-12 sm:mt-14 w-40 rounded-md py-1 bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none text-white text-md"}>
+          <Menu.Items
+            className={
+              "absolute right-0 mt-12 sm:mt-14 w-40 rounded-md py-1 bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none text-white text-md"
+            }
+          >
             <Menu.Item>
-              <div className={`block px-4 py-1 mt-4`} >
-                Signed in as
-                @{user.username}
+              <div className={`block px-4 py-1 mt-4`}>
+                Signed in as @{user.username}
               </div>
             </Menu.Item>
             <Menu.Item>
               {({ active }) => (
                 <NavLink
-                  to={`profile`}
-                  className={`${active ? 'bg-gray-500 bg-opacity-30 backdrop-blur-md' : ''} block px-4 py-2`}
+                  to={`profile/${user.username}`}
+                  className={`${
+                    active ? "bg-slate-900 bg-opacity-80 backdrop-blur-md" : ""
+                  } block px-4 py-2`}
                 >
                   Your Profile
                 </NavLink>
@@ -61,8 +65,12 @@ export default function ProfileMenu(props){
               {({ active }) => (
                 <button
                   type={"button"}
-                  className={`${active ? 'bg-gray-500 bg-opacity-30 backdrop-blur-md' : ''} block px-4 py-2 w-full text-left`}
-                  onClick={()=>{props.logout()}}
+                  className={`${
+                    active ? "bg-slate-900 bg-opacity-80 backdrop-blur-md" : ""
+                  } block px-4 py-2 w-full text-left`}
+                  onClick={() => {
+                    props.logout();
+                  }}
                 >
                   Sign out
                 </button>
@@ -72,5 +80,5 @@ export default function ProfileMenu(props){
         </Transition>
       </Menu>
     </div>
-  )
+  );
 }

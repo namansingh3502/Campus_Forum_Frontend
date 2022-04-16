@@ -1,24 +1,26 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import CreatePostDialog from "./createPostDialog";
 
 export default function CreatePost(props) {
-  const [dialogVisibility, setDialogVisibility] = useState(false)
-  const user = JSON.parse(localStorage.getItem('user_profile'))
+  const [dialogVisibility, setDialogVisibility] = useState(false);
+  const user = JSON.parse(localStorage.getItem("user_profile"));
 
   return (
     <>
       <div className="py-4 px-4 bg-slate-500 bg-opacity-20 rounded-lg text-white">
         <div className="flex items-center">
           <img
-            src={`${user.user_image}`}
+            src={`${process.env.HOST}/media/${user.user_image}`}
             className="rounded-full bg-black h-14 w-14"
             alt={"userprofile"}
           />
           <button
             type={"button"}
-            className={"bg-gray-400 rounded-full bg-opacity-20 w-full ml-4 h-12 px-4 text-left text-white text-lg"}
+            className={
+              "bg-gray-400 rounded-full bg-opacity-20 w-full ml-4 h-12 px-4 text-left text-white text-lg"
+            }
             onClick={() => {
-              setDialogVisibility(true)
+              setDialogVisibility(true);
             }}
           >
             Start a Post...
@@ -29,12 +31,12 @@ export default function CreatePost(props) {
       <CreatePostDialog
         dialogVisibility={dialogVisibility}
         setDialogVisibility={() => {
-          setDialogVisibility(false)
+          setDialogVisibility(false);
         }}
         updatePosts={(newPost) => {
-          props.updatePosts(newPost)
+          props.updatePosts(newPost);
         }}
       />
     </>
-  )
+  );
 }

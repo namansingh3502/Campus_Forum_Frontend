@@ -1,83 +1,60 @@
-import React, {useEffect, useState} from "react";
-import {Routes, Route} from "react-router-dom";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 
-import axios from "axios";
 import Dashboard from "./dashboard";
 import ChannelTimeline from "./channelTimeline";
 import UserTimeline from "./userTimeline";
-import Profile from "../components/Profile/profile";
+import ProfilePage from "../components/Profile/profile_page";
 import Settings from "../components/Settings/settings";
 import Page404 from "./page404";
+import RequireAuth from "../components/Authentication/RequireAuth";
 
 export default function Router() {
-  const [channelLoadStatus, setChannelLoadStatus] = useState(false)
-
-  function loadChannelList() {
-    axios.get(
-      `${process.env.HOST}/forum/channel-list`,
-      {
-        headers: {
-          Authorization: localStorage.getItem("Token")
-        }
-    })
-    .then((response) => {
-      if( response.status === 200) {
-        localStorage.setItem('channels', JSON.stringify(response.data))
-        setChannelLoadStatus(true)
-      }
-    })
-    .catch((error) => {
-      console.log("check login error", error);
-    });
-  }
-
-  useEffect(()=>{
-    loadChannelList()
-  },[])
-
-  if(!channelLoadStatus){
-    return (<div className={"text-white"}>Loading......</div>)
-  }
-
   return (
     <div className={"pb-10"}>
       <Routes>
         <Route
+          exact
           path={""}
           element={
-            <Dashboard/>
+            <RequireAuth>
+              <Dashboard />
+            </RequireAuth>
           }
         />
         <Route
-          path={"channel/:id"}
+          path={"channel/:name"}
           element={
-            <ChannelTimeline/>
+            <RequireAuth>
+              <ChannelTimeline />
+            </RequireAuth>
           }
         />
         <Route
           path={"user/:username"}
           element={
-            <UserTimeline/>
+            <RequireAuth>
+              <UserTimeline />
+            </RequireAuth>
           }
         />
         <Route
-          path={"profile"}
+          path={"profile/:username"}
           element={
-            <Profile/>
+            <RequireAuth>
+              <ProfilePage />
+            </RequireAuth>
           }
         />
         <Route
           path={"settings"}
           element={
-            <Settings/>
+            <RequireAuth>
+              <Settings />
+            </RequireAuth>
           }
         />
-        <Route
-          path={"*"}
-          element={
-            <Page404/>
-          }
-        />
+        <Route path={"*"} element={<Page404 />} />
       </Routes>
     </div>
   );
