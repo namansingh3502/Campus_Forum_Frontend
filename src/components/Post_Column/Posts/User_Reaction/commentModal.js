@@ -1,122 +1,42 @@
-import React, { Component } from "react";
-import { BsArrowRightCircleFill } from "react-icons/all";
-import axios from "axios";
+import React, {useState} from "react";
+
+import NewComment from "./newComment";
+import {useQuery} from "react-query";
+import fetchData from "../../../../api/fetchData";
 import Comments from "./comments";
+import CommentLoading from "./commentLoading";
 
-export default class CommentModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      CommentText: "",
-      Comments: [],
-      CommentsLoadStatus: false,
-      CommentPostStatus: false,
-    };
-  }
+export default function CommentModal(props) {
+  const [comments, setComments] = useState([]);
+  const [lastPost, setLastPost] = useState(0);
 
-  loadComments() {
-    const post_id = this.props.post_id;
+  const { data, status, error } = useQuery(
+      ["posts", `/forum/comment/${props.post_id}/comments/${lastPost}`],
+      fetchData
+  );
 
-    axios
-      .get(`${process.env.HOST}/forum/${post_id}/comments`, {
-        headers: {
-          Authorization: localStorage.getItem("Token"),
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            Comments: response.data,
-            CommentsLoadStatus: true,
-          });
-        } else {
-          console.log(response.status, response.data.msg);
-        }
-      })
-      .catch((error) => {
-        console.log("check error at new comment \n", error);
-      });
-  }
+  return (
+    <div className={"text-white border-t mt-2 border-gray-600 pt-2"}>
+      <div className={"flex items-start "}>
+        <NewComment
+          post_id={props.post_id}
+          addComment={(data)=>setComments(comments.concat(data))}
+        />
 
-  submitComment() {
-    const data = {
-      body: this.state.CommentText,
-      post: this.props.post_id,
-    };
-
-    axios
-      .post(`${process.env.HOST}/forum/new_comment`, data, {
-        headers: {
-          Authorization: localStorage.getItem("Token"),
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({
-            CommentText: "",
-            Comments: this.state.Comments.concat(response.data),
-          });
-        } else {
-          console.log(response.status, response.data.msg);
-        }
-      })
-      .catch((error) => {
-        console.log("check error at new comment \n", error);
-      });
-  }
-
-  componentDidMount() {
-    this.loadComments();
-  }
-
-  render() {
-    if (!this.state.CommentsLoadStatus) {
-      return <div> </div>;
-    }
-
-    const user = JSON.parse(localStorage.getItem("user_profile"));
-    const comments = this.state.Comments;
-
-    return (
-      <div className={"text-white border-t mt-2 border-gray-600 pt-2"}>
-        <div className={"flex items-start "}>
-          <img
-            src={`${process.env.HOST}/media/${user.user_image}`}
-            className="rounded-full h-10 w-10"
-            alt={"user-image"}
-          />
-          <form
-            className={"w-full h-auto flex items-start"}
-            onSubmit={(e) => {
-              e.preventDefault();
-              this.submitComment();
-            }}
-          >
-            <label className={"flex items-start w-full"}>
-              <textarea
-                className={
-                  "w-full h-16 p-2 mx-1 resize-none bg-slate-600 bg-opacity-30 text-slate-200 placeholder:text-slate-300 text-white text-lg border-none focus:outline-none rounded-xl overflow-auto"
-                }
-                value={this.state.CommentText}
-                placeholder={"Write a comment..."}
-                onChange={(e) => {
-                  this.setState({ CommentText: e.target.value });
-                }}
-              />
-              <button type={"submit"}>
-                <BsArrowRightCircleFill
-                  className={"ml-1 mt-1 h-8 w-8 text-lg fill-gray-500"}
-                />
-              </button>
-            </label>
-          </form>
-        </div>
-        <div className={"mt-2"}>
-          {comments.map((item) => {
-            return <Comments data={item} key={item.id} />;
+      </div>
+      {status === 'loading' &&
+        <>
+          <CommentLoading/>
+          <CommentLoading/>
+        </>
+      }
+      {status === 'success' &&
+        <div className={"mt-2 mx-2"}>
+          {data.data?.map((item) => {
+            return <Comments data={item} key={item.id}/>;
           })}
         </div>
-      </div>
-    );
-  }
+      }
+    </div>
+  );
 }

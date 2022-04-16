@@ -12,8 +12,10 @@ import Profile from "./profile";
 
 export default function ProfilePage() {
   let { username } = useParams();
+  const [lastPost, setLastPost] = useState(0);
+
   const { data, status } = useQuery(
-    ["user_timeline_post", `forum/user/${username}/post`],
+    ["user_timeline_post", `forum/user/${username}/post/${lastPost}`],
     fetchPost
   );
 

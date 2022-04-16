@@ -8,8 +8,9 @@ import { useQuery } from "react-query";
 import fetchData from "../../api/fetchData";
 
 export default function PostColumn() {
+  const [lastPost, setLastPost] = useState(0)
   const { data, status, error } = useQuery(
-    ["posts", "/forum/posts"],
+    ["posts", `/forum/posts/${lastPost}`],
     fetchData
   );
 

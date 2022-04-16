@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CreatePostDialog from "./createPostDialog";
+import PostLoading from "../Posts/postLoading";
 
 export default function CreatePost(props) {
   const [dialogVisibility, setDialogVisibility] = useState(false);
@@ -34,7 +35,7 @@ export default function CreatePost(props) {
           setDialogVisibility(false);
         }}
         updatePosts={(newPost) => {
-          props.updatePosts(newPost);
+          console.log("new post")
         }}
       />
     </>

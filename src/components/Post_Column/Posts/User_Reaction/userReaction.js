@@ -21,7 +21,7 @@ export default function UserReaction(props) {
 
     axios
       .post(
-        `${process.env.HOST}/forum/${props.post_id}/like_post`,
+        `${process.env.HOST}/api/forum/${props.post_id}/like_post`,
         {},
         {
           headers: {

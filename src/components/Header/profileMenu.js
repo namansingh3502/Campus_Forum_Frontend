@@ -42,7 +42,7 @@ export default function ProfileMenu(props) {
             <Menu.Item>
               {({ active }) => (
                 <NavLink
-                  to={`profile/${user.username}`}
+                  to={`/profile/${user.username}`}
                   className={`${
                     active ? "bg-slate-900 bg-opacity-80 backdrop-blur-md" : ""
                   } block px-4 py-2`}

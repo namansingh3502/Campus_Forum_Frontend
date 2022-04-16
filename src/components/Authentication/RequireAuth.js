@@ -1,5 +1,5 @@
-import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import React, {useEffect} from "react";
+import {Navigate, useLocation, useNavigate} from "react-router-dom";
 
 import Header from "../Header/header";
 import { useQuery } from "react-query";
@@ -7,6 +7,7 @@ import fetchData from "../../api/fetchData";
 
 export default function RequireAuth({ children, ...rest }) {
   let location = useLocation();
+
   const {
     data: user_details,
     status: user_details_status,
@@ -35,6 +36,7 @@ export default function RequireAuth({ children, ...rest }) {
     // console.log("error : ", user_details_error.message)
     // console.log(user_details_error.response, channel_error.message);
   }
+
   return (
     <>
       {(user_details_status === "loading" || channel_status === "loading") && (
@@ -42,7 +44,7 @@ export default function RequireAuth({ children, ...rest }) {
           <div className="dot" />
         </div>
       )}
-      {user_details_status === "error" && (
+      {(user_details_status === "error" && channel_status === "error") && (
         <Navigate to="/login" state={{ from: location }} replace />
       )}
       {user_details_status === "success" && channel_status === "success" && (

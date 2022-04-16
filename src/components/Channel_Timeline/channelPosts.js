@@ -11,9 +11,9 @@ import PageProfile from "./pageProfile";
 
 export default function ChannelPost() {
   let { name } = useParams();
-  const [page, setPage] = useState(1);
+  const [lastPost, setLastPost] = useState(0)
   const { isLoading, isError, error, data, isPreviousData } = useQuery(
-    ["post", `/forum/channel/${name}/posts`],
+    ["post", `/forum/channel/${name}/post/${lastPost}`],
     fetchPost,
     { keepPreviousData: true }
   );

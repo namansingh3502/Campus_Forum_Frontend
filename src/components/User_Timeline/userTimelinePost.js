@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import { useParams } from "react-router-dom";
 
@@ -10,8 +10,10 @@ import fetchData from "../../api/fetchData";
 
 export default function UserTimelinePost() {
   let { username } = useParams();
+  const [lastPost, setLastPost] = useState(0)
+
   const { data, status } = useQuery(
-    ["user_timeline_post", `forum/user/${username}/post`],
+    ["user_timeline_post", `forum/user/${username}/post/${lastPost}`],
     fetchData
   );
   return (

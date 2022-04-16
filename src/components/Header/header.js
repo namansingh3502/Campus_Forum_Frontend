@@ -55,7 +55,7 @@ export default function Header(props) {
               </div>
 
               <div className="flex-1 flex items-center justify-center sm:justify-start">
-                <NavLink to={``}>
+                <NavLink to={`/`}>
                   <h1 className="font-bold text-center text-xl lg:text-3xl text-yellow-500">
                     College<span className="text-blue-500 ml-2">Forum</span>
                   </h1>
