@@ -23,29 +23,29 @@ export default function Posts(props) {
 
   return (
     <div className="py-4 px-2 bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto">
-      {editButton ? (
-        <button
-          className={"float-right text-sm"}
-          aria-label={"Edit Post"}
-          onClick={() => {
-            setDialogVisibility(!dialogVisibility);
-          }}
-        >
-          <FaPen />
-        </button>
-      ) : null}
-      {dialogVisibility ? (
-        <EditPostModal
-          dialogVisibility={dialogVisibility}
-          setDialogVisibility={() => {
-            setDialogVisibility(false);
-          }}
-          setPostData={(newPost) => {
-            setPostData(newPost);
-          }}
-          data={postData}
-        />
-      ) : null}
+      {/*{editButton ? (*/}
+      {/*  <button*/}
+      {/*    className={"float-right text-sm"}*/}
+      {/*    aria-label={"Edit Post"}*/}
+      {/*    onClick={() => {*/}
+      {/*      setDialogVisibility(!dialogVisibility);*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    <FaPen />*/}
+      {/*  </button>*/}
+      {/*) : null}*/}
+      {/*{dialogVisibility ? (*/}
+      {/*  <EditPostModal*/}
+      {/*    dialogVisibility={dialogVisibility}*/}
+      {/*    setDialogVisibility={() => {*/}
+      {/*      setDialogVisibility(false);*/}
+      {/*    }}*/}
+      {/*    setPostData={(newPost) => {*/}
+      {/*      setPostData(newPost);*/}
+      {/*    }}*/}
+      {/*    data={postData}*/}
+      {/*  />*/}
+      {/*) : null}*/}
       <UserDetails userdetail={postData.user} time={postData.post.time} />
       <ChannelTags channels={postData.post.posted_in} />
       <PostText text={postData.post.body} />

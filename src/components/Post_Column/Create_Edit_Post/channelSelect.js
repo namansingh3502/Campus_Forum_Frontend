@@ -4,7 +4,7 @@ import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import { AiOutlineClose } from "react-icons/all";
 
 export default function ChannelSelect(props) {
-  const channel = JSON.parse(localStorage.getItem("channels"));
+  const channel = JSON.parse(localStorage.getItem("channels")).data;
 
   const [selectedChannels, updateSelectedChannel] = useState(
     props.selectedChannels
@@ -21,7 +21,7 @@ export default function ChannelSelect(props) {
     let data = selectedChannels;
     data.push(newChannel);
     updateSelectedChannel(data);
-    props.setSelectedChannel(data);
+    props.updateSelectedList(data);
   }
 
   function removeChannel(removedChannel) {
@@ -32,7 +32,7 @@ export default function ChannelSelect(props) {
       }
     }
     updateSelectedChannel(data);
-    props.setSelectedChannel(data);
+    props.updateSelectedList(data);
   }
 
   const filteredChannel =

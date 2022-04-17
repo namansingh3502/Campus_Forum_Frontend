@@ -29,9 +29,8 @@ export default function NewComment(props) {
       });
       if( res.status === 200 ){
         props.addComment(res.data)
-        reset({ post: "" });
+        reset({ body: "" });
       }
-      console.log(res.data)
     } catch (e) {
       setError("server_error", {
         type: "",

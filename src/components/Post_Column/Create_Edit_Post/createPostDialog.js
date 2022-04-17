@@ -36,7 +36,6 @@ export default function CreatePostDialog(props) {
     const data = {
       body: PostText,
       channel_list: selectedChannels,
-      media_count: images.length,
     };
 
     const formData = new FormData();
@@ -46,7 +45,7 @@ export default function CreatePostDialog(props) {
     });
 
     axios
-      .post(`${process.env.HOST}/forum/new_post`, formData, {
+      .post(`${process.env.HOST}/api/forum/new_post`, formData, {
         headers: {
           Authorization: localStorage.getItem("Token"),
           "Content-Type":
@@ -55,9 +54,7 @@ export default function CreatePostDialog(props) {
       })
       .then((response) => {
         if (response.status === 200) {
-          updatePostText("");
-          updateSelectedChannels([]);
-          props.updatePosts(response.data);
+          props.addPost(response.data)
           props.setDialogVisibility();
         } else {
           console.log(response.status, response.data.msg);
@@ -74,9 +71,6 @@ export default function CreatePostDialog(props) {
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
         onClose={() => {
-          setImages([]);
-          updatePostText([]);
-          updateSelectedChannels([]);
           props.setDialogVisibility();
         }}
       >
@@ -146,8 +140,7 @@ export default function CreatePostDialog(props) {
                   >
                     <ChannelSelect
                       selectedChannels={selectedChannels}
-                      updateSelectedList={(channels) =>
-                        updateSelectedChannels(channels)
+                      updateSelectedList={(channels) => updateSelectedChannels(channels)
                       }
                     />
 

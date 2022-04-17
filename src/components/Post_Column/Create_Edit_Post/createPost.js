@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import CreatePostDialog from "./createPostDialog";
 import PostLoading from "../Posts/postLoading";
+import Posts from "../posts";
 
-export default function CreatePost(props) {
+export default function CreatePost() {
+  const [post, setPost] = useState([]);
   const [dialogVisibility, setDialogVisibility] = useState(false);
   const user = JSON.parse(localStorage.getItem("user_profile"));
 
   return (
-    <>
+    <div>
       <div className="py-4 px-4 bg-slate-500 bg-opacity-20 rounded-lg text-white">
         <div className="flex items-center">
           <img
@@ -29,15 +31,27 @@ export default function CreatePost(props) {
         </div>
       </div>
 
-      <CreatePostDialog
-        dialogVisibility={dialogVisibility}
-        setDialogVisibility={() => {
-          setDialogVisibility(false);
-        }}
-        updatePosts={(newPost) => {
-          console.log("new post")
-        }}
-      />
-    </>
+      {post.length !== 0 ?
+        <div className={"pt-2 space-y-2"}>
+          {post.map((item) => {
+            return <Posts key={item.post.id} data={item} />;
+          })}
+        </div>
+        : null
+      }
+
+      {dialogVisibility && (
+        <CreatePostDialog
+          dialogVisibility={dialogVisibility}
+          setDialogVisibility={() => {
+            setDialogVisibility(false);
+          }}
+          addPost={(data) => {
+            console.log(data);
+            setPost([...post, data])
+          }}
+        />
+      )}
+    </div>
   );
 }
