@@ -112,7 +112,7 @@ export default function UserReaction(props) {
           </div>
         </button>
       </div>
-      {commentModalVisibility ? <CommentModal post_id={props.post_id} /> : null}
+      {commentModalVisibility && <CommentModal post_id={props.post_id} />}
     </div>
   );
 }

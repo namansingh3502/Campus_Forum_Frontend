@@ -6,3 +6,4 @@ coverage/
 .idea
 .parcel-cache/
 __pycache__
+/public/

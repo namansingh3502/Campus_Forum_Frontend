@@ -61,7 +61,7 @@ export default function SideMenu(props) {
                         <Disclosure.Button
                           key={channel.name}
                           as="a"
-                          href={`channel/${channel.name}`}
+                          href={`/channel/${channel.name}`}
                           className={`text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium`}
                         >
                           {channel.name}

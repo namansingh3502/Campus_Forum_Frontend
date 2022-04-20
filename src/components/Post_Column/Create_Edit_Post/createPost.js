@@ -32,7 +32,7 @@ export default function CreatePost() {
       </div>
 
       {post.length !== 0 ?
-        <div className={"pt-2 space-y-2"}>
+        <div className={"mt-2 space-y-2"}>
           {post.map((item) => {
             return <Posts key={item.post.id} data={item} />;
           })}

@@ -1,37 +1,69 @@
-import React, { useEffect, useState, Fragment } from "react";
-import axios from "axios";
+import React from "react";
+import { useInView } from "react-hook-inview";
+import { useInfiniteQuery } from "react-query";
 
 import CreatePost from "./Create_Edit_Post/createPost";
 import Posts from "./posts";
 import PostLoading from "./Posts/postLoading";
 import { useQuery } from "react-query";
 import fetchData from "../../api/fetchData";
+import FetchPost from "../../api/fetchPost";
 
 export default function PostColumn() {
-  const [lastPost, setLastPost] = useState(0)
-  const { data, status, error } = useQuery(
-    ["posts", `/forum/posts/${lastPost}`],
-    fetchData
+  const [ref, inView] = useInView();
+
+  const {
+    status,
+    data,
+    error,
+    isFetching,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
+  } = useInfiniteQuery(
+    "posts",
+    ({ pageParam = 10000 }) => FetchPost(pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.data.has_more ? lastPage.data.next : undefined,
+    }
   );
+
+  React.useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     <div>
       <CreatePost />
 
-      {status === "loading" && (
-        <>
+      {isFetching && !isFetchingNextPage ? (
+        <div>
           <PostLoading />
           <PostLoading />
           <PostLoading />
-        </>
-      )}
-      {status === "success" && (
-        <div className={"pt-2 space-y-2"}>
-          {data.data.map((item) => {
-            return <Posts key={item.post.id} data={item} />;
-          })}
         </div>
-      )}
+      ) : null}
+      <div className={"mt-2 space-y-2"}>
+        {data?.pages?.map((page ) =>
+          page.data.posts?.map((item) => (
+            <Posts key={item.post.id} data={item} />
+          ))
+        )}
+      </div>
+      <div ref={ref} className={"w-full h-1"}></div>
+      {isFetching && !isFetchingNextPage ? (
+        <div>
+          <PostLoading />
+          <PostLoading />
+          <PostLoading />
+        </div>
+      ) : null}
     </div>
   );
 }
