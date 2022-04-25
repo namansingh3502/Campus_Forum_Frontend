@@ -26,7 +26,7 @@ export default function ChannelPost() {
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(
-      "column posts",
+      `channel-posts : ${name}`,
       ({ pageParam = 10000 }) => FetchChannelPost(pageParam, name),
       {
         getNextPageParam: (lastPage, allPages) =>

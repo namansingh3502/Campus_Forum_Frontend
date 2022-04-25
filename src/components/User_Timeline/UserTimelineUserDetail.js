@@ -9,7 +9,7 @@ export default function UserDetails() {
   let { username } = useParams();
 
   const { data, status } = useQuery(
-    ["user_details", `auth/user/${username}`],
+    [`user-details-timeline : ${username}`, `auth/user/${username}`],
     fetchData
   );
 

@@ -28,7 +28,7 @@ export default function UserTimelinePost() {
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(
-      "column posts",
+      `user-timeline-post : ${username}`,
       ({ pageParam = 10000 }) => FetchUserPost(pageParam, username),
       {
         getNextPageParam: (lastPage, allPages) =>

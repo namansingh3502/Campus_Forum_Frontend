@@ -26,7 +26,7 @@ export default function ProfilePage() {
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(
-      "user profile posts",
+      `user-profile-posts : ${username}`,
       ({ pageParam = 1000 }) => FetchUserPost(pageParam, username),
       {
         getNextPageParam: (lastPage, allPages) =>

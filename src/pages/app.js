@@ -11,7 +11,7 @@ import Router from "./router";
 
 import axios from "axios";
 const queryClient = new QueryClient();
-axios.defaults.baseURL = `http://127.0.0.1:8000/api/`;
+axios.defaults.baseURL = `http://192.168.41.147/api/`;
 
 export default function App() {
   return (

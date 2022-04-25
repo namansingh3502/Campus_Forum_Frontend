@@ -7,7 +7,7 @@ import fetchData from "../../api/fetchData";
 export default function PageProfile() {
   let { name } = useParams();
   const { data, status } = useQuery(
-    ["page_profile", `/forum/channel/${name}/profile`],
+    [`channel-profile : ${name}`, `/forum/channel/${name}/profile`],
     fetchData
   );
 
