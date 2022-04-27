@@ -133,32 +133,33 @@ export default function ChannelSelect(props) {
                         {channel.name}
                       </button>
 
-                    {/*{({ selected, active }) => (*/}
-                    {/*  <>*/}
-                    {/*    <span*/}
-                    {/*      className={`block truncate ${*/}
-                    {/*        selected ? 'font-medium' : 'font-normal'*/}
-                    {/*      }`}*/}
-                    {/*    >*/}
-                    {/*      {person.name}*/}
-                    {/*    </span>*/}
+                      {/*{({ selected, active }) => (*/}
+                      {/*  <>*/}
+                      {/*    <span*/}
+                      {/*      className={`block truncate ${*/}
+                      {/*        selected ? 'font-medium' : 'font-normal'*/}
+                      {/*      }`}*/}
+                      {/*    >*/}
+                      {/*      {person.name}*/}
+                      {/*    </span>*/}
 
-                    {/*    {selected ? (*/}
-                    {/*      <span*/}
-                    {/*        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${*/}
-                    {/*          active ? 'text-slate-200' : 'text-teal-600'*/}
-                    {/*        }`}*/}
-                    {/*      >*/}
-                    {/*        <CheckIcon className="w-5 h-5" aria-hidden="true" />*/}
-                    {/*      </span>*/}
-                    {/*    ) : null}*/}
-                    {/*  </>*/}
-                    {/*)}*/}
-                  </Combobox.Option>
-                ))
-              )}
-            </Combobox.Options>
-          </Transition>
+                      {/*    {selected ? (*/}
+                      {/*      <span*/}
+                      {/*        className={`absolute inset-y-0 left-0 flex items-center pl-3 ${*/}
+                      {/*          active ? 'text-slate-200' : 'text-teal-600'*/}
+                      {/*        }`}*/}
+                      {/*      >*/}
+                      {/*        <CheckIcon className="w-5 h-5" aria-hidden="true" />*/}
+                      {/*      </span>*/}
+                      {/*    ) : null}*/}
+                      {/*  </>*/}
+                      {/*)}*/}
+                    </Combobox.Option>
+                  ))
+                )}
+              </Combobox.Options>
+            </Transition>
+          </div>
         </div>
       </Combobox>
     </div>

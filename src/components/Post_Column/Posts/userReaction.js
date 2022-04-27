@@ -96,7 +96,7 @@ export default function UserReaction(props) {
         <button
           className="hover:bg-gray-400 rounded-full hover:bg-opacity-20 h-8 w-full flex items-center justify-center"
           onClick={() => {
-            showCommentModal(true);
+            showCommentModal(!commentModalVisibility);
           }}
         >
           <div className={"flex items-center justify-center"}>

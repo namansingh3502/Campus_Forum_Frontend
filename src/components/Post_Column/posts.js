@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import { FaPen } from "react-icons/all";
+import { FiMoreVertical } from "react-icons/all";
 import ChannelTags from "./Posts/channelTags";
 import PostText from "./Posts/postText";
 import PostImage from "./Posts/postImage";
-import UserReaction from "./Posts/User_Reaction/userReaction";
+import UserReaction from "./Posts/userReaction";
 import UserDetails from "./Posts/userDetails";
 import EditPostModal from "./Create_Edit_Post/editPostDialog";
+import EditPostButton from "./Posts/editPostButton";
 
 export default function Posts(props) {
   const user = JSON.parse(localStorage.getItem("user_profile"));
