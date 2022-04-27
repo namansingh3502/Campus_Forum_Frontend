@@ -31,14 +31,13 @@ export default function CreatePost() {
         </div>
       </div>
 
-      {post.length !== 0 ?
+      {post.length !== 0 ? (
         <div className={"mt-2 space-y-2"}>
           {post.map((item) => {
             return <Posts key={item.post.id} data={item} />;
           })}
         </div>
-        : null
-      }
+      ) : null}
 
       {dialogVisibility && (
         <CreatePostDialog
@@ -48,7 +47,7 @@ export default function CreatePost() {
           }}
           addPost={(data) => {
             console.log(data);
-            setPost([...post, data])
+            setPost([...post, data]);
           }}
         />
       )}

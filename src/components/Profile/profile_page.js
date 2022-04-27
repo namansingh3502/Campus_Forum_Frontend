@@ -4,15 +4,15 @@ import ChannelList from "../Menu_Column/channelList";
 import CreatePost from "../Post_Column/Create_Edit_Post/createPost";
 import Posts from "../Post_Column/posts";
 import { useParams } from "react-router-dom";
-import {useInfiniteQuery, useQuery} from "react-query";
+import { useInfiniteQuery, useQuery } from "react-query";
 import PostLoading from "../Post_Column/Posts/postLoading";
 import Profile from "./profile";
 import FetchUserPost from "../../api/fetchUserPost";
-import {useInView} from "react-hook-inview";
+import { useInView } from "react-hook-inview";
 
 export default function ProfilePage() {
   let { username } = useParams();
-  const [ ref, inView ] = useInView();
+  const [ref, inView] = useInView();
 
   const {
     status,
@@ -26,19 +26,19 @@ export default function ProfilePage() {
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(
-      `user-profile-posts : ${username}`,
-      ({ pageParam = 1000 }) => FetchUserPost(pageParam, username),
-      {
-        getNextPageParam: (lastPage, allPages) =>
-            lastPage.data.has_more ? lastPage.data.next : undefined,
-      }
+    `user-profile-posts : ${username}`,
+    ({ pageParam = 1000 }) => FetchUserPost(pageParam, username),
+    {
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.data.has_more ? lastPage.data.next : undefined,
+    }
   );
 
   React.useEffect(() => {
-    if (inView && status !== 'error') {
-      fetchNextPage()
+    if (inView && status !== "error") {
+      fetchNextPage();
     }
-  }, [inView])
+  }, [inView]);
 
   return (
     <div className={"min-h-screen w-full flex justify-center mt-4 px-2"}>
@@ -56,24 +56,24 @@ export default function ProfilePage() {
           <div className={"mt-2 w-full md:basis-2/3"}>
             <CreatePost />
             {isFetching && !isFetchingNextPage ? (
-                <div>
-                  <PostLoading />
-                  <PostLoading />
-                  <PostLoading />
-                </div>
+              <div>
+                <PostLoading />
+                <PostLoading />
+                <PostLoading />
+              </div>
             ) : null}
             <div className={"mt-2 space-y-2"}>
               {data?.pages?.map((page, index) =>
-                  page.data.posts?.map((item) => (
-                      <Posts key={item.post.id} data={item} />
-                  ))
+                page.data.posts?.map((item) => (
+                  <Posts key={item.post.id} data={item} />
+                ))
               )}
             </div>
             <div ref={ref} className={"w-full h-1"}></div>
             {isFetching && isFetchingNextPage ? (
-                <div>
-                  <PostLoading />
-                </div>
+              <div>
+                <PostLoading />
+              </div>
             ) : null}
           </div>
         </div>

@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Routes, Route, Navigate} from "react-router-dom";
+import React, { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Dashboard from "./dashboard";
 import ChannelTimeline from "./channelTimeline";
@@ -10,13 +10,13 @@ import Page404 from "./page404";
 import RequireAuth from "../components/Authentication/RequireAuth";
 
 export default function Router() {
-  const [token, setToken] = useState(localStorage.getItem("Token"))
+  const [token, setToken] = useState(localStorage.getItem("Token"));
 
   return (
     <div className={"pb-10"}>
-      { token === null ?
-        <Navigate to="/login" replace/>
-      :
+      {token === null ? (
+        <Navigate to="/login" replace />
+      ) : (
         <Routes>
           <Route
             exact
@@ -61,7 +61,7 @@ export default function Router() {
           />
           <Route path={"*"} element={<Page404 />} />
         </Routes>
-      }
+      )}
     </div>
   );
 }

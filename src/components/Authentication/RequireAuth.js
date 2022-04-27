@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Navigate, useLocation, useNavigate} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 import Header from "../Header/header";
 import { useQuery } from "react-query";
@@ -12,12 +12,12 @@ export default function RequireAuth({ children, ...rest }) {
     data: user_details,
     status: user_details_status,
     error: user_details_error,
-  } = useQuery(["user_detail", "/auth/user/"], fetchData);
+  } = useQuery(["user_detail", "/api/auth/user/"], fetchData);
   const {
     data: channel,
     status: channel_status,
     error: channel_error,
-  } = useQuery(["channel", "/forum/channel_list"], fetchData);
+  } = useQuery(["channel", "/api/forum/channel_list"], fetchData);
 
   if (user_details_status === "success") {
     localStorage.setItem("user_profile", JSON.stringify(user_details.data));
@@ -29,12 +29,12 @@ export default function RequireAuth({ children, ...rest }) {
     );
   }
   if (user_details_status === "error") {
-
-    if( user_details_error.response?.status === 401 && channel_error.response?.status === 401 ){
-      localStorage.clear()
+    if (
+      user_details_error.response?.status === 401 &&
+      channel_error.response?.status === 401
+    ) {
+      localStorage.clear();
     }
-    // console.log("error : ", user_details_error.message)
-    // console.log(user_details_error.response, channel_error.message);
   }
 
   return (
@@ -44,7 +44,7 @@ export default function RequireAuth({ children, ...rest }) {
           <div className="dot" />
         </div>
       )}
-      {(user_details_status === "error" && channel_status === "error") && (
+      {user_details_status === "error" && channel_status === "error" && (
         <Navigate to="/login" state={{ from: location }} replace />
       )}
       {user_details_status === "success" && channel_status === "success" && (

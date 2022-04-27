@@ -12,9 +12,7 @@ export default function UserDetails() {
           alt={"user"}
         />
         <div className="ml-4 text-bold">
-          <span className={"text-lg font-semibold"}>
-            {user.full_name}
-          </span>
+          <span className={"text-lg font-semibold"}>{user.full_name}</span>
           <br />
           <span className={"text-md"}>@{user.username}</span>
         </div>

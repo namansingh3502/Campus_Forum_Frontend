@@ -54,7 +54,7 @@ export default function CreatePostDialog(props) {
       })
       .then((response) => {
         if (response.status === 200) {
-          props.addPost(response.data)
+          props.addPost(response.data);
           props.setDialogVisibility();
         } else {
           console.log(response.status, response.data.msg);
@@ -140,7 +140,8 @@ export default function CreatePostDialog(props) {
                   >
                     <ChannelSelect
                       selectedChannels={selectedChannels}
-                      updateSelectedList={(channels) => updateSelectedChannels(channels)
+                      setSelectedChannel={(channels) =>
+                        updateSelectedChannels(channels)
                       }
                     />
 

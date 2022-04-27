@@ -6,13 +6,13 @@ import { MenuIcon, XIcon } from "@heroicons/react/solid";
 import SideMenu from "./sideMenu";
 import ProfileMenu from "./profileMenu";
 
-export default function Header(props) {
+export default function Header() {
   let navigate = useNavigate();
 
   function logout() {
     axios
       .post(
-        `${process.env.HOST}/api/auth/token/logout/`,
+        `/api/auth/token/logout/`,
         {},
         {
           headers: {

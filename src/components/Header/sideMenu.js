@@ -64,7 +64,7 @@ export default function SideMenu(props) {
                           href={`/channel/${channel.name}`}
                           className={`text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium`}
                         >
-                          {channel.name}
+                          # {channel.name}
                         </Disclosure.Button>
                       ))}
                   </Disclosure.Panel>

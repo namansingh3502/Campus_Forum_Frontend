@@ -21,7 +21,7 @@ export default function ChannelSelect(props) {
     let data = selectedChannels;
     data.push(newChannel);
     updateSelectedChannel(data);
-    props.updateSelectedList(data);
+    props.setSelectedChannel(data);
   }
 
   function removeChannel(removedChannel) {
@@ -32,7 +32,7 @@ export default function ChannelSelect(props) {
       }
     }
     updateSelectedChannel(data);
-    props.updateSelectedList(data);
+    props.setSelectedChannel(data);
   }
 
   const filteredChannel =
@@ -58,7 +58,7 @@ export default function ChannelSelect(props) {
               return (
                 <div
                   className={
-                    "bg-blue-600 bg-opacity-70 rounded-xl py-1 px-2 m-1 inline-block flex items-center max-w-fit text-sm"
+                    "bg-indigo-700 rounded-xl py-1 px-2 m-1 inline-block flex items-center max-w-fit text-sm"
                   }
                   key={channel.id}
                 >
@@ -98,39 +98,40 @@ export default function ChannelSelect(props) {
             </Combobox.Button>
           </div>
 
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-            afterLeave={() => setQuery("")}
-          >
-            <Combobox.Options className="absolute py-1 mt-1 overflow-auto rounded-md bg-slate-700 max-h-60 sm:text-sm w-40">
-              {filteredChannel.length === 0 && query !== "" ? (
-                <div className="relative py-2 px-4 ">Nothing found.</div>
-              ) : (
-                filteredChannel.map((channel) => (
-                  <Combobox.Option
-                    key={channel.id}
-                    className={({ active }) =>
-                      `select-none relative py-1 w-full px-4 ${
-                        active
-                          ? "text-white bg-blue-500 bg-opacity-70"
-                          : "text-gray-100"
-                      }`
-                    }
-                    value={channel}
-                  >
-                    <button
-                      type={"button"}
-                      className={"block truncate text-md w-full text-left"}
-                      value={channel.name}
-                      onClick={() => {
-                        addChannel(channel);
-                      }}
+          <div className={"relative"}>
+            <Transition
+              as={Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+              afterLeave={() => setQuery("")}
+            >
+              <Combobox.Options className="absolute py-1 mt-1 overflow-auto rounded-md bg-slate-800 max-h-60 sm:text-sm w-full z-20">
+                {filteredChannel.length === 0 && query !== "" ? (
+                  <div className="relative py-2 px-4">Nothing found.</div>
+                ) : (
+                  filteredChannel.map((channel) => (
+                    <Combobox.Option
+                      key={channel.id}
+                      className={({ active }) =>
+                        `select-none relative py-1 w-full px-4 w-full ${
+                          active
+                            ? "bg-indigo-700 text-white backdrop-blur-md"
+                            : ""
+                        } group flex rounded-lg items-center w-full px-2 py-2`
+                      }
+                      value={channel}
                     >
-                      {channel.name}
-                    </button>
+                      <button
+                        type={"button"}
+                        className={"block truncate text-md w-full text-left"}
+                        value={channel.name}
+                        onClick={() => {
+                          addChannel(channel);
+                        }}
+                      >
+                        {channel.name}
+                      </button>
 
                     {/*{({ selected, active }) => (*/}
                     {/*  <>*/}

@@ -2,13 +2,13 @@ import React from "react";
 import background from "../../images/bg.jpeg";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import fetchData from "../../api/fetchData";
+import FetchData from "../../api/fetchData";
 
 export default function PageProfile() {
   let { name } = useParams();
   const { data, status } = useQuery(
-    [`channel-profile : ${name}`, `/forum/channel/${name}/profile`],
-    fetchData
+    [`channel-profile : ${name}`, `/api/forum/channel/${name}/profile`],
+    FetchData
   );
 
   return (

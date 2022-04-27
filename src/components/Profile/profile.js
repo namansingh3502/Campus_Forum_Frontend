@@ -7,36 +7,35 @@ import { useParams } from "react-router-dom";
 export default function Profile() {
   const user = JSON.parse(localStorage.getItem("user_profile"));
 
-  const [image, setImage] = useState(user.user_image)
+  const [image, setImage] = useState(user.user_image);
 
-  function updateImage(image){
+  function updateImage(image) {
+    const formData = new FormData();
+    formData.append(image[0].name, image[0]);
 
-    const formData = new FormData()
-    formData.append(image[0].name, image[0])
-
-    axios.post(
-        `${process.env.HOST}/api/auth/update/user_image`, formData,
-        {
-          headers: {
-            Authorization: localStorage.getItem("Token"),
-            'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW',
-          }
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            localStorage.setItem('user_profile',JSON.stringify(response.data))
-            setImage(response.data.user_image)
-            location.reload()
-          } else {
-            console.log(response.status, response.data.msg)
-          }
-        })
-        .catch((error) => {
-          console.log("check error at new Posts \n",error)
-        })
+    axios
+      .post(`/api/auth/update/user_image`, formData, {
+        headers: {
+          Authorization: localStorage.getItem("Token"),
+          "Content-Type":
+            "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.setItem("user_profile", JSON.stringify(response.data));
+          setImage(response.data.user_image);
+          location.reload();
+        } else {
+          console.log(response.status, response.data.msg);
+        }
+      })
+      .catch((error) => {
+        console.log("check error at new Posts \n", error);
+      });
   }
 
-  useEffect(()=>{},[image])
+  useEffect(() => {}, [image]);
 
   return (
     <div

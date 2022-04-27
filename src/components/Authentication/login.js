@@ -25,10 +25,10 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post(`/auth/token/login/`, data, {});
-      if(res.status === 200 ) {
+      const res = await axios.post(`/api/auth/token/login/`, data, {});
+      if (res.status === 200) {
         localStorage.setItem("Token", "Token " + res.data.auth_token);
-        navigate(from, {replace: true})
+        navigate(from, { replace: true });
       }
     } catch (e) {
       setError("server_error", {
@@ -83,9 +83,7 @@ export default function Login() {
             />
 
             {errors.server_error && (
-              <p className={"text-red-600"}>
-                *{errors.server_error.message}
-              </p>
+              <p className={"text-red-600"}>*{errors.server_error.message}</p>
             )}
 
             <div className="w-full px-1">

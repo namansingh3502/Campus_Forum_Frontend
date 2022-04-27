@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import Login from "../components/Authentication/login";
-import RequireAuth from "../components/Authentication/RequireAuth";
 
 import Router from "./router";
 

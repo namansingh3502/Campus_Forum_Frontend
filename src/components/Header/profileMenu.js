@@ -31,11 +31,11 @@ export default function ProfileMenu(props) {
         >
           <Menu.Items
             className={
-              "absolute right-0 mt-12 sm:mt-14 w-40 rounded-md py-1 bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none text-white text-md"
+              "absolute right-0 mt-12 sm:mt-14 w-40 rounded-md bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none text-white text-md px-1 py-2"
             }
           >
             <Menu.Item>
-              <div className={`block px-4 py-1 mt-4`}>
+              <div className={`block px-2 py-1 mt-2`}>
                 Signed in as @{user.username}
               </div>
             </Menu.Item>
@@ -44,30 +44,30 @@ export default function ProfileMenu(props) {
                 <NavLink
                   to={`/profile/${user.username}`}
                   className={`${
-                    active ? "bg-slate-900 bg-opacity-80 backdrop-blur-md" : ""
-                  } block px-4 py-2`}
+                    active ? "bg-indigo-700 text-white backdrop-blur-md" : ""
+                  } group flex rounded-md items-center w-full px-2 py-2`}
                 >
                   Your Profile
                 </NavLink>
               )}
             </Menu.Item>
-            {/*<Menu.Item>*/}
-            {/*  {({ active }) => (*/}
-            {/*    <NavLink*/}
-            {/*      to={`settings`}*/}
-            {/*      className={`${active ? 'bg-gray-500 bg-opacity-30 backdrop-blur-md' : ''} block px-4 py-2`}*/}
-            {/*    >*/}
-            {/*      Settings*/}
-            {/*    </NavLink>*/}
-            {/*  )}*/}
-            {/*</Menu.Item>*/}
+{/*            <Menu.Item>
+              {({ active }) => (
+                <NavLink
+                  to={`settings`}
+                  className={`${active ? 'bg-gray-500 bg-opacity-30 backdrop-blur-md' : ''} block px-4 py-2`}
+                >
+                  Settings
+                </NavLink>
+              )}
+            </Menu.Item>*/}
             <Menu.Item>
               {({ active }) => (
                 <button
                   type={"button"}
                   className={`${
-                    active ? "bg-slate-900 bg-opacity-80 backdrop-blur-md" : ""
-                  } block px-4 py-2 w-full text-left`}
+                      active ? "bg-indigo-700 text-white backdrop-blur-md" : ""
+                  } group flex rounded-md items-center w-full px-2 py-2`}
                   onClick={() => {
                     props.logout();
                   }}

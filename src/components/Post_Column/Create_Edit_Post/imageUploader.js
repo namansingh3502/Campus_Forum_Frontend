@@ -15,7 +15,7 @@ export default function ImageUploader(props) {
                 <div className={"h-36 w-1/3 mb-1 px-1 relative"} key={index}>
                   <img
                     className={"h-full w-full"}
-                    src={image.file || URL.createObjectURL(image)}
+                    src={`${process.env.HOST}/media/${image.file}`}
                     alt={"image"}
                   />
                   <div

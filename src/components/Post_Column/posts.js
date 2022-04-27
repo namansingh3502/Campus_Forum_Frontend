@@ -23,34 +23,34 @@ export default function Posts(props) {
 
   return (
     <div className="py-4 px-2 bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto">
-      {/*{editButton ? (*/}
-      {/*  <button*/}
-      {/*    className={"float-right text-sm"}*/}
-      {/*    aria-label={"Edit Post"}*/}
-      {/*    onClick={() => {*/}
-      {/*      setDialogVisibility(!dialogVisibility);*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    <FaPen />*/}
-      {/*  </button>*/}
-      {/*) : null}*/}
-      {/*{dialogVisibility ? (*/}
-      {/*  <EditPostModal*/}
-      {/*    dialogVisibility={dialogVisibility}*/}
-      {/*    setDialogVisibility={() => {*/}
-      {/*      setDialogVisibility(false);*/}
-      {/*    }}*/}
-      {/*    setPostData={(newPost) => {*/}
-      {/*      setPostData(newPost);*/}
-      {/*    }}*/}
-      {/*    data={postData}*/}
-      {/*  />*/}
-      {/*) : null}*/}
+{/*      {!editButton ? (
+        <EditPostButton
+          setDialogVisibility={() => {
+            setDialogVisibility(true);
+          }}
+        />
+      ) : null}*/}
       <UserDetails userdetail={postData.user} time={postData.post.time} />
       <ChannelTags channels={postData.post.posted_in} />
-      <PostText text={postData.post.body} />
+      <PostText text={postData.post.body} is_edited={postData.post.is_edited} />
       <PostImage images={postData.media} />
-      <UserReaction likes={postData.post.likes} post_id={postData.post.id} />
+      <UserReaction
+        likes={postData.post.likes}
+        post_id={postData.post.id}
+        comments_count={postData.post.comments_count}
+      />
+      {dialogVisibility ? (
+        <EditPostModal
+          dialogVisibility={dialogVisibility}
+          setDialogVisibility={() => {
+            setDialogVisibility(false);
+          }}
+          setPostData={(newPost) => {
+            setPostData(newPost);
+          }}
+          data={postData}
+        />
+      ) : null}
     </div>
   );
 }

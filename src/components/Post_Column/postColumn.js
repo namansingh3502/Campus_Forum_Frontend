@@ -50,7 +50,7 @@ export default function PostColumn() {
         </div>
       ) : null}
       <div className={"mt-2 space-y-2"}>
-        {data?.pages?.map((page ) =>
+        {data?.pages?.map((page) =>
           page.data.posts?.map((item) => (
             <Posts key={item.post.id} data={item} />
           ))

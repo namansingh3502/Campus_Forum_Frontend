@@ -27,8 +27,8 @@ export default function NewComment(props) {
           Authorization: localStorage.getItem("Token"),
         },
       });
-      if( res.status === 200 ){
-        props.addComment(res.data)
+      if (res.status === 200) {
+        props.addComment(res.data);
         reset({ body: "" });
       }
     } catch (e) {
@@ -65,9 +65,7 @@ export default function NewComment(props) {
       </div>
       <div>
         {errors.server_error && (
-          <p className={"text-red-600 ml-4"}>
-            *{errors.server_error.message}
-          </p>
+          <p className={"text-red-600 ml-4"}>*{errors.server_error.message}</p>
         )}
       </div>
     </div>

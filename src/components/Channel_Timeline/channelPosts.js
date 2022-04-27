@@ -1,17 +1,17 @@
 import React from "react";
 
 import { useParams } from "react-router-dom";
-import {useInfiniteQuery, useQuery} from "react-query";
+import { useInfiniteQuery } from "react-query";
 
 import CreatePost from "../Post_Column/Create_Edit_Post/createPost";
 import Posts from "../Post_Column/posts";
 import PostLoading from "../Post_Column/Posts/postLoading";
 import PageProfile from "./pageProfile";
-import {useInView} from "react-hook-inview";
+import { useInView } from "react-hook-inview";
 import FetchChannelPost from "../../api/fetchChannelPost";
 
 export default function ChannelPost() {
-  const [ ref, inView ] = useInView();
+  const [ref, inView] = useInView();
   let { name } = useParams();
 
   const {
@@ -26,19 +26,19 @@ export default function ChannelPost() {
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(
-      `channel-posts : ${name}`,
-      ({ pageParam = 10000 }) => FetchChannelPost(pageParam, name),
-      {
-        getNextPageParam: (lastPage, allPages) =>
-            lastPage.data.has_more ? lastPage.data.next : undefined,
-      }
+    `channel-posts : ${name}`,
+    ({ pageParam = 10000 }) => FetchChannelPost(pageParam, name),
+    {
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.data.has_more ? lastPage.data.next : undefined,
+    }
   );
 
   React.useEffect(() => {
     if (inView) {
-      fetchNextPage()
+      fetchNextPage();
     }
-  }, [inView])
+  }, [inView]);
 
   return (
     <div>
@@ -55,9 +55,9 @@ export default function ChannelPost() {
         ) : null}
         <div className={"mt-2 space-y-2"}>
           {data?.pages?.map((page, index) =>
-              page.data.posts?.map((item) => (
-                  <Posts key={item.post.id} data={item} />
-              ))
+            page.data.posts?.map((item) => (
+              <Posts key={item.post.id} data={item} />
+            ))
           )}
         </div>
         <div ref={ref} className={"w-full h-1"}></div>

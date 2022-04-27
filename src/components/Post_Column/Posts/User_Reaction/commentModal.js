@@ -31,14 +31,17 @@ export default function CommentModal(props) {
 
   return (
     <div className={"text-white border-t mt-2 border-gray-600 pt-2"}>
-      {hasNextPage &&
-          <button
-              type={"button"}
-              onClick={() => fetchNextPage()}
-              className={"mx-2 bg-transparent outline-0 text-left hover:text-blue-600"}>
-            load older comments.
-          </button>
-      }
+      {hasNextPage && (
+        <button
+          type={"button"}
+          onClick={() => fetchNextPage()}
+          className={
+            "mx-2 bg-transparent outline-0 text-left hover:text-blue-600"
+          }
+        >
+          load older comments.
+        </button>
+      )}
       {status === "loading" && <CommentLoading />}
       {status === "success" && (
         <div className={"mx-2 flex-row flex-col-reverse"}>

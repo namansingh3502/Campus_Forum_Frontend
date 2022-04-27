@@ -11,7 +11,7 @@ export default function ChannelTags(props) {
             }
             key={channel.id}
           >
-            <span>{channel.name}</span>
+            <span># {channel.name}</span>
           </div>
         );
       })}

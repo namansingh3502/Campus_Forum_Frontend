@@ -10,7 +10,7 @@ import ChannelSelect from "./channelSelect";
 
 export default function EditPostDialog(props) {
   const [images, setImages] = useState(props.data.media);
-  const [PostText, updatePostText] = useState(props.data.post.body);
+  const [postText, updatePostText] = useState(props.data.post.body);
   const [selectedChannels, updateSelectedChannels] = useState(
     props.data.post.posted_in
   );
@@ -35,7 +35,10 @@ export default function EditPostDialog(props) {
   }
 
   function createPost() {
-    const data = {
+    console.log('images : ', images)
+    console.log('text : ', postText)
+    console.log('selectedChannels : ', selectedChannels)
+/*    const data = {
       body: PostText,
       channel_list: selectedChannels,
       media_count: images.length,
@@ -67,7 +70,7 @@ export default function EditPostDialog(props) {
       })
       .catch((error) => {
         console.log("check error at new Posts \n", error);
-      });
+      });*/
   }
 
   return (
@@ -144,7 +147,7 @@ export default function EditPostDialog(props) {
                     <ChannelSelect
                       selectedChannels={selectedChannels}
                       setSelectedChannel={(channels) =>
-                        setSelectedChannels(channels)
+                        updateSelectedChannels(channels)
                       }
                     />
 
@@ -154,24 +157,25 @@ export default function EditPostDialog(props) {
                           "resize-none bg-slate-600 bg-opacity-30 text-slate-300 placeholder:text-slate-300 w-full h-full p-2 text-white text-lg border-none focus:outline-none rounded-lg overflow-auto"
                         }
                         placeholder="What do you want to talk about?"
-                        value={PostText}
+                        value={postText}
                         onChange={(e) => {
                           updatePostText(e.target.value);
                         }}
                       />
                     </div>
 
-                    <div className={"mx-2"}>
+{/*                    <div className={"mx-2"}>
                       <ImageUploader
                         images={images}
                         addImage={(e) => addImage(e)}
                         removeImage={(index) => removeImage(index)}
                       />
-                    </div>
+                    </div>*/}
 
                     <div className={"m-2 pb-2"}>
                       <button
                         type={"submit"}
+                        onClick={()=>createPost()}
                         className="w-full bg-blue-400 mx-auto text-xl font-semibold rounded-md p-2"
                       >
                         Post

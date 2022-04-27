@@ -6,8 +6,8 @@ export default function LikeDetails(props) {
   const length = props.UserLiked.length;
 
   return (
-    <div className="text-md ml-2 py-1">
-      <p>
+    <div className="text-md px-3 py-1 w-full overflow-auto">
+      <div className={"inline w-4/5"}>
         {length > 0 ? "Post liked by " : ""}
         {length === 1 ? (liked ? "You" : user0) + " " : ""}
         {length === 2
@@ -17,17 +17,20 @@ export default function LikeDetails(props) {
           : ""}
         {length > 2
           ? liked
-            ? "You, " +
-                user0 +
-              " and " +
-              JSON.stringify(length - 2) +
-              " other"
-            : user0 +
-              " and " +
-              JSON.stringify(length - 1) +
-              " other"
+            ? "You, " + user0 + " and " + JSON.stringify(length - 2) + " other"
+            : user0 + " and " + JSON.stringify(length - 1) + " other"
           : ""}
-      </p>
+      </div>
+
+      {props.comment_count !== "0" ? (
+        <button className={"inline float-right mx-2"}
+          onClick={() => props.showCommentModal()}
+        >
+          <span className={"hover:underline underline-offset-4"}>
+            comments {props.comment_count}
+          </span>
+        </button>
+      ) : null}
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function ChannelList() {
             channels.data?.map((channel) => (
               <Link to={`/channel/${channel.name}`} key={channel.id}>
                 <li className="pl-4 my-1 hover:bg-gray-400 hover:text-gray-700 bg-opacity-20 rounded-xl p-0.5 ">
-                  {channel.name}
+                  # {channel.name}
                 </li>
               </Link>
             ))}
