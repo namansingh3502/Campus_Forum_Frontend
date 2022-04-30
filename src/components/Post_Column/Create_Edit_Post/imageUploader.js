@@ -2,6 +2,7 @@ import React from "react";
 import { AiOutlineClose } from "react-icons/all";
 
 export default function ImageUploader(props) {
+
   return (
     <div className="flex my-2">
       <div className="w-full bg-transparent">
@@ -11,11 +12,14 @@ export default function ImageUploader(props) {
           </h1>
           <div className="flex flex-wrap text-black">
             {props.images.map((image, index) => {
+
+              let url =  URL.createObjectURL( image instanceof File ? image : image.data )
+
               return (
                 <div className={"h-36 w-1/3 mb-1 px-1 relative"} key={index}>
                   <img
-                    className={"h-full w-full"}
-                    src={`${process.env.HOST}/media/${image.file}`}
+                    className={"h-full w-full object-cover"}
+                    src={url}
                     alt={"image"}
                   />
                   <div

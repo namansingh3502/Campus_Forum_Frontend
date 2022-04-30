@@ -22,7 +22,7 @@ export default function NewComment(props) {
   const onSubmit = async (data) => {
     data.post = props.post_id;
     try {
-      const res = await axios.post(`/forum/new_comment`, data, {
+      const res = await axios.post(`api/forum/new_comment`, data, {
         headers: {
           Authorization: localStorage.getItem("Token"),
         },
@@ -41,7 +41,7 @@ export default function NewComment(props) {
 
   return (
     <div className={"w-full"}>
-      <div className={"flex items-start w-full p-2"}>
+      <div className={"flex items-start w-full py-2"}>
         <UserImage image={user.user_image} />
         <form
           className={"w-full h-auto flex items-start"}

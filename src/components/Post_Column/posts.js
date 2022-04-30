@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { FiMoreVertical } from "react-icons/all";
 import ChannelTags from "./Posts/channelTags";
 import PostText from "./Posts/postText";
 import PostImage from "./Posts/postImage";
@@ -8,33 +7,37 @@ import UserReaction from "./Posts/userReaction";
 import UserDetails from "./Posts/userDetails";
 import EditPostModal from "./Create_Edit_Post/editPostDialog";
 import EditPostButton from "./Posts/editPostButton";
+import { useQueries } from "react-query";
+import FetchImage from "../Images/fetchImage";
 
 export default function Posts(props) {
   const user = JSON.parse(localStorage.getItem("user_profile"));
 
   const [postData, setPostData] = useState(props.data);
-  const [editButton, showEditButton] = useState(false);
   const [dialogVisibility, setDialogVisibility] = useState(false);
 
-  useEffect(() => {
-    if (props.data.user.id === user.id) {
-      showEditButton(true);
-    }
-  }, []);
+  const postImages = useQueries(
+    postData.media.map((item) => {
+      return {
+        queryKey: ["post-images", item.file],
+        queryFn: () => FetchImage(item.file),
+      };
+    })
+  );
 
   return (
     <div className="py-4 px-2 bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto">
-{/*      {!editButton ? (
+      {props.data.user.id === user.id ? (
         <EditPostButton
           setDialogVisibility={() => {
             setDialogVisibility(true);
           }}
         />
-      ) : null}*/}
+      ) : null}
       <UserDetails userdetail={postData.user} time={postData.post.time} />
       <ChannelTags channels={postData.post.posted_in} />
       <PostText text={postData.post.body} is_edited={postData.post.is_edited} />
-      <PostImage images={postData.media} />
+      <PostImage images={postImages}/>
       <UserReaction
         likes={postData.post.likes}
         post_id={postData.post.id}
@@ -50,6 +53,7 @@ export default function Posts(props) {
             setPostData(newPost);
           }}
           data={postData}
+          images={postImages}
         />
       ) : null}
     </div>

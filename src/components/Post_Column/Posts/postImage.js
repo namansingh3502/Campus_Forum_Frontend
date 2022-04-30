@@ -1,69 +1,39 @@
-import React from "react";
-
 export default function PostImage(props) {
-  const images = props.images;
   const imageCount = props.images.length;
 
-  if (images.length === 0) {
-    return null;
-  }
-
-  if (props.images.length === 1) {
-    return (
-      <div
-        className={
-          "h-52 bg-slate-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2 mx-2"
-        }
-      >
-        <a href={`${process.env.HOST}/media/${images[0].file}`} target="_blank">
-          <img
-            src={`${process.env.HOST}/media/${images[0].file}`}
-            className={"object-contain h-full w-full max-h-fit"}
-            alt={"image"}
-          />
-        </a>
-      </div>
-    );
-  }
-
   return (
-    <div className={"grid grid-cols-2 py-2 mx-2"}>
-      {images.map((item, index) => {
-        if (index === imageCount - 1 && imageCount % 2 === 1) {
-          return (
-            <div
-              className={
-                "col-span-2 bg-slate-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"
-              }
-              key={index}
-            >
-              <a
-                href={`${process.env.HOST}/media/${item.file}`}
-                target="_blank"
-              >
-                <img
-                  src={`${process.env.HOST}/media/${item.file}`}
-                  className={"object-contain h-44 w-full"}
-                  alt={"image"}
-                />
-              </a>
-            </div>
-          );
+    <div className={"grid grid-cols-2 mx-2"}>
+      {props.images?.map((image, index) => {
+        let url;
+        if (image.status === "success") {
+          url = URL.createObjectURL(image.data);
         }
         return (
           <div
-            className={
-              "bg-slate-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2"
-            }
+            className={`${
+              (index === imageCount - 1 && imageCount % 2 === 1) ||
+              imageCount === 1
+                ? "col-span-2 "
+                : ""
+            }bg-slate-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2 flex items-center justify-center`}
             key={index}
           >
-            <a href={`${process.env.HOST}/media/${item.file}`} target="_blank">
-              <img
-                src={`${process.env.HOST}/media/${item.file}`}
-                className={"object-contain h-44 w-full"}
-                alt={"image"}
-              />
-            </a>
+            {image.status === "success" && (
+              <div>
+                <img
+                  src={url}
+                  className={"object-contain h-fit w-full max-h-80 self-center"}
+                  alt={"image"}
+                />
+              </div>
+            )}
+            {image.status === "loading" && (
+              <div
+                className={
+                  "leading-relaxed animate-pulse bg-gray-600 h-80 w-full"
+                }
+              ></div>
+            )}
           </div>
         );
       })}

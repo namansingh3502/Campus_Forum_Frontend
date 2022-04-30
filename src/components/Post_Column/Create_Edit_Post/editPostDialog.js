@@ -9,10 +9,10 @@ import UserDetails from "./userDetails";
 import ChannelSelect from "./channelSelect";
 
 export default function EditPostDialog(props) {
-  const [images, setImages] = useState(props.data.media);
-  const [postText, updatePostText] = useState(props.data.post.body);
+  const [images, setImages] = useState(props.images || null);
+  const [postText, updatePostText] = useState(props.data.post.body || '' );
   const [selectedChannels, updateSelectedChannels] = useState(
-    props.data.post.posted_in
+    props.data.post.posted_in || []
   );
 
   function addImage(e) {
@@ -35,23 +35,19 @@ export default function EditPostDialog(props) {
   }
 
   function createPost() {
-    console.log('images : ', images)
-    console.log('text : ', postText)
-    console.log('selectedChannels : ', selectedChannels)
-/*    const data = {
-      body: PostText,
-      channel_list: selectedChannels,
-      media_count: images.length,
-    };
+      const data = {
+        body: postText,
+        channel_list: selectedChannels,
+      };
 
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(data));
-    images.forEach((image) => {
-      formData.append(image.name, image);
-    });
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(data));
+      images.forEach((image, index) => {
+        formData.append(`media ${index}`, image instanceof File ? image : image.data );
+      });
 
-    axios
-      .post(`${process.env.HOST}/forum/new-post`, formData, {
+      axios
+      .post(`/api/forum/edit_post`, formData, {
         headers: {
           Authorization: localStorage.getItem("Token"),
           "Content-Type":
@@ -62,7 +58,7 @@ export default function EditPostDialog(props) {
         if (response.status === 200) {
           updatePostText("");
           updateSelectedChannels([]);
-          props.updatePosts(response.data);
+          props.setPostData(response.data);
           props.setDialogVisibility();
         } else {
           console.log(response.status, response.data.msg);
@@ -70,7 +66,7 @@ export default function EditPostDialog(props) {
       })
       .catch((error) => {
         console.log("check error at new Posts \n", error);
-      });*/
+      });
   }
 
   return (
@@ -164,13 +160,13 @@ export default function EditPostDialog(props) {
                       />
                     </div>
 
-{/*                    <div className={"mx-2"}>
+                    <div className={"mx-2"}>
                       <ImageUploader
                         images={images}
                         addImage={(e) => addImage(e)}
                         removeImage={(index) => removeImage(index)}
                       />
-                    </div>*/}
+                    </div>
 
                     <div className={"m-2 pb-2"}>
                       <button

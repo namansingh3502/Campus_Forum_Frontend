@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import NewComment from "./newComment";
 import { useInfiniteQuery, useQuery } from "react-query";
@@ -30,13 +30,13 @@ export default function CommentModal(props) {
   );
 
   return (
-    <div className={"text-white border-t mt-2 border-gray-600 pt-2"}>
+    <div className={"text-white border-t mt-2 border-gray-600 p-2"}>
       {hasNextPage && (
         <button
           type={"button"}
           onClick={() => fetchNextPage()}
           className={
-            "mx-2 bg-transparent outline-0 text-left hover:text-blue-600"
+            "mx-4 bg-transparent outline-0 text-left hover:text-blue-600"
           }
         >
           load older comments.
@@ -44,7 +44,7 @@ export default function CommentModal(props) {
       )}
       {status === "loading" && <CommentLoading />}
       {status === "success" && (
-        <div className={"mx-2 flex-row flex-col-reverse"}>
+        <div className={"flex-row flex-col-reverse"}>
           {[...data?.pages]
             .reverse()
             .map((page) =>
@@ -54,11 +54,9 @@ export default function CommentModal(props) {
             )}
         </div>
       )}
-
       {comments.length > 0
         ? comments.map((item) => <Comments data={item} key={item.id} />)
         : null}
-
       <div className={"flex items-start "}>
         <NewComment
           post_id={props.post_id}

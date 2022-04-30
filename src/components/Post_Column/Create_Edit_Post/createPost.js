@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import CreatePostDialog from "./createPostDialog";
-import PostLoading from "../Posts/postLoading";
 import Posts from "../posts";
 
 export default function CreatePost() {
@@ -46,8 +45,7 @@ export default function CreatePost() {
             setDialogVisibility(false);
           }}
           addPost={(data) => {
-            console.log(data);
-            setPost([...post, data]);
+            setPost([ data, ...post ]);
           }}
         />
       )}
