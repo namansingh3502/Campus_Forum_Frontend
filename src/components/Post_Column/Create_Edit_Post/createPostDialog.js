@@ -45,7 +45,7 @@ export default function CreatePostDialog(props) {
     });
 
     axios
-      .post(`${process.env.HOST}/api/forum/new_post`, formData, {
+      .post(`/api/forum/new_post`, formData, {
         headers: {
           Authorization: localStorage.getItem("Token"),
           "Content-Type":

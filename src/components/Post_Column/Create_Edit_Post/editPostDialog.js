@@ -34,8 +34,9 @@ export default function EditPostDialog(props) {
     setImages(updateImage);
   }
 
-  function createPost() {
+  function editPost() {
       const data = {
+        post_id: props.data.post.id,
         body: postText,
         channel_list: selectedChannels,
       };
@@ -171,7 +172,7 @@ export default function EditPostDialog(props) {
                     <div className={"m-2 pb-2"}>
                       <button
                         type={"submit"}
-                        onClick={()=>createPost()}
+                        onClick={()=>editPost()}
                         className="w-full bg-blue-400 mx-auto text-xl font-semibold rounded-md p-2"
                       >
                         Post

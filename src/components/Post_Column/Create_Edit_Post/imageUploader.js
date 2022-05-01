@@ -2,7 +2,6 @@ import React from "react";
 import { AiOutlineClose } from "react-icons/all";
 
 export default function ImageUploader(props) {
-
   return (
     <div className="flex my-2">
       <div className="w-full bg-transparent">
@@ -11,17 +10,38 @@ export default function ImageUploader(props) {
             Add Images
           </h1>
           <div className="flex flex-wrap text-black">
-            {props.images.map((image, index) => {
+            {props.images?.map((image, index) => {
+              let url;
 
-              let url =  URL.createObjectURL( image instanceof File ? image : image.data )
+              if (image.status === "success") {
+                url = URL.createObjectURL(image.data);
+              }
 
               return (
                 <div className={"h-36 w-1/3 mb-1 px-1 relative"} key={index}>
-                  <img
-                    className={"h-full w-full object-cover"}
-                    src={url}
-                    alt={"image"}
-                  />
+                  {image.status === "success" && (
+                    <img
+                      className={"h-full w-full object-cover"}
+                      src={url}
+                      alt={"image"}
+                    />
+                  )}
+                  {image.status === "error" && (
+                    <div
+                      className={
+                        "border-gray-700 border-2 h-full w-full text-white"
+                      }
+                    >
+                      Some error occured
+                    </div>
+                  )}
+                  {image.status === "loading" && (
+                    <div
+                      className={
+                        "leading-relaxed animate-pulse bg-slate-800 border-gray-700 border-2 h-full w-full text-white "
+                      }
+                    />
+                  )}
                   <div
                     className={
                       "text-xl absolute top-1 right-2 bg-red-400 rounded-full text text hover:bg-red-600"

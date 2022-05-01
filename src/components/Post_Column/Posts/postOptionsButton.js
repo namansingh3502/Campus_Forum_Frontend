@@ -1,8 +1,28 @@
 import { Menu, Transition } from "@headlessui/react";
-import {BiHide, BsPencilSquare, FiMoreVertical} from "react-icons/all";
+import { BiHide, BsPencilSquare, FiMoreVertical } from "react-icons/all";
 import { Fragment } from "react";
+import axios from "axios";
 
-export default function EditPostButton(props) {
+export default function PostOptions(props) {
+  function hidePost() {
+    axios
+      .post(
+        `/api/forum/${props.post_id}/hide_post`,
+        {},
+        {
+          headers: {
+            Authorization: localStorage.getItem("Token"),
+          },
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) props.setPostVisibility();
+      })
+      .catch((error) => {
+        console.log("check error at new Posts \n", error);
+      });
+  }
+
   return (
     <div className={"float-right text-xl font-extrabold"}>
       <Menu as="div" className="relative inline-block text-left">
@@ -37,7 +57,7 @@ export default function EditPostButton(props) {
                     className={`${
                       active ? "bg-indigo-700 text-white" : "text-white"
                     } group flex rounded-md items-center w-full px-2 py-2`}
-                    onClick={()=>props.setDialogVisibility()}
+                    onClick={() => props.setDialogVisibility()}
                   >
                     <BsPencilSquare className={"text-md"} />
                     <span className={"ml-2 text-sm"}>Edit</span>
@@ -48,8 +68,11 @@ export default function EditPostButton(props) {
                 {({ active }) => (
                   <button
                     className={`${
-                      active ? "bg-indigo-700 text-white backdrop-blur-md" : "text-white"
+                      active
+                        ? "bg-indigo-700 text-white backdrop-blur-md"
+                        : "text-white"
                     } group flex rounded-md items-center w-full px-2 py-2`}
+                    onClick={() => hidePost()}
                   >
                     <BiHide className={"text-md"} />
                     <span className={"ml-2 text-sm"}>Hide Post</span>

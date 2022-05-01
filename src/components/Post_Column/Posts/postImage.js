@@ -5,6 +5,7 @@ export default function PostImage(props) {
     <div className={"grid grid-cols-2 mx-2"}>
       {props.images?.map((image, index) => {
         let url;
+
         if (image.status === "success") {
           url = URL.createObjectURL(image.data);
         }
@@ -27,12 +28,23 @@ export default function PostImage(props) {
                 />
               </div>
             )}
+
+            {image.status === "error" && (
+              <div
+                className={
+                  "bg-gray-800 h-40 w-full border-gray-700 border"
+                }
+              >
+                Error while loading image
+              </div>
+            )}
+
             {image.status === "loading" && (
               <div
                 className={
-                  "leading-relaxed animate-pulse bg-gray-600 h-80 w-full"
+                  "leading-relaxed animate-pulse bg-gray-700 h-40 w-full"
                 }
-              ></div>
+              />
             )}
           </div>
         );
