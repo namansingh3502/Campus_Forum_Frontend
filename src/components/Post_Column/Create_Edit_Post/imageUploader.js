@@ -11,15 +11,14 @@ export default function ImageUploader(props) {
           </h1>
           <div className="flex flex-wrap text-black">
             {props.images?.map((image, index) => {
-              let url;
-
-              if (image.status === "success") {
-                url = URL.createObjectURL(image.data);
-              }
+              const url =
+                image instanceof File
+                  ? URL.createObjectURL(image)
+                  : URL.createObjectURL(image.data);
 
               return (
                 <div className={"h-36 w-1/3 mb-1 px-1 relative"} key={index}>
-                  {image.status === "success" && (
+                  {(image.status === "success" || image instanceof File) && (
                     <img
                       className={"h-full w-full object-cover"}
                       src={url}
