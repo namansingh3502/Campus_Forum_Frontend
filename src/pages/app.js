@@ -10,7 +10,7 @@ import Router from "./router";
 
 import axios from "axios";
 const queryClient = new QueryClient();
-axios.defaults.baseURL = `http://192.168.41.147/api/`;
+axios.defaults.baseURL = `http://192.168.41.147/`;
 
 export default function App() {
   return (
