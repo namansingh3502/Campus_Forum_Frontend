@@ -5,10 +5,10 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import Login from "../components/Authentication/login";
-
 import Router from "./router";
 
 import axios from "axios";
+import UserRegistration from "./userRegistration";
 const queryClient = new QueryClient();
 axios.defaults.baseURL = `http://192.168.41.147/`;
 
@@ -19,6 +19,8 @@ export default function App() {
         <Routes>
           {/*Login Page*/}
           <Route path="login/" element={<Login />} />
+          {/*Registration Page*/}
+          <Route path="registration/" element={<UserRegistration/>} />
           {/*Router*/}
           <Route path={"*"} element={<Router />} />
         </Routes>

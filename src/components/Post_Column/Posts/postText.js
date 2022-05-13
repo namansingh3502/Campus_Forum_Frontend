@@ -1,4 +1,5 @@
 import React from "react";
+import Linkify from "linkify-react";
 
 export default function PostText(text) {
   return (
@@ -9,7 +10,16 @@ export default function PostText(text) {
           <br />
         </p>
       )}
-      <p className="text-md leading-6 whitespace-pre-line">{text.text}</p>
+      <p className={"text-md leading-6 whitespace-pre-line"}>
+        <Linkify
+          options={{
+            tagName: "a",
+            className: "text-blue-400 hover:underline underline-offset-2 px-1"
+          }}
+        >
+          <p className="text-md leading-6 whitespace-pre-line">{text.text}</p>
+        </Linkify>
+      </p>
     </div>
   );
 }

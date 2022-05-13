@@ -97,6 +97,12 @@ export default function Login() {
             </div>
           </div>
         </form>
+        <div className="mt-6 text-grey-dark">
+          Create account?
+          <a className="text-blue-600 hover:underline ml-2" href="/login">
+            Log in
+          </a>
+        </div>
       </div>
     </div>
   );
