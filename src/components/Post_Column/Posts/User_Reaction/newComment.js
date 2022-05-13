@@ -2,9 +2,11 @@ import { BsArrowRightCircleFill } from "react-icons/all";
 import UserImage from "./userImage";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useState } from "react";
 
 export default function NewComment(props) {
   const user = JSON.parse(localStorage.getItem("user_profile"));
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   const {
     register,
@@ -30,12 +32,14 @@ export default function NewComment(props) {
       if (res.status === 200) {
         props.addComment(res.data);
         reset({ body: "" });
+        setIsSubmitDisabled(false)
       }
     } catch (e) {
       setError("server_error", {
         type: "",
         message: "Some error occurred while saving comment.",
       });
+      setIsSubmitDisabled(false);
     }
   };
 
@@ -56,7 +60,14 @@ export default function NewComment(props) {
             placeholder={"Write a comment..."}
             autoFocus
           />
-          <button type={"submit"} onClick={() => clearErrors()}>
+          <button
+            type={"submit"}
+            onClick={() => {
+              setIsSubmitDisabled(true);
+              clearErrors();
+            }}
+            disabled={isSubmitDisabled}
+          >
             <BsArrowRightCircleFill
               className={"ml-1 mt-1 h-9 w-9 text-lg fill-gray-500"}
             />

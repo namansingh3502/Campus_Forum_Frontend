@@ -10,6 +10,7 @@ import ChannelSelect from "./channelSelect";
 
 export default function CreatePostDialog(props) {
   const [images, setImages] = useState([]);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
   const [PostText, updatePostText] = useState("");
   const [selectedChannels, updateSelectedChannels] = useState([]);
 
@@ -56,12 +57,12 @@ export default function CreatePostDialog(props) {
         if (response.status === 200) {
           props.addPost(response.data);
           props.setDialogVisibility();
-        } else {
-          console.log(response.status, response.data.msg);
         }
       })
       .catch((error) => {
-        console.log("check error at new Posts \n", error);
+        setIsSubmitDisabled(false)
+        alert("Error occurred while creating post.");
+        console.log(error.response.message)
       });
   }
 
@@ -169,7 +170,11 @@ export default function CreatePostDialog(props) {
                     <div className={"m-2 pb-2"}>
                       <button
                         type={"submit"}
-                        className="w-full bg-blue-400 mx-auto text-xl font-semibold rounded-md p-2"
+                        className={
+                          "w-full bg-blue-400 mx-auto text-xl font-semibold rounded-md p-2"
+                        }
+                        onClick={()=> setIsSubmitDisabled(true)}
+                        disabled={isSubmitDisabled}
                       >
                         Post
                       </button>
