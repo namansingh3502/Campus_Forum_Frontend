@@ -45,7 +45,7 @@ const UserRegistration = () => {
     console.log("data ", data);
 
     axios
-      .post("register", { data }, {})
+      .post("/register", { data }, {})
       .then((res) => {
         if (res.status === 200) {
           console.log("user created");
