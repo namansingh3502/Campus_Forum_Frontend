@@ -48,7 +48,7 @@ export default function Login() {
     <div className="font-sans min-h-screen w-full antialiased flex items-center justify-center">
       <div className="mx-2 rounded-xl bg-gray-100 py-8 px-4 sm:w-2/5 md:w-2/5 xl:w-1/4">
         <h1 className="font-bold text-center text-4xl text-yellow-500">
-          Campus<span className="text-blue-500 ml-2">Forum</span>
+          SJBIT CSE<span className="text-blue-500 ml-2">Forum</span>
         </h1>
 
         <div className={"text-center mt-4"}>
@@ -99,8 +99,8 @@ export default function Login() {
         </form>
         <div className="mt-6 text-grey-dark">
           Create account?
-          <a className="text-blue-600 hover:underline ml-2" href="/login">
-            Log in
+          <a className="text-blue-600 hover:underline ml-2" href="/registration">
+            Sign up
           </a>
         </div>
       </div>

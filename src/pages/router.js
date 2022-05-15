@@ -8,14 +8,22 @@ import ProfilePage from "../components/Profile/profile_page";
 import Settings from "../components/Settings/settings";
 import Page404 from "./page404";
 import RequireAuth from "../components/Authentication/RequireAuth";
+import ActivateAccount from "../components/Authentication/activateAccount";
 
 export default function Router() {
   const [token, setToken] = useState(localStorage.getItem("Token"));
 
   return (
     <div className={"pb-10"}>
-      {token === null ? (
-        <Navigate to="/login" replace />
+      {token === null ? (<>
+            <Routes>
+              <Route
+                  path={"activate_account/:uidb64/:token"}
+                  element={<ActivateAccount />}
+              />
+              <Route path={"*"} element={<Navigate to="/login" replace />} />
+          </Routes>
+          </>
       ) : (
         <Routes>
           <Route

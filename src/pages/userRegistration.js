@@ -44,9 +44,9 @@ const UserRegistration = () => {
       username: "",
       password1: "",
       password2: "",
-      firstName: "",
-      middleName: "",
-      lastName: "",
+      first_name: "",
+      middle_name: "",
+      last_name: "",
       email: "",
       phone: "",
       gender: "",
@@ -141,20 +141,20 @@ const UserRegistration = () => {
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
                 label={"First Name"}
-                message={errors.firstName?.message}
+                message={errors.first_name?.message}
                 required={true}
               />
               <input
                 type="text"
                 placeholder="First Name"
                 className={FIELD_CLASS}
-                {...register("firstName", { required: "field required" })}
+                {...register("first_name", { required: "field required" })}
               />
             </div>
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
                 label={"Middle Name"}
-                message={errors.middleName?.message}
+                message={errors.middle_name?.message}
                 required={false}
               />
 
@@ -162,20 +162,20 @@ const UserRegistration = () => {
                 type="text"
                 placeholder="Middle Name"
                 className={FIELD_CLASS}
-                {...register("middleName")}
+                {...register("middle_name")}
               />
             </div>
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
                 label={"Last Name"}
-                message={errors.lastName?.message}
+                message={errors.last_name?.message}
                 required={true}
               />
               <input
                 type="text"
                 placeholder="Last Name"
                 className={FIELD_CLASS}
-                {...register("lastName", { required: "field required" })}
+                {...register("last_name", { required: "field required" })}
               />
             </div>
             <div className={"w-full sm:w-1/2 px-1 py-2"}>
