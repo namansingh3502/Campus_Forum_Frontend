@@ -1,7 +1,8 @@
 import { useForm, Controller } from "react-hook-form";
-import React from "react";
+import React, {useEffect} from "react";
 import ReactSelect from "react-select";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const GENDER = [
   { value: "M", label: "Male" },
@@ -31,6 +32,9 @@ const FIELD_CLASS =
   "w-full px-2 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 ring-1 ring-slate-400";
 
 const UserRegistration = () => {
+  let navigate = useNavigate();
+  const token = localStorage.getItem("Token");
+
   const {
     register,
     handleSubmit,
@@ -55,8 +59,6 @@ const UserRegistration = () => {
   });
 
   function createUser(data) {
-    console.log("data ", data);
-
     axios
       .post("/api/auth/register", { data }, {})
       .then((res) => {
@@ -68,6 +70,9 @@ const UserRegistration = () => {
         alert(errors.response.data.msg);
       });
   }
+  useEffect(()=>{
+    if( token ) navigate("/", { replace: true });
+  })
 
   return (
     <div className="font-sans min-h-screen w-full antialiased flex items-center justify-center p-2 md:px-4">
@@ -109,7 +114,6 @@ const UserRegistration = () => {
                   minLength: { value: 8, message: "min length 8" },
                 })}
               />
-              {console.log("error ", errors)}
             </div>
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL

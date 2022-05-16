@@ -8,6 +8,7 @@ export default function Login() {
   let navigate = useNavigate();
   let location = useLocation();
   let from = location.state?.from?.pathname || "/";
+  const token = localStorage.getItem("Token");
 
   const {
     register,
@@ -44,6 +45,10 @@ export default function Login() {
     }
   }, [reset, isSubmitSuccessful, isSubmitting]);
 
+  useEffect(()=>{
+    if( token ) navigate("/", { replace: true });
+  })
+
   return (
     <div className="font-sans min-h-screen w-full antialiased flex items-center justify-center">
       <div className="mx-2 rounded-xl bg-gray-100 py-8 px-4 sm:w-2/5 md:w-2/5 xl:w-1/4">
@@ -58,7 +63,7 @@ export default function Login() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="block p-2 mt-4 space-y-4">
             <label className={"text-lg"}>
-              Username{" "}
+              Username
               <span className={"text-red-600 text-sm"}>
                 *{errors.username?.message}
               </span>
@@ -70,7 +75,7 @@ export default function Login() {
               autoFocus
             />
             <label className={"mt-4 text-lg"}>
-              Password{" "}
+              Password
               <span className={"text-red-600 text-sm"}>
                 *{errors.password?.message}
               </span>
@@ -97,11 +102,25 @@ export default function Login() {
             </div>
           </div>
         </form>
-        <div className="mt-6 text-grey-dark">
-          Create account?
-          <a className="text-blue-600 hover:underline ml-2" href="/registration">
-            Sign up
-          </a>
+        <div className="mt-6 text-grey-dark"></div>
+        <div className="mt-6 text-grey-dark ml-2">
+          <p>
+            <a
+              className="text-blue-600 hover:underline"
+              href="/reset_password"
+            >
+              Forgot Password
+            </a>
+          </p>
+          <p>
+            Create account?
+            <a
+              className="text-blue-600 hover:underline ml-2"
+              href="/registration"
+            >
+              Sign up
+            </a>
+          </p>
         </div>
       </div>
     </div>

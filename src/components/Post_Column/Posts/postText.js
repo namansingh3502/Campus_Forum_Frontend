@@ -10,7 +10,7 @@ export default function PostText(text) {
           <br />
         </p>
       )}
-      <p className={"text-md leading-6 whitespace-pre-line"}>
+      <div className={"text-md leading-6 whitespace-pre-line"}>
         <Linkify
           options={{
             tagName: "a",
@@ -19,7 +19,7 @@ export default function PostText(text) {
         >
           <p className="text-md leading-6 whitespace-pre-line">{text.text}</p>
         </Linkify>
-      </p>
+      </div>
     </div>
   );
 }
