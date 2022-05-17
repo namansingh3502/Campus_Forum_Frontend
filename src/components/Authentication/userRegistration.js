@@ -83,7 +83,7 @@ const UserRegistration = () => {
           <p className="font-bold text-xl">User Registration</p>
         </div>
 
-        { register ?
+        { registered ?
             <div className={"my-4"}>
               <p>Account created successfully. Click on the activation link sent to registered mail.</p>
             </div>
@@ -275,7 +275,7 @@ const UserRegistration = () => {
           </div>
 
           <div className="flex">
-            <button className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900">
+            <button className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900" disabled={isSubmitting}>
               Create Account
             </button>
           </div>
