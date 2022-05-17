@@ -19,7 +19,7 @@ const ResetPasswordRequest = () => {
 
   function reset_password_request(data) {
     axios
-      .post("/api/auth/reset_password_request", { data }, {})
+      .post("/api/auth/reset_password_request/", { data }, {})
       .then((res) => {
         setMailSent(true);
       })

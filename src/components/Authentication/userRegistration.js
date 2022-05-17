@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import ReactSelect from "react-select";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
@@ -34,6 +34,7 @@ const FIELD_CLASS =
 const UserRegistration = () => {
   let navigate = useNavigate();
   const token = localStorage.getItem("Token");
+  const [registered, setRegistered] = useState(false)
 
   const {
     register,
@@ -60,11 +61,9 @@ const UserRegistration = () => {
 
   function createUser(data) {
     axios
-      .post("/api/auth/register", { data }, {})
+      .post("/api/auth/register/", { data }, {})
       .then((res) => {
-        if (res.status === 200) {
-          alert("user created");
-        }
+        if (res.status === 201) setRegistered(true)
       })
       .catch((errors) => {
         alert(errors.response.data.msg);
@@ -84,51 +83,56 @@ const UserRegistration = () => {
           <p className="font-bold text-xl">User Registration</p>
         </div>
 
-        <form className={"py-2"} onSubmit={handleSubmit(createUser)}>
+        { register ?
+            <div className={"my-4"}>
+              <p>Account created successfully. Click on the activation link sent to registered mail.</p>
+            </div>
+          :
+          <form className={"py-2"} onSubmit={handleSubmit(createUser)}>
           <div className="flex flex-wrap w-full">
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
-                label={"Username"}
-                message={errors.username?.message}
-                required={true}
+                  label={"Username"}
+                  message={errors.username?.message}
+                  required={true}
               />
               <input
-                type="text"
-                placeholder="Username"
-                className={FIELD_CLASS}
-                {...register("username", { required: "field required" })}
+                  type="text"
+                  placeholder="Username"
+                  className={FIELD_CLASS}
+                  {...register("username", {required: "field required"})}
               />
             </div>
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
-                label={"Password"}
-                message={errors.password1?.message}
-                required={true}
+                  label={"Password"}
+                  message={errors.password1?.message}
+                  required={true}
               />
               <input
-                type="password"
-                placeholder="**********"
-                className={FIELD_CLASS}
-                {...register("password1", {
-                  required: "field required",
-                  minLength: { value: 8, message: "min length 8" },
-                })}
+                  type="password"
+                  placeholder="**********"
+                  className={FIELD_CLASS}
+                  {...register("password1", {
+                    required: "field required",
+                    minLength: {value: 8, message: "min length 8"},
+                  })}
               />
             </div>
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
-                label={"Password"}
-                message={errors.password2?.message}
-                required={true}
+                  label={"Password"}
+                  message={errors.password2?.message}
+                  required={true}
               />
               <input
-                type="password"
-                placeholder="**********"
-                className={FIELD_CLASS}
-                {...register("password2", {
-                  required: "field required",
-                  minLength: { value: 8, message: "min length 8" },
-                })}
+                  type="password"
+                  placeholder="**********"
+                  className={FIELD_CLASS}
+                  {...register("password2", {
+                    required: "field required",
+                    minLength: {value: 8, message: "min length 8"},
+                  })}
               />
             </div>
 
@@ -144,128 +148,128 @@ const UserRegistration = () => {
 
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
-                label={"First Name"}
-                message={errors.first_name?.message}
-                required={true}
+                  label={"First Name"}
+                  message={errors.first_name?.message}
+                  required={true}
               />
               <input
-                type="text"
-                placeholder="First Name"
-                className={FIELD_CLASS}
-                {...register("first_name", { required: "field required" })}
+                  type="text"
+                  placeholder="First Name"
+                  className={FIELD_CLASS}
+                  {...register("first_name", {required: "field required"})}
               />
             </div>
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
-                label={"Middle Name"}
-                message={errors.middle_name?.message}
-                required={false}
+                  label={"Middle Name"}
+                  message={errors.middle_name?.message}
+                  required={false}
               />
 
               <input
-                type="text"
-                placeholder="Middle Name"
-                className={FIELD_CLASS}
-                {...register("middle_name")}
+                  type="text"
+                  placeholder="Middle Name"
+                  className={FIELD_CLASS}
+                  {...register("middle_name")}
               />
             </div>
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
-                label={"Last Name"}
-                message={errors.last_name?.message}
-                required={true}
+                  label={"Last Name"}
+                  message={errors.last_name?.message}
+                  required={true}
               />
               <input
-                type="text"
-                placeholder="Last Name"
-                className={FIELD_CLASS}
-                {...register("last_name", { required: "field required" })}
+                  type="text"
+                  placeholder="Last Name"
+                  className={FIELD_CLASS}
+                  {...register("last_name", {required: "field required"})}
               />
             </div>
             <div className={"w-full sm:w-1/2 px-1 py-2"}>
               <LABEL
-                label={"Email"}
-                message={errors.email?.message}
-                required={true}
+                  label={"Email"}
+                  message={errors.email?.message}
+                  required={true}
               />
               <input
-                type="email"
-                placeholder="example@sjbit.edu.in"
-                className={FIELD_CLASS}
-                {...register("email", {
-                  required: "field required",
-                  pattern: {
-                    value: /^[A-Z\d._%+-]+@sjbit.edu.in$/i,
-                    message: "invalid email address",
-                  },
-                })}
+                  type="email"
+                  placeholder="example@sjbit.edu.in"
+                  className={FIELD_CLASS}
+                  {...register("email", {
+                    required: "field required",
+                    pattern: {
+                      value: /^[A-Z\d._%+-]+@sjbit.edu.in$/i,
+                      message: "invalid email address",
+                    },
+                  })}
               />
             </div>
             <div className={"w-full sm:w-1/2 px-1 py-2"}>
               <LABEL
-                label={"Phone"}
-                message={errors.phone?.message}
-                required={true}
+                  label={"Phone"}
+                  message={errors.phone?.message}
+                  required={true}
               />
               <input
-                type="text"
-                placeholder="Phone"
-                className={FIELD_CLASS}
-                {...register("phone", {
-                  required: "field required",
-                  pattern: {
-                    value: /^[0-9]{10}$/i,
-                    message: "Invalid Phone no.",
-                  },
-                })}
+                  type="text"
+                  placeholder="Phone"
+                  className={FIELD_CLASS}
+                  {...register("phone", {
+                    required: "field required",
+                    pattern: {
+                      value: /^[0-9]{10}$/i,
+                      message: "Invalid Phone no.",
+                    },
+                  })}
               />
             </div>
             <div className={"w-full sm:w-1/2 px-1 py-2"}>
               <LABEL
-                label={"Gender"}
-                message={errors.gender?.message}
-                required={true}
+                  label={"Gender"}
+                  message={errors.gender?.message}
+                  required={true}
               />
               <Controller
-                name="gender"
-                control={control}
-                rules={{ required: "field required" }}
-                render={({ field }) => (
-                  <ReactSelect
-                    className={
-                      "w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 ring-1 ring-slate-400"
-                    }
-                    isClearable
-                    {...field}
-                    options={GENDER}
-                    onChange={(e) => {
-                      field.onChange(e);
-                    }}
-                  />
-                )}
+                  name="gender"
+                  control={control}
+                  rules={{required: "field required"}}
+                  render={({field}) => (
+                      <ReactSelect
+                          className={
+                            "w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 ring-1 ring-slate-400"
+                          }
+                          isClearable
+                          {...field}
+                          options={GENDER}
+                          onChange={(e) => {
+                            field.onChange(e);
+                          }}
+                      />
+                  )}
               />
             </div>
             <div className={"w-full sm:w-1/2 px-1 py-2"}>
               <LABEL
-                label={"Department"}
-                message={errors.department?.message}
-                required={true}
+                  label={"Department"}
+                  message={errors.department?.message}
+                  required={true}
               />
               <Controller
-                name="department"
-                control={control}
-                rules={{ required: "field required" }}
-                render={({ field }) => (
-                  <ReactSelect
-                    className={
-                      "w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 ring-1 ring-slate-400"
-                    }
-                    isClearable
-                    {...field}
-                    options={DEPARTMENT}
-                    onChange={(e) => field.onChange(e)}
-                  />
-                )}
+                  name="department"
+                  control={control}
+                  rules={{required: "field required"}}
+                  render={({field}) => (
+                      <ReactSelect
+                          className={
+                            "w-full rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 ring-1 ring-slate-400"
+                          }
+                          isClearable
+                          {...field}
+                          options={DEPARTMENT}
+                          onChange={(e) => field.onChange(e)}
+                      />
+                  )}
               />
             </div>
           </div>
@@ -281,7 +285,7 @@ const UserRegistration = () => {
               Log in
             </a>
           </div>
-        </form>
+        </form>}
       </div>
     </div>
   );

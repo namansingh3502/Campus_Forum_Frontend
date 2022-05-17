@@ -20,7 +20,7 @@ const ResetPassword = () => {
 
   function reset_password(data) {
     axios
-      .post("/api/auth/reset_password", { data, uidb64, token }, {})
+      .post("/api/auth/reset_password/", { data, uidb64, token }, {})
       .then((res) => {
         setUpdateStatus(true);
       })
