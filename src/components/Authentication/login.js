@@ -96,6 +96,7 @@ export default function Login() {
                 type="submit"
                 onClick={() => clearErrors()}
                 className="w-full bg-blue-500 text-white font-bold text-center py-2 rounded hover:bg-blue-700 transition-colors"
+                disabled={isSubmitting}
               >
                 Log In
               </button>
