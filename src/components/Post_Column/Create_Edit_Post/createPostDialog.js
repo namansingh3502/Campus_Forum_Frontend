@@ -34,6 +34,8 @@ export default function CreatePostDialog(props) {
   }
 
   function createPost() {
+    setIsSubmitDisabled(true)
+
     const data = {
       body: PostText,
       channel_list: selectedChannels,
@@ -173,7 +175,6 @@ export default function CreatePostDialog(props) {
                         className={
                           "w-full bg-blue-400 mx-auto text-xl font-semibold rounded-md p-2"
                         }
-                        onClick={()=> setIsSubmitDisabled(true)}
                         disabled={isSubmitDisabled}
                       >
                         Post
