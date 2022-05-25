@@ -1,98 +1,93 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
+import background from "../../images/bg.jpeg";
+import { AiFillCamera, FaPen } from "react-icons/all";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-import UserDetail from "./userDetail";
-import ChannelList from "../Menu_Column/channelList";
-import CreatePost from "../Post_Column/Create_Post/createPost";
-import Posts from "../Post_Column/posts";
+export default function Profile() {
+  const user = JSON.parse(localStorage.getItem("user_profile"));
 
-export default function Profile(){
-  const user = JSON.parse(localStorage.getItem('user_profile'))
+  const [image, setImage] = useState(user.user_image);
 
-  const [posts, setPosts] = useState([])
-  const [postLoaded, updateLoadStatus] = useState(false)
-  const [postAdded, updatePostAdded] = useState(false)
-  const [postUpdated, updatePostUpdated] = useState(false)
+  function updateImage(image) {
+    const formData = new FormData();
+    formData.append(image[0].name, image[0]);
 
-  function loadPost(posts) {
-    axios.get(
-      `${process.env.HOST}/forum/posts`,
-      {
+    axios
+      .post(`/api/auth/update/user_image`, formData, {
         headers: {
-          Authorization: localStorage.getItem("Token")
-        }
+          Authorization: localStorage.getItem("Token"),
+          "Content-Type":
+            "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+        },
       })
       .then((response) => {
         if (response.status === 200) {
-          updateLoadStatus(true)
-          setPosts(response.data)
+          localStorage.setItem("user_profile", JSON.stringify(response.data));
+          setImage(response.data.user_image);
+          location.reload();
+        } else {
+          console.log(response.status, response.data.msg);
         }
       })
       .catch((error) => {
-        console.log("check login error", error);
+        console.log("check error at new Posts \n", error);
       });
   }
 
-  function addPost(newPost){
-    let data = posts
-    data.unshift(newPost)
-    setPosts(data)
-    updatePostAdded(true)
-  }
+  useEffect(() => {}, [image]);
 
-  function updatePost(post){
-    const post_id = post.post.id
-    let data = posts
-
-    for( let i = 0; i < data.length; i++){
-      if(data[i].post.id === post_id ) {
-        data[i] = post
-        break
+  return (
+    <div
+      className={
+        "h-auto w-full bg-slate-500 bg-opacity-20 rounded-lg text-white pb-2"
       }
-    }
-    setPosts(data)
-    updatePostUpdated(true)
-  }
-
-  useEffect(()=>{
-    if( !postLoaded )
-      loadPost()
-  },[postAdded, postUpdated])
-
-  return(
-    <div className={"min-h-screen w-full flex justify-center mt-4 px-2"}>
-      <div className={"container w-full md:w-4/5 lg:w-4/5 max-w-screen-lg mx-auto md:mx-0 flex-row space-y-2"}>
-
-        <UserDetail/>
-
-        <div className={"flex w-full mx-auto max-w-screen-lg"}>
-          <div className={"hidden md:block basis-1/3 pr-2"} >
-            <ChannelList/>
-          </div>
-          <div className={"mt-2 w-full md:basis-2/3"}>
-            <CreatePost
-              updatePosts={(newPost)=>{
-                addPost(newPost)
-              }}
-            />
-            {postLoaded ?
-              <div className={"pt-2 space-y-2"}>
-                {posts.map((item) => {
-                  return (
-                    <Posts
-                      key={item.post.id}
-                      data={item}
-                    />
-                  )
-                })}
-              </div>
-              :
-              <div className={"text-white text-center"}>Loading.....</div>
+    >
+      <div className="w-full rounded-lg h-32">
+        <img
+          src={background}
+          className="w-full h-full rounded-t-lg"
+          alt={"user"}
+        />
+      </div>
+      <div></div>
+      <div className={"relative flex justify-center h-16"}>
+        <div className={"absolute h-28 w-28 -top-full rounded-full"}>
+          <img
+            className={
+              "h-28 w-28 -top-full rounded-full outline outline-offset-2 outline-2 outline-gray-400 "
             }
+            src={`${process.env.HOST}/media/${user.user_image}`}
+          />
+          <div
+            className={
+              "z-10 absolute right-0.5 -bottom-0.5 bg-gray-600 w-9 h-9 flex justify-center items-center rounded-full"
+            }
+          >
+            <label className={"text-2xl"}>
+              <div>
+                <AiFillCamera />
+              </div>
+              <div className={"z-10 absolute"}>
+                <input
+                  className="opacity-0 w-0.5 h-0.5"
+                  type={"file"}
+                  multiple={false}
+                  accept="image/*"
+                  onChange={(e) => {
+                    updateImage(e.target.files);
+                  }}
+                />
+              </div>
+            </label>
           </div>
         </div>
-
+      </div>
+      <div className={"w-full px-4 text-center inline-block "}>
+        <h1 className={"text-2xl font-semibold"}>{user.full_name}</h1>
+        <h1 className={"text-lg"}>@{user.username}</h1>
+        <h1 className={"text-lg"}>{user.department}</h1>
       </div>
     </div>
-  )
+  );
 }

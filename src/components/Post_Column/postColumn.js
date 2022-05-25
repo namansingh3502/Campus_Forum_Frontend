@@ -1,81 +1,69 @@
-import React, {useEffect, useState, Fragment} from "react";
-import axios from "axios";
+import React from "react";
+import { useInView } from "react-hook-inview";
+import { useInfiniteQuery } from "react-query";
 
-import CreatePost from "./Create_Post/createPost";
+import CreatePost from "./Create_Edit_Post/createPost";
 import Posts from "./posts";
+import PostLoading from "./Posts/postLoading";
+import { useQuery } from "react-query";
+import fetchData from "../../api/fetchData";
+import FetchPost from "../../api/fetchPost";
 
 export default function PostColumn() {
-  const [posts, setPosts] = useState([])
-  const [postLoaded, updateLoadStatus] = useState(false)
-  const [postAdded, updatePostAdded] = useState(false)
-  const [postUpdated, updatePostUpdated] = useState(false)
+  const [ref, inView] = useInView();
 
-  function loadPost(posts) {
-    axios.get(
-      `${process.env.HOST}/forum/posts`,
-      {
-        headers: {
-          Authorization: localStorage.getItem("Token")
-        }
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          updateLoadStatus(true)
-          setPosts(response.data)
-        }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-      });
-  }
-
-  function addPost(newPost){
-    let data = posts
-    data.unshift(newPost)
-    setPosts(data)
-    updatePostAdded(true)
-  }
-
-  function updatePost(post){
-    const post_id = post.post.id
-    let data = posts
-
-    for( let i = 0; i < data.length; i++){
-      if(data[i].post.id === post_id ) {
-        data[i] = post
-        break
-      }
+  const {
+    status,
+    data,
+    error,
+    isFetching,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
+  } = useInfiniteQuery(
+    "posts",
+    ({ pageParam = 10000 }) => FetchPost(pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.data.has_more ? lastPage.data.next : undefined,
     }
-    setPosts(data)
-    updatePostUpdated(true)
-  }
+  );
 
-  useEffect(()=>{
-    if( !postLoaded )
-      loadPost()
-  },[postAdded, postUpdated])
+  React.useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
   return (
     <div>
-      <CreatePost
-        updatePosts={(newPost)=>{
-          addPost(newPost)
-        }}
-      />
-      {postLoaded ?
-        <div className={"pt-2 space-y-2"}>
-          {posts.map((item) => {
-            return (
-              <Posts
-                key={item.post.id}
-                data={item}
-              />
-            )
-          })}
+      <CreatePost />
+
+      {isFetching && !isFetchingNextPage ? (
+        <div>
+          <PostLoading />
+          <PostLoading />
+          <PostLoading />
         </div>
-        :
-        <div className={"text-white text-center"}>Loading.....</div>
-      }
+      ) : null}
+      <div className={"mt-2 space-y-2"}>
+        {data?.pages?.map((page) =>
+          page.data.posts?.map((item) => (
+            <Posts key={item.post.id} data={item} />
+          ))
+        )}
+      </div>
+      <div ref={ref} className={"w-full h-1"}></div>
+      {isFetching && !isFetchingNextPage ? (
+        <div>
+          <PostLoading />
+          <PostLoading />
+          <PostLoading />
+        </div>
+      ) : null}
     </div>
-  )
+  );
 }

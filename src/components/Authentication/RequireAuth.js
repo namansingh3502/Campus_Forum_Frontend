@@ -1,51 +1,58 @@
-import React, {useEffect, useState} from "react";
-import {Navigate, useLocation} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
-import axios from "axios";
 import Header from "../Header/header";
+import { useQuery } from "react-query";
+import fetchData from "../../api/fetchData";
 
 export default function RequireAuth({ children, ...rest }) {
   let location = useLocation();
-  const [userLoggedIn, updateLoggedInStatus] = useState(false)
-  const [userDataLoadStatus, updateUserLoadStatus] = useState(false)
 
-  function loadUserData() {
+  const {
+    data: user_details,
+    status: user_details_status,
+    error: user_details_error,
+  } = useQuery(["user_detail", "/api/auth/user/"], fetchData);
+  const {
+    data: channel,
+    status: channel_status,
+    error: channel_error,
+  } = useQuery(["channel", "/api/forum/channel_list"], fetchData);
 
-    axios
-      .get(
-        `${process.env.HOST}/auth/user/`,
-        {
-          headers: {
-            Authorization: localStorage.getItem("Token"),
-          },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          localStorage.setItem('user_profile', JSON.stringify(response.data))
-          updateLoggedInStatus(true)
-        }
-      })
-      .catch((error) => {
-        console.log("check login error", error);
-        localStorage.clear()
-      });
+  if (user_details_status === "success") {
+    localStorage.setItem("user_profile", JSON.stringify(user_details.data));
+  }
+  if (channel_status === "success") {
+    localStorage.setItem(
+      "channels",
+      JSON.stringify({ status: channel_status, data: channel.data })
+    );
+  }
+  if (user_details_status === "error") {
+    if (
+      user_details_error.response?.status === 401 &&
+      channel_error.response?.status === 401
+    ) {
+      localStorage.clear();
+    }
   }
 
-  useEffect( ()=>{
-    const token = localStorage.getItem('Token')
-    token ? loadUserData() : updateUserLoadStatus(true)
-  },[])
-
-  if( !userDataLoadStatus && !userLoggedIn ){
-    return (<div className={"text-white"}>Loading......</div>)
-  }
-  else if( userDataLoadStatus && !userLoggedIn ){
-    return( <Navigate to="/login" state={{ from: location }} replace /> )
-  }
-  else return (
-    <div>
-      <Header updateLoggedIn={updateLoggedInStatus} />
-      {children}
-    </div>
-  )
+  return (
+    <>
+      {(user_details_status === "loading" || channel_status === "loading") && (
+        <div className={"min-h-screen w-full flex items-center justify-center"}>
+          <div className="dot" />
+        </div>
+      )}
+      {user_details_status === "error" && channel_status === "error" && (
+        <Navigate to="/login" state={{ from: location }} replace />
+      )}
+      {user_details_status === "success" && channel_status === "success" && (
+        <div>
+          <Header />
+          {children}
+        </div>
+      )}
+    </>
+  );
 }

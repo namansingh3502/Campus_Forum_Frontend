@@ -1,46 +1,18 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import background from "../../images/bg.jpeg";
-import axios from "axios";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import FetchData from "../../api/fetchData";
 
 export default function PageProfile() {
-  let {id} = useParams();
-  const [pageProfile, updatePageProfile]=useState({})
-  const [profileLoadStatus, updateProfileLoadStatus]=useState(false)
+  let { name } = useParams();
+  const { data, status } = useQuery(
+    [`channel-profile : ${name}`, `/api/forum/channel/${name}/profile`],
+    FetchData
+  );
 
-  function loadPageProfile(){
-    axios.get(
-      `${process.env.HOST}/forum/channel/${id}/profile`,
-      {
-        headers: {
-          Authorization: localStorage.getItem("Token")
-        }
-      }
-    )
-    .then((response) => {
-      if (response.status === 200) {
-        updatePageProfile(response.data)
-        updateProfileLoadStatus(true)
-      } else {
-        this.setState({
-          LoadStatus: "NotLoaded",
-        });
-      }
-    })
-    .catch((error) => {
-      console.log("check login error", error);
-    });
-  }
-
-  useEffect(()=>{
-    loadPageProfile()
-  },[id, profileLoadStatus])
-
-  if( !profileLoadStatus ) {
-    return <div>Loading...</div>
-  }
   return (
-    <div className={"bg-gray-400 rounded-2xl bg-opacity-10 backdrop-filter backdrop-blur-lg text-white h-auto"}>
+    <div className={"bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto"}>
       <div className="w-full rounded-lg h-40">
         <img
           src={background}
@@ -48,13 +20,31 @@ export default function PageProfile() {
           alt={"user"}
         />
       </div>
-      <div className="p-4">
-        <div className="relative w-full font-sans ">
-          <h1 className={"text-3xl font-extrabold text-amber-50"}>{pageProfile.name}</h1>
-          <h1 className={"mt-2 text-amber-50"}>Admin: {pageProfile.admin.first_name} {pageProfile.admin.middle_name} {pageProfile.admin.last_name} </h1>
-          <h1 className={"mt-1 text-amber-50"}>Total members: {pageProfile.member_count} </h1>
+      {status === "loading" && (
+        <div className="p-4">
+          <div className="relative w-full font-sans ">
+            <h2 className="bg-gray-400 animate-pulse h-8 w-1/4 mb-2"></h2>
+            <h1 className="w-1/2 mb-4 h-4 animate-pulse bg-gray-500"></h1>
+            <p className="leading-relaxed mb-3 w-1/2 h-3 animate-pulse bg-gray-400"></p>
+          </div>
         </div>
-      </div>
+      )}
+
+      {status === "success" && (
+        <div className="p-4">
+          <div className="relative w-full font-sans ">
+            <h1 className={"text-3xl font-extrabold text-amber-50"}>
+              {data.data.name}
+            </h1>
+            <h1 className={"mt-2 text-amber-50"}>
+              Admin: {data.data.admin.full_name}
+            </h1>
+            <h1 className={"mt-1 text-amber-50"}>
+              Total members: {data.data.member_count}
+            </h1>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }

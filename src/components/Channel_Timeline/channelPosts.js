@@ -1,88 +1,74 @@
-import React, {useEffect, useRef, useState} from "react"
+import React from "react";
 
-import axios from "axios";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useInfiniteQuery } from "react-query";
 
-import PageProfile from "./pageProfile";
-import CreatePost from "../Post_Column/Create_Post/createPost";
+import CreatePost from "../Post_Column/Create_Edit_Post/createPost";
 import Posts from "../Post_Column/posts";
+import PostLoading from "../Post_Column/Posts/postLoading";
+import PageProfile from "./pageProfile";
+import { useInView } from "react-hook-inview";
+import FetchChannelPost from "../../api/fetchChannelPost";
 
-export default function ChannelPost (){
-  let {id} = useParams();
-  const [posts, setPosts] = useState([])
-  const [postLoaded, updateLoadStatus] = useState(false)
-  const [postAdded, updatePostAdded] = useState(false)
-  const [postUpdated, updatePostUpdated] = useState(false)
+export default function ChannelPost() {
+  const [ref, inView] = useInView();
+  let { name } = useParams();
 
-  const prevIdRef = useRef()
-
-  function loadPost(){
-    axios.get(
-      `${process.env.HOST}/forum/channel/${id}/posts`,
-      {
-        headers: {
-          Authorization: localStorage.getItem("Token")
-        }
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        updateLoadStatus(true)
-        setPosts(response.data)
-      }
-    })
-    .catch((error) => {
-      console.log("check login error", error);
-    });
-  }
-
-  function addPost(newPost){
-    let data = posts
-    data.unshift(newPost)
-    setPosts(data)
-    updatePostAdded(true)
-  }
-
-  function updatePost(post){
-    const post_id = post.post.id
-    let data = posts
-
-    for( let i = 0; i < data.length; i++){
-      if(data[i].post.id === post_id ) {
-        data[i] = post
-        break
-      }
+  const {
+    status,
+    data,
+    error,
+    isFetching,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
+  } = useInfiniteQuery(
+    `channel-posts : ${name}`,
+    ({ pageParam = 10000 }) => FetchChannelPost(pageParam, name),
+    {
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.data.has_more ? lastPage.data.next : undefined,
     }
-    setPosts(data)
-    updatePostUpdated(true)
-  }
+  );
 
-  useEffect( ()=>{
-    if( prevIdRef.current !== id) loadPost()
-    prevIdRef.current = id
-  },[id,posts])
+  React.useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
 
-  return(
-    <div className="md:basis-2/3 lg:basis-4/5 text-white md:pl-2 lg:pr-2 space-y-2">
-      <PageProfile/>
-      <CreatePost
-        updatePosts={(newPost)=>{
-          addPost(newPost)
-        }}
-      />
-      {postLoaded ?
-        <div className={"space-y-2"}>
-          {posts.map((item) => {
-            return (
-              <Posts
-                key={item.post.id}
-                data={item}
-              />
-            )
-          })}
+  return (
+    <div>
+      <PageProfile />
+
+      <div className={"mt-2 space-y-2"}>
+        <CreatePost />
+        {isFetching && !isFetchingNextPage ? (
+          <div>
+            <PostLoading />
+            <PostLoading />
+            <PostLoading />
+          </div>
+        ) : null}
+        <div className={"mt-2 space-y-2"}>
+          {data?.pages?.map((page, index) =>
+            page.data.posts?.map((item) => (
+              <Posts key={item.post.id} data={item} />
+            ))
+          )}
         </div>
-        :
-        <div className={"text-white text-center"}>Loading.....</div>
-      }
+        <div ref={ref} className={"w-full h-1"}></div>
+        {isFetching && isFetchingNextPage ? (
+          <div>
+            <PostLoading />
+            <PostLoading />
+            <PostLoading />
+          </div>
+        ) : null}
+      </div>
     </div>
-  )
+  );
 }

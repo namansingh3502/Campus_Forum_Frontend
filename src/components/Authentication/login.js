@@ -1,95 +1,129 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {useLocation, useNavigate} from "react-router-dom";
+import { useForm, useFormState } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Login() {
   let navigate = useNavigate();
   let location = useLocation();
-  let from = location.state?.from?.pathname || '/';
+  let from = location.state?.from?.pathname || "/";
+  const token = localStorage.getItem("Token");
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitSuccessful, isSubmitting },
+    setError,
+    reset,
+    clearErrors,
+  } = useForm({
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
 
-  const [username, updateUsername] = useState("")
-  const [password, updatePassword] = useState("")
-  const [errorMsg, updateErrorMsg] = useState('')
-
-  function login(){
-    const data = {
-      username: username,
-      password: password
-    }
-    axios.post(`${process.env.HOST}/auth/token/login/`, data, {})
-    .then((response) => {
-      if (response.status === 200) {
-        localStorage.setItem('Token','Token ' + response.data.auth_token)
-        navigate(from, { replace: true })
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post(`/api/auth/token/login/`, data, {});
+      if (res.status === 200) {
+        localStorage.setItem("Token", "Token " + res.data.auth_token);
+        navigate(from, { replace: true });
       }
-    })
-    .catch((error) => {
-      updateErrorMsg('Username or Password incorrect.')
-      console.log("Error while login. \n",error)
-    })
-  }
+    } catch (e) {
+      setError("server_error", {
+        type: "",
+        message: "Incorrect username or password.",
+      });
+    }
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem('Token')
-    if(token){
-      navigate(`/`)
+    if (isSubmitSuccessful) {
+      reset({ username: "", password: "" });
     }
-  },[errorMsg])
+  }, [reset, isSubmitSuccessful, isSubmitting]);
 
+  useEffect(()=>{
+    if( token ) navigate("/", { replace: true });
+  })
 
-  return(
-    <div className={"font-sans min-h-screen min-w-fit antialiased flex items-center justify-center"}>
-      <div className={"mx-2 rounded-xl bg-gray-100 py-8 px-4" }>
+  return (
+    <div className="font-sans min-h-screen w-full antialiased flex items-center justify-center">
+      <div className="mx-2 rounded-xl bg-gray-100 py-8 px-4 sm:w-2/5 md:w-2/5 xl:w-1/4">
         <h1 className="font-bold text-center text-4xl text-yellow-500">
-          Campus<span className="text-blue-500 ml-2">Forum</span>
+          SJBIT CSE<span className="text-blue-500 ml-2">Forum</span>
         </h1>
 
         <div className={"text-center mt-4"}>
           <span className="font-bold text-xl">Sign in to your account</span>
         </div>
 
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          login()
-        }}
-        >
-          <label className="block p-2 mt-4 space-y-4">
-            <div>
-              <span className={"text-lg"}>Username</span>
-              <input
-                type="text"
-                className="rounded-lg px-2 py-2 w-full border-gray-300 focus:outline-none focus:border-blue-400 border-2 "
-                placeholder="Username"
-                value={username}
-                onChange={(e => {updateUsername(e.target.value)})}
-                autoFocus
-              />
-            </div>
-            <div>
-              <span className={"mt-4 text-lg"}>Password</span>
-              <input
-                type="password"
-                className="rounded-lg px-2 py-2 w-full border-gray-300 focus:outline-none focus:border-blue-400 border-2"
-                placeholder="Password"
-                value={password}
-                onChange={(e => {updatePassword(e.target.value)})}
-              />
-            </div>
-          </label>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="block p-2 mt-4 space-y-4">
+            <label className={"text-lg"}>
+              Username
+              <span className={"text-red-600 text-sm"}>
+                *{errors.username?.message}
+              </span>
+            </label>
+            <input
+              className="rounded-lg px-2 py-2 w-full border-gray-300 focus:outline-none focus:border-blue-400 border-2"
+              {...register("username", { required: "field required" })}
+              placeholder="Username"
+              autoFocus
+            />
+            <label className={"mt-4 text-lg"}>
+              Password
+              <span className={"text-red-600 text-sm"}>
+                *{errors.password?.message}
+              </span>
+            </label>
+            <input
+              type="password"
+              className="rounded-lg px-2 py-2 w-full border-gray-300 focus:outline-none focus:border-blue-400 border-2"
+              {...register("password", { required: "field required" })}
+              placeholder="Password"
+            />
 
-          <div className={"my-4 px-2 text-md text-red-700"}>
-            {errorMsg}
-          </div>
-          <div className="w-full px-1">
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white font-bold text-center py-2 rounded hover:bg-blue-700 transition-colors">
-              Log In
-            </button>
+            {errors.server_error && (
+              <p className={"text-red-600"}>*{errors.server_error.message}</p>
+            )}
+
+            <div className="w-full px-1">
+              <button
+                type="submit"
+                onClick={() => clearErrors()}
+                className="w-full bg-blue-500 text-white font-bold text-center py-2 rounded hover:bg-blue-700 transition-colors"
+                disabled={isSubmitting}
+              >
+                Log In
+              </button>
+            </div>
           </div>
         </form>
+        <div className="mt-6 text-grey-dark"></div>
+        <div className="mt-6 text-grey-dark ml-2">
+          <p>
+            <a
+              className="text-blue-600 hover:underline"
+              href="/reset_password"
+            >
+              Forgot Password
+            </a>
+          </p>
+          <p>
+            Create account?
+            <a
+              className="text-blue-600 hover:underline ml-2"
+              href="/registration"
+            >
+              Sign up
+            </a>
+          </p>
+        </div>
       </div>
     </div>
-  )
+  );
 }

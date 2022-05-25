@@ -1,62 +1,64 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from "react";
 
-import {FaPen} from "react-icons/all";
 import ChannelTags from "./Posts/channelTags";
 import PostText from "./Posts/postText";
 import PostImage from "./Posts/postImage";
-import UserReaction from "./Posts/User_Reaction/userReaction";
+import UserReaction from "./Posts/userReaction";
 import UserDetails from "./Posts/userDetails";
-import EditPostModal from "./Edit_Post/editPostModal";
+import EditPostModal from "./Create_Edit_Post/editPostDialog";
+import PostOptions from "./Posts/postOptionsButton";
+import { useQueries } from "react-query";
+import FetchImage from "../Images/fetchImage";
 
-export default function Posts (props){
-  const user = JSON.parse(localStorage.getItem('user_profile'))
+export default function Posts(props) {
+  const user = JSON.parse(localStorage.getItem("user_profile"));
 
-  const [postData, setPostData] = useState(props.data)
-  const [editButton, showEditButton] = useState(false)
-  const [dialogVisibility, setDialogVisibility] = useState(false)
+  const [postVisibility, setPostVisibility] = useState(true);
+  const [postData, setPostData] = useState(props.data);
+  const [dialogVisibility, setDialogVisibility] = useState(false);
 
-  useEffect(()=>{
-    if( props.data.user.id === user.id){
-      showEditButton(true)
-    }
-  },[])
+  const postImages = useQueries(
+    postData.media.map((item) => {
+      return {
+        queryKey: ["post-images", item.file],
+        queryFn: () => FetchImage(item.file),
+      };
+    })
+  );
 
-  return(
-    <div className="p-4 bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto">
-      {editButton ?
-        <button
-          className={"float-right text-sm"}
-          aria-label={"Edit Post"}
-          onClick={()=>{setDialogVisibility(!dialogVisibility)}}
-        >
-          <FaPen/>
-        </button> : null
-      }
-      {dialogVisibility?
+  return !postVisibility ? (
+    <></>
+  ) : (
+    <div className="py-4 px-2 bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto">
+      {props.data.user.id === user.id ? (
+        <PostOptions
+          post_id={postData.post.id}
+          setPostVisibility={() => setPostVisibility(false)}
+          setDialogVisibility={() => setDialogVisibility(true)}
+        />
+      ) : null}
+      <UserDetails userdetail={postData.user} time={postData.post.time} />
+      <ChannelTags channels={postData.post.posted_in} />
+      <PostText text={postData.post.body} is_edited={postData.post.is_edited} />
+      <PostImage images={postImages} />
+      <UserReaction
+        likes={postData.post.likes}
+        post_id={postData.post.id}
+        comments_count={postData.post.comments_count}
+      />
+      {dialogVisibility ? (
         <EditPostModal
           dialogVisibility={dialogVisibility}
           setDialogVisibility={() => {
-            setDialogVisibility(false)
+            setDialogVisibility(false);
           }}
           setPostData={(newPost) => {
-            setPostData(newPost)
+            setPostData(newPost);
           }}
           data={postData}
+          images={postImages}
         />
-        :
-        null
-      }
-      <UserDetails
-        userdetail={postData.user}
-        time={postData.post.time}
-      />
-      <ChannelTags channels={postData.post.posted_in} />
-      <PostText text={postData.post.body} />
-      <PostImage images={postData.media} />
-      <UserReaction
-        likes={postData.post.Liked_Post}
-        post_id={postData.post.id}
-      />
+      ) : null}
     </div>
-  )
+  );
 }
