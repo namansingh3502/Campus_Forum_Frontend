@@ -14,7 +14,7 @@ import ActivateAccount from "../components/Authentication/activateAccount";
 import ResetPassword from "../components/Authentication/resetPassword";
 const queryClient = new QueryClient();
 // axios.defaults.baseURL = `http://127.0.0.1:8000`;
-axios.defaults.baseURL = `http://ec2-13-233-227-182.ap-south-1.compute.amazonaws.com/`;
+axios.defaults.baseURL = `https://ec2-13-233-227-182.ap-south-1.compute.amazonaws.com/`;
 
 export default function App() {
   return (
