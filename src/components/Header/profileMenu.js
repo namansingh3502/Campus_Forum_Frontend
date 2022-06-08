@@ -14,7 +14,7 @@ export default function ProfileMenu(props) {
             <span className="sr-only">Open user menu</span>
             <img
               className="h-10 w-10 lg:h-10 lg:w-10 rounded-full"
-              src={`${process.env.HOST}/media/${user.user_image}`}
+              src={`${user.user_image}`}
               alt=""
             />
           </Menu.Button>

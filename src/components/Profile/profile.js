@@ -57,7 +57,7 @@ export default function Profile() {
             className={
               "h-28 w-28 -top-full rounded-full outline outline-offset-2 outline-2 outline-gray-400 "
             }
-            src={`${process.env.HOST}/media/${user.user_image}`}
+            src={`${user.user_image}`}
           />
           <div
             className={

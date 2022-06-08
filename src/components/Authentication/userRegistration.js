@@ -77,7 +77,7 @@ const UserRegistration = () => {
     <div className="font-sans min-h-screen w-full antialiased flex items-center justify-center p-2 md:px-4">
       <div className=" rounded-xl bg-gray-100 py-8 px-2 md:px-4 lg:w-4/5 xl:w-7/12 ">
         <h1 className="font-bold text-center text-4xl text-yellow-500">
-          SJBIT CSE<span className="text-blue-500 ml-2">Forum</span>
+          College<span className="text-blue-500 ml-2">Forum</span>
         </h1>
         <div className={"text-center mt-4"}>
           <p className="font-bold text-xl">User Registration</p>

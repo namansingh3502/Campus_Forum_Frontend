@@ -13,11 +13,11 @@ export default function SideMenu(props) {
         "sm:hidden min-h-screen bg-gray-800 text-white text-lg border-t-2"
       }
     >
-      <div className={"w-full flex flex-col items-center justify-center mt-4"}>
+      <div className={"w-full flex flex-col items-center justify-center mt-4 "}>
         <div className={"h-24 w-24 rounded-full"}>
           <img
-            src={`${process.env.HOST}/media/${user.user_image}`}
-            className={"h-24 w-24 rounded-full"}
+            src={`${user.user_image}`}
+            className={"h-24 w-24 rounded-full outline outline-offset-2 outline-2 outline-gray-400"}
           />
         </div>
         <div className={"mt-4 text-center"}>
