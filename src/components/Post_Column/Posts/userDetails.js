@@ -7,8 +7,8 @@ export default function UserDetails(props) {
   return (
     <div className="flex items-center px-2">
       <img
-        src={`${process.env.HOST}/media/${user.user_image}`}
-        className={"rounded-full h-14 w-14"}
+        src={`${user.user_image}`}
+        className={"rounded-full h-14 w-14 outline outline-offset-2 outline-2 outline-gray-400"}
         alt={"user"}
       />
       <div className={"ml-4"}>

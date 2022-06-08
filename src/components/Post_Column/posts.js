@@ -8,7 +8,7 @@ import UserDetails from "./Posts/userDetails";
 import EditPostModal from "./Create_Edit_Post/editPostDialog";
 import PostOptions from "./Posts/postOptionsButton";
 import { useQueries } from "react-query";
-import FetchImage from "../Images/fetchImage";
+import FetchImage from "../../api/fetchImage";
 
 export default function Posts(props) {
   const user = JSON.parse(localStorage.getItem("user_profile"));
