@@ -9,6 +9,7 @@ import UserDetails from "./userDetails";
 import ChannelSelect from "./channelSelect";
 
 export default function EditPostDialog(props) {
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false)
   const [images, setImages] = useState(props.images || null);
   const [postText, updatePostText] = useState(props.data.post.body || '' );
   const [selectedChannels, updateSelectedChannels] = useState(
@@ -35,6 +36,7 @@ export default function EditPostDialog(props) {
   }
 
   function editPost() {
+    setIsSubmitDisabled(true)
       const data = {
         post_id: props.data.post.id,
         body: postText,
@@ -61,12 +63,11 @@ export default function EditPostDialog(props) {
           updateSelectedChannels([]);
           props.setPostData(response.data);
           props.setDialogVisibility();
-        } else {
-          console.log(response.status, response.data.msg);
         }
       })
       .catch((error) => {
-        console.log("check error at new Posts \n", error);
+        setIsSubmitDisabled(false)
+        alert("Error occurred while updating post.");
       });
   }
 
@@ -174,6 +175,7 @@ export default function EditPostDialog(props) {
                         type={"submit"}
                         onClick={()=>editPost()}
                         className="w-full bg-blue-400 mx-auto text-xl font-semibold rounded-md p-2"
+                        disabled={isSubmitDisabled}
                       >
                         Post
                       </button>

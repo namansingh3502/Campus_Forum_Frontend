@@ -13,10 +13,10 @@ export default function PageProfile() {
 
   return (
     <div className={"bg-slate-500 bg-opacity-20 rounded-lg text-white h-auto"}>
-      <div className="w-full rounded-lg h-40">
+      <div className={"w-full rounded-lg h-40"}>
         <img
           src={background}
-          className="w-full h-full rounded-t-lg"
+          className={"w-full h-full rounded-t-lg"}
           alt={"user"}
         />
       </div>

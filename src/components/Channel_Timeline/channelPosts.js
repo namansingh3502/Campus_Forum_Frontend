@@ -15,16 +15,11 @@ export default function ChannelPost() {
   let { name } = useParams();
 
   const {
-    status,
     data,
-    error,
     isFetching,
     isFetchingNextPage,
-    isFetchingPreviousPage,
     fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
+
   } = useInfiniteQuery(
     `channel-posts : ${name}`,
     ({ pageParam = 10000 }) => FetchChannelPost(pageParam, name),
@@ -46,13 +41,6 @@ export default function ChannelPost() {
 
       <div className={"mt-2 space-y-2"}>
         <CreatePost />
-        {isFetching && !isFetchingNextPage ? (
-          <div>
-            <PostLoading />
-            <PostLoading />
-            <PostLoading />
-          </div>
-        ) : null}
         <div className={"mt-2 space-y-2"}>
           {data?.pages?.map((page, index) =>
             page.data.posts?.map((item) => (
@@ -61,7 +49,7 @@ export default function ChannelPost() {
           )}
         </div>
         <div ref={ref} className={"w-full h-1"}></div>
-        {isFetching && isFetchingNextPage ? (
+        {isFetching || isFetchingNextPage ? (
           <div>
             <PostLoading />
             <PostLoading />

@@ -17,14 +17,9 @@ export default function ProfilePage() {
   const {
     status,
     data,
-    error,
     isFetching,
     isFetchingNextPage,
-    isFetchingPreviousPage,
     fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
   } = useInfiniteQuery(
     `user-profile-posts : ${username}`,
     ({ pageParam = 1000 }) => FetchUserPost(pageParam, username),
@@ -55,13 +50,6 @@ export default function ProfilePage() {
           </div>
           <div className={"mt-2 w-full md:basis-2/3"}>
             <CreatePost />
-            {isFetching && !isFetchingNextPage ? (
-              <div>
-                <PostLoading />
-                <PostLoading />
-                <PostLoading />
-              </div>
-            ) : null}
             <div className={"mt-2 space-y-2"}>
               {data?.pages?.map((page, index) =>
                 page.data.posts?.map((item) => (
@@ -72,6 +60,8 @@ export default function ProfilePage() {
             <div ref={ref} className={"w-full h-1"}></div>
             {isFetching && isFetchingNextPage ? (
               <div>
+                <PostLoading />
+                <PostLoading />
                 <PostLoading />
               </div>
             ) : null}

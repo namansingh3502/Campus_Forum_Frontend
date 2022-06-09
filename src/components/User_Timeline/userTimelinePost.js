@@ -7,7 +7,6 @@ import Posts from "../Post_Column/posts";
 import PostLoading from "../Post_Column/Posts/postLoading";
 import { useInfiniteQuery, useQuery } from "react-query";
 import { useInView } from "react-hook-inview";
-import FetchChannelPost from "../../api/fetchChannelPost";
 import CreatePost from "../Post_Column/Create_Edit_Post/createPost";
 import FetchUserPost from "../../api/fetchUserPost";
 
@@ -16,16 +15,10 @@ export default function UserTimelinePost() {
   const [ref, inView] = useInView();
 
   const {
-    status,
     data,
-    error,
     isFetching,
     isFetchingNextPage,
-    isFetchingPreviousPage,
     fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
   } = useInfiniteQuery(
     `user-timeline-post : ${username}`,
     ({ pageParam = 10000 }) => FetchUserPost(pageParam, username),

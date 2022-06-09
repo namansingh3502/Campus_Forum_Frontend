@@ -82,7 +82,7 @@ export default function PostOptions(props) {
             </div>
           </Menu.Items>
         </Transition>
-      </Menu>{" "}
+      </Menu>
     </div>
   );
 }

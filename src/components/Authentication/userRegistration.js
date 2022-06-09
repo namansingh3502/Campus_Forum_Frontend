@@ -35,15 +35,13 @@ const UserRegistration = () => {
   let navigate = useNavigate();
   const token = localStorage.getItem("Token");
   const [registered, setRegistered] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(false)
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful, isSubmitting },
-    setError,
-    reset,
+    formState: { errors },
     control,
-    clearErrors,
   } = useForm({
     defaultValues: {
       username: "",
@@ -60,13 +58,16 @@ const UserRegistration = () => {
   });
 
   function createUser(data) {
+    setDisableSubmit(true)
     axios
-      .post("/api/auth/register/", { data }, {})
+      .post("/api/auth/register", { data }, {})
       .then((res) => {
-        if (res.status === 201) setRegistered(true)
+        if (res.status === 201)
+          setRegistered(true)
       })
       .catch((errors) => {
         alert(errors.response.data.msg);
+        setDisableSubmit(false)
       });
   }
   useEffect(()=>{
@@ -98,8 +99,8 @@ const UserRegistration = () => {
               />
               <input
                   type="text"
-                  placeholder="Username"
-                  className={FIELD_CLASS}
+                  placeholder="Enter USN"
+                  className= {`${FIELD_CLASS} uppercase`}
                   {...register("username", {required: "field required"})}
               />
             </div>
@@ -121,7 +122,7 @@ const UserRegistration = () => {
             </div>
             <div className={"w-full sm:w-1/3 px-1 py-2"}>
               <LABEL
-                  label={"Password"}
+                  label={"Re-enter Password"}
                   message={errors.password2?.message}
                   required={true}
               />
@@ -275,7 +276,7 @@ const UserRegistration = () => {
           </div>
 
           <div className="flex">
-            <button className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900" disabled={isSubmitting}>
+            <button className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900" disabled={disableSubmit}>
               Create Account
             </button>
           </div>

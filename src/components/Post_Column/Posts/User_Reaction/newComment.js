@@ -22,6 +22,8 @@ export default function NewComment(props) {
   });
 
   const onSubmit = async (data) => {
+    setIsSubmitDisabled(true);
+
     data.post = props.post_id;
     try {
       const res = await axios.post(`api/forum/new_comment`, data, {
@@ -48,7 +50,7 @@ export default function NewComment(props) {
       <div className={"flex items-start w-full py-2"}>
         <UserImage image={user.user_image} />
         <form
-          className={"w-full h-auto flex items-start"}
+          className={"w-full h-auto flex items-start pl-2"}
           onSubmit={handleSubmit(onSubmit)}
         >
           <textarea
@@ -63,7 +65,6 @@ export default function NewComment(props) {
           <button
             type={"submit"}
             onClick={() => {
-              setIsSubmitDisabled(true);
               clearErrors();
             }}
             disabled={isSubmitDisabled}

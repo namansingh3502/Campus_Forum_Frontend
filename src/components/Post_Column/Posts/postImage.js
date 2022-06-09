@@ -16,25 +16,21 @@ export default function PostImage(props) {
               imageCount === 1
                 ? "col-span-2 "
                 : ""
-            }bg-slate-800 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2 flex items-center justify-center`}
+            }bg-slate-900 bg-opacity-50 backdrop-filter backdrop-blur-xl border-gray-700 border-2 flex items-center justify-center`}
             key={index}
           >
             {image.status === "success" && (
-              <div>
+              <a href={url} target="_blank">
                 <img
                   src={url}
                   className={"object-contain h-fit w-full max-h-80 self-center"}
                   alt={"image"}
                 />
-              </div>
+              </a>
             )}
 
             {image.status === "error" && (
-              <div
-                className={
-                  "bg-gray-800 h-40 w-full border-gray-700 border"
-                }
-              >
+              <div className={"bg-gray-800 h-40 w-full border-gray-700 border"}>
                 Error while loading image
               </div>
             )}
