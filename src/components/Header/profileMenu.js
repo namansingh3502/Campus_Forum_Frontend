@@ -1,5 +1,5 @@
 import { Menu, Transition } from "@headlessui/react";
-import React, { Fragment } from "react";
+import React, {Fragment, useState} from "react";
 import { NavLink } from "react-router-dom";
 
 export default function ProfileMenu(props) {
@@ -10,7 +10,7 @@ export default function ProfileMenu(props) {
       {/* Profile_page dropdown */}
       <Menu as="div" className="ml-3 relative flex">
         <div>
-          <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+          <Menu.Button className="bg-gray-800 flex text-sm rounded-full outline outline-offset-2 outline-2 outline-gray-400">
             <span className="sr-only">Open user menu</span>
             <img
               className="h-10 w-10 lg:h-10 lg:w-10 rounded-full"

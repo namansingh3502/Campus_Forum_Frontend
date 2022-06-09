@@ -7,6 +7,8 @@ const ResetPasswordRequest = () => {
   let navigate = useNavigate();
   const token = localStorage.getItem("Token");
   const [mailSent, setMailSent] = useState(false);
+  const [disableSubmit, setDisableSubmit] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -18,8 +20,9 @@ const ResetPasswordRequest = () => {
   });
 
   function reset_password_request(data) {
+    setDisableSubmit(true)
     axios
-      .post("/api/auth/reset_password_request/", { data }, {})
+      .post("/api/auth/reset_password_request", { data }, {})
       .then((res) => {
         setMailSent(true);
       })
@@ -28,6 +31,7 @@ const ResetPasswordRequest = () => {
           type: "focus",
           message: "No user exists with given email.",
         });
+        setDisableSubmit(false)
       });
   }
 
@@ -85,7 +89,7 @@ const ResetPasswordRequest = () => {
               <button
                 onClick={() => clearErrors()}
                 className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900"
-                disabled={isSubmitting}
+                disabled={disableSubmit}
               >
                 Reset Password
               </button>

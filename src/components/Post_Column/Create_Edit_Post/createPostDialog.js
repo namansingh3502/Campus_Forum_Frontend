@@ -64,7 +64,6 @@ export default function CreatePostDialog(props) {
       .catch((error) => {
         setIsSubmitDisabled(false)
         alert("Error occurred while creating post.");
-        console.log(error.response.message)
       });
   }
 

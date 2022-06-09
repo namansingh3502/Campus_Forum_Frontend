@@ -10,6 +10,8 @@ export default function Login() {
   let from = location.state?.from?.pathname || "/";
   const token = localStorage.getItem("Token");
 
+  const [disableSubmit, setDisableSubmit] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -25,6 +27,7 @@ export default function Login() {
   });
 
   const onSubmit = async (data) => {
+    setDisableSubmit(true)
     try {
       const res = await axios.post(`/api/auth/token/login/`, data, {});
       if (res.status === 200) {
@@ -36,6 +39,7 @@ export default function Login() {
         type: "",
         message: "Incorrect username or password.",
       });
+      setDisableSubmit(false)
     }
   };
 
@@ -96,7 +100,7 @@ export default function Login() {
                 type="submit"
                 onClick={() => clearErrors()}
                 className="w-full bg-blue-500 text-white font-bold text-center py-2 rounded hover:bg-blue-700 transition-colors"
-                disabled={isSubmitting}
+                disabled={disableSubmit}
               >
                 Log In
               </button>

@@ -13,16 +13,10 @@ export default function PostColumn() {
   const [ref, inView] = useInView();
 
   const {
-    status,
     data,
-    error,
     isFetching,
     isFetchingNextPage,
-    isFetchingPreviousPage,
     fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
   } = useInfiniteQuery(
     "posts",
     ({ pageParam = 10000 }) => FetchPost(pageParam),

@@ -36,7 +36,7 @@ export default function Header() {
   return (
     <Disclosure
       as="nav"
-      className="sticky top-0 z-10 bg-opacity-40 backdrop-blur-lg bg-slate-900 ring-1 "
+      className="sticky top-0 z-10 bg-opacity-100 backdrop-blur-lg bg-slate-900 ring-1 "
     >
       {({ open }) => (
         <>

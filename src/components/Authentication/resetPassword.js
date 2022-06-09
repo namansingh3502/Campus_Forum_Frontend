@@ -8,6 +8,7 @@ const ResetPassword = () => {
   let { uidb64, token } = useParams();
   const [updateStatus, setUpdateStatus] = useState(false);
   const [invalidLink, setInvalidLink] = useState(false);
+  const [disableSubmit, setDisableSubmit] = useState(false)
 
   const {
     register,
@@ -19,14 +20,15 @@ const ResetPassword = () => {
   });
 
   function reset_password(data) {
+    setDisableSubmit(true)
     axios
-      .post("/api/auth/reset_password/", { data, uidb64, token }, {})
+      .post("/api/auth/reset_password", { data, uidb64, token }, {})
       .then((res) => {
         setUpdateStatus(true);
       })
       .catch((errors) => {
         setInvalidLink(true)
-        console.log("errors", errors);
+        setDisableSubmit(false)
       });
   }
 
@@ -129,7 +131,7 @@ const ResetPassword = () => {
               <button
                 onClick={() => clearErrors()}
                 className="w-full px-6 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-900"
-                disabled={isSubmitting}
+                disabled={disableSubmit}
               >
                 Reset Password
               </button>
