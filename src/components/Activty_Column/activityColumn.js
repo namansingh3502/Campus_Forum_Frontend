@@ -1,12 +1,10 @@
 export default function ActivityColumn() {
   const data = [
-    { id: 1, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+    { id: 1, text: "4th year North vs 2nd Year South cricket match from 10:00 am." },
     {
       id: 2,
-      text: "Ut enim ad minim veniam, quis nostrud exercitation ullamco ex ea commodo consequat.",
-    },
-    { id: 3, text: "Duis aute irure dolor in reprehenderit in." },
-    { id: 4, text: "Excepteur sint occaecat cupidatat non proident." },
+      text: "4th year South vs 2nd Year North cricket match from 3:30 pm.",
+    }
   ];
 
   return (
@@ -21,7 +19,7 @@ export default function ActivityColumn() {
             "text-center text-xl border-b-2 border-gray-500 text-white pb-2"
           }
         >
-          Activity
+          News
         </h1>
         <div className={"pl-4"}>
           <ul className={"list-disc text-white text-md"}>
