@@ -100,7 +100,7 @@ const UserRegistration = () => {
               <input
                   type="text"
                   placeholder="Enter USN"
-                  className= {`${FIELD_CLASS} uppercase`}
+                  className= {`${FIELD_CLASS}`}
                   {...register("username", {required: "field required"})}
               />
             </div>
